@@ -1,6 +1,6 @@
 # [Name of sample]
 
-Tested in Litium version: [version number]
+**Tested in Litium version: [version number]**
 
 [Sample purpose and introduction]
 
