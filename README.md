@@ -1,6 +1,8 @@
 # Litium Samples
 
-**Important!** Read this before using code from this repository.
+## Important!
+
+Read this before using code from this repository.
 
 1. The samples are not supported by Litium
 2. The samples are not maintained and updated when new versions of Litium are released
@@ -9,9 +11,13 @@
 
 However, with this in mind the samples can be used as inspiration or a starting point when implementing a specific solution in a project, just remember to test thouroghly before using the code in a production environment
 
+## Samples
+
+- [Sliding date span on smart groups](Samples/Sliding%20date%20span%20on%20smart%20groups)
+
 ## External samples
 
-Other sources for Litium samples
+Samples hosted by others outside this repo
 
 - [LitiumLinksField](https://github.com/martenw/LitiumLinksField) - Field definition for Litium PIM to show all links where a product/category is published
 
