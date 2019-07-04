@@ -7,9 +7,7 @@ Source code for implementing the *Editorial section* block from the Litium demo 
 ## Instructions
 
 1. Copy `EditorialSectionBlockTemplateSetup.cs` to `\Src\Litium.Accelerator\Definitions\Blocks` and include.
-2. Add translations for the block to `\Src\Litium.Accelerator.Mvc\Site\Resources\Administration\Administration.resx`
-    1. **key**=`fieldtemplate.blockarea.editorialsection.name` **value**=`Editorial section`
-    2. **key**=`fieldtemplate.blockarea.editorialsection.fieldgroup.general.name` **value**=`General`
+2. Copy `EditorialSectionBlock.resx` to `\Src\Litium.Accelerator.Mvc\Site\Resources\Administration\` and include.
 3. Copy `EditorialSectionBlockViewModel.cs` to `\Src\Litium.Accelerator\ViewModels\Block` and include.
 4. Copy `EditorialSectionBlockViewModelBuilder.cs` to `\Src\Litium.Accelerator\Builders\Block` and include.
 5. Copy `EditorialSectionBlockController.cs` to `\Src\Litium.Accelerator.Mvc\Controllers\Blocks` and include.
