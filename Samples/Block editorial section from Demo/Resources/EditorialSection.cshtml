@@ -1,0 +1,15 @@
+﻿@model Litium.Accelerator.ViewModels.Block.EditorialSectionBlockViewModel
+
+<div class="editorial-block">
+    <div class="editorial-block__content">
+        <h1 class="editorial-block__title">@Model.Title</h1>
+        <p class="editorial-block__text">@Model.Text</p>
+        <a href="@Model.LinkUrl" class="editorial-block__btn">@Model.ActionText</a>
+    </div>
+    <div class="editorial-block__image" style="background-image: url(@(Model.Image?.GetUrlToImage(new System.Drawing.Size(0, 0), new System.Drawing.Size(0, 0))?.Url))">
+
+    </div>
+    
+</div>
+
+
