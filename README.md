@@ -13,6 +13,8 @@ However, with this in mind the samples can be used as inspiration or a starting 
 
 ## Samples
 
+- [Block editorial section from Demo](Samples/Block%20editorial%20section%20from%20Demo)
+- [Block hero banner from Demo](Samples/Block%20hero%20banner%20from%20Demo)
 - [Sliding date span on smart groups](Samples/Sliding%20date%20span%20on%20smart%20groups)
 
 ## External samples
