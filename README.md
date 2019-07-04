@@ -21,6 +21,7 @@ However, with this in mind the samples can be used as inspiration or a starting 
 
 Samples hosted by others outside this repo
 
+- [Distancify.LitiumAddOns.MediaMapper](https://github.com/distancify/Distancify.LitiumAddOns.MediaMapper) by [Distancify](https://distancify.com/) - Programmatically organize media and link media to other entities
 - [LitiumLinksField](https://github.com/martenw/LitiumLinksField) - Field definition for Litium PIM to show all links where a product/category is published
 
 ## How to add a new sample
