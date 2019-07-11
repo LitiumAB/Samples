@@ -22,7 +22,13 @@ However, with this in mind the samples can be used as inspiration or a starting 
 Samples hosted by others outside this repo
 
 - [Distancify.LitiumAddOns.MediaMapper](https://github.com/distancify/Distancify.LitiumAddOns.MediaMapper) by [Distancify](https://distancify.com/) - Programmatically organize media and link media to other entities
+- [Litium.AddOns.GoogleMapFieldType](https://github.com/tonnguyen/litium-addons-googlemap) - Use Google Map to show and edit geo location
+- [Litium.AddOns.SmartImage](https://github.com/tonnguyen/litium-addons-smartimage) - Analyzes and extracts rich information from images, powered by machine learning, to categorize images in a better way
+- [Litium.AddOns.SmartImage.GoogleCloudVision](https://github.com/tonnguyen/litium-addons-smartimage-googlecloudvision) - Implementation of above using Google Cloud Vision
+- [Litium.FieldType.Bag](https://github.com/tonnguyen/litium-fieldtype-bag) - Contains several custom Litium Field types 
 - [LitiumLinksField](https://github.com/martenw/LitiumLinksField) - Field definition for Litium PIM to show all links where a product/category is published
+
+
 
 ## How to add a new sample
 
