@@ -4,7 +4,7 @@
 
 Custom field type for adding a YouTube video to any Litium entity. Enter the video id (https://www.youtube.com/watch?v=**XXXXXXXXXXX**) into the field. You can see and play the video if there's a value in the field.
 
-![Screenshot of field in use in Litium PIM](/Resources/Screenshot.png?raw=true)
+![Screenshot of field in use in Litium PIM](Resources/Screenshot.png?raw=true)
 
 [You can read more about creating your own custom field type on the Litium Docs site](https://docs.litium.com/documentation/architecture/field-framework/creating-a-custom-field-type)
 
