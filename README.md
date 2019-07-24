@@ -15,6 +15,7 @@ However, with this in mind the samples can be used as inspiration or a starting 
 
 - [Block editorial section from Demo](Samples/Block%20editorial%20section%20from%20Demo)
 - [Block hero banner from Demo](Samples/Block%20hero%20banner%20from%20Demo)
+- [Custom field type YouTube video](Samples/Custom%20field%20type%20Youtube%20video)
 - [Sliding date span on smart groups](Samples/Sliding%20date%20span%20on%20smart%20groups)
 
 ## External samples
