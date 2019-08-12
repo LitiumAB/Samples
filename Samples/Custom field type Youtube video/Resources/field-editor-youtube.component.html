@@ -1,0 +1,14 @@
+<field-editor [field]="field">
+    <iframe preview *ngIf="getValue(viewLanguage)"
+        [src]="getUrl(viewLanguage)" 
+        frameborder="0"
+        width="516"
+        height="315" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture">
+    </iframe>
+    
+    <input edit type="text" [id]="name" #control 
+        [ngModel]="getValue(editLanguage)"
+        (ngModelChange)="valueChange($event, editLanguage)"
+    />
+</field-editor>
