@@ -28,8 +28,7 @@ Samples hosted by others outside this repo
 - [Litium.AddOns.SmartImage.GoogleCloudVision](https://github.com/tonnguyen/litium-addons-smartimage-googlecloudvision) - Implementation of above using Google Cloud Vision
 - [Litium.FieldType.Bag](https://github.com/tonnguyen/litium-fieldtype-bag) - Contains several custom Litium Field types 
 - [LitiumLinksField](https://github.com/martenw/LitiumLinksField) - Field definition for Litium PIM to show all links where a product/category is published
-
-
+- [LitiumWebsiteTexts](https://github.com/martenw/LitiumWebsiteTexts) - Create and maintain website texts in code 
 
 ## How to add a new sample
 
