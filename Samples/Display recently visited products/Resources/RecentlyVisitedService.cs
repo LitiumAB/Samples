@@ -9,7 +9,7 @@ using System.Web;
 
 namespace Litium.Accelerator.Services
 {
-    [Service(ServiceType = typeof(IRecentlyVisitedService), Lifetime = DependencyLifetime.Transient)]
+    [Service(Lifetime = DependencyLifetime.Transient)]
     public class RecentlyVisitedService : IRecentlyVisitedService
     {
         private const int NumberOfItemsToDisplay = 4; // this could be made into a website setting
@@ -44,6 +44,9 @@ namespace Litium.Accelerator.Services
 
         public void Add(ProductModel item)
         {
+            if (item == null)
+                return;
+
             var productSystemId = item.UseVariantUrl ? item.SelectedVariant.SystemId : item.BaseProduct.SystemId;
 
             Add(productSystemId);
@@ -61,20 +64,19 @@ namespace Litium.Accelerator.Services
             Items.Add(new Item { Id = productSystemId, LastVisited = DateTime.Now });
             
             // trim the list
-            if (Items.Count > NumberOfItemsToDisplay + 1)
+            if (Items.Count > NumberOfItemsToDisplay)
             {
-                Items.RemoveRange(0, Items.Count - (NumberOfItemsToDisplay + 1));
+                Items.RemoveRange(0, Items.Count - NumberOfItemsToDisplay);
             }
 
             var cookie = new HttpCookie(Key) { Value = JsonConvert.SerializeObject(Items) };
-            HttpContext.Current.Response.Cookies.Add(cookie);
+            HttpContext.Current.Response.Cookies.Set(cookie);
         }
 
         public List<ProductModel> Get()
         {
             return Items
                 .OrderByDescending(x => x.LastVisited)
-                .Skip(1) // we add before we get, so don't want to show the item we're currently visiting
                 .Take(NumberOfItemsToDisplay)
                 .Select(
                     item => _productModelBuilder.BuildFromVariant(_variantService.Get(item.Id))

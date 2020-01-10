@@ -9,7 +9,7 @@ namespace Litium.Accelerator.Services
     public interface IRecentlyVisitedService
     {
         void Add(ProductModel item);
-        void Add(Guid producySystemId);
+        void Add(Guid productSystemId);
         List<ProductModel> Get();
     }
 }

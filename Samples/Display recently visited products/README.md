@@ -5,7 +5,7 @@
 
 This sample shows how to create a service that will add and keep track of the products the user has recently visited for the session. The data is saved to a cookie. 
 
-Per default, up to 4 products will be displayed. This is hard-coded, but could easily be changed to a website setting instead. The current product is not displayed. 
+Per default, up to 4 products will be displayed. This is hard-coded, but could easily be changed to a website setting instead. The current product is displayed. 
 
 ## Instructions
 
@@ -20,3 +20,4 @@ Per default, up to 4 products will be displayed. This is hard-coded, but could e
     viewModel.RecentlyVisitedItems = _recentlyVisitedService.Get().Select(item => _itemViewModelBuilder.Build(item)).ToList();
     ```
 5. Update your product display templates to include the partial view by adding `@Html.PartialView("_RecentlyVisitedItems", Model.RecentlyVisitedItems)` 
+6. Add a text to be used as a title for the block using the key `product.recentlyvisiteditems` to website texts
