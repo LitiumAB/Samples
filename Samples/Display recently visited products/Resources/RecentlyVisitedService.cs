@@ -1,13 +1,10 @@
-﻿using Litium.Accelerator.ViewModels.Product;
-using Litium.Products;
+﻿using Litium.Products;
 using Litium.Runtime.DependencyInjection;
 using Litium.Web.Models.Products;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace Litium.Accelerator.Services
