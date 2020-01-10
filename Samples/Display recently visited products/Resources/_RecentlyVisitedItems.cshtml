@@ -1,0 +1,19 @@
+﻿@model List<Litium.Accelerator.ViewModels.Product.ProductItemViewModel>
+
+@if (Model != null && Model.Any())
+{
+	<div class="row">
+		<div class="small-12 columns">
+			<h2 class="product-detail__header-title">
+				@Html.WebSiteString("product.recentlyvisiteditems")
+			</h2>
+
+			<ul class="row">
+				@foreach (var product in Model)
+				{
+					<li class="columns small-6 medium-4 large-3 product__container">@Html.DisplayFor(x => product, new { maxWidth = 371 })</li>
+				}
+			</ul>
+		</div>
+	</div>
+}
