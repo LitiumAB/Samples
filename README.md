@@ -18,6 +18,7 @@ However, with this in mind the samples can be used as inspiration or a starting 
 - [Custom field type YouTube video](Samples/Custom%20field%20type%20Youtube%20video)
 - [Display recently visited products](Samples/Display%20recently%20visited%20products)
 - [Sliding date span on smart groups](Samples/Sliding%20date%20span%20on%20smart%20groups)
+- [Target group condition Login status](Samples/Target%20group%20condition%20Login%20status)
 
 ## External samples
 
