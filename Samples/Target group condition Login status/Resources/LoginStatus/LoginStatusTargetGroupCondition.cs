@@ -29,7 +29,7 @@ namespace Litium.Accelerator.TargetGroupconditions.LoginStatus
             bool isLoggedIn = IsUserLoggedIn(targetGroupEvent);
             if (_data.Value == LoginStatusFilterService.ValueAnonymous)
             {
-                // User be member of anonymous condition on only if not logged in, otherwise removed
+                // User should be member of anonymous condition on only if not logged in, otherwise removed
                 result = isLoggedIn ? TargetGroupProcessAction.Remove : TargetGroupProcessAction.Add;
             }
             else if (_data.Value == LoginStatusFilterService.ValueLoggedIn)
@@ -51,10 +51,10 @@ namespace Litium.Accelerator.TargetGroupconditions.LoginStatus
 
         /// <summary>
         /// Called once for each ITargetGroupEvent that is fired
-        /// Cast the parameter and check itstype to only listen to specific events 
+        /// Cast the parameter and check its type to only listen to specific events 
         /// 
         /// If Process() returns true then membership of the target group is updated with Add or Remove 
-        /// depening on what is returned from the GetProcessAction-method.
+        /// depending on what is returned from the GetProcessAction-method.
         /// </summary>
         public bool Process(ConcurrentDictionary<string, object> context, ITargetGroupEvent targetGroupEvent)
         {

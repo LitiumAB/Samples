@@ -3,10 +3,10 @@ using Litium.Web.Administration.Filtering;
 using Litium.Studio.Extenssions;
 using Litium.Runtime.AutoMapper;
 using AutoMapper;
-using Litium.Owin.Lifecycle;
-using Litium.Foundation;
 using Litium.Web.Customers.TargetGroups;
+using Litium.Runtime;
 using Litium.Events;
+using Litium.Security.Events;
 
 namespace Litium.Accelerator.TargetGroupconditions.LoginStatus
 {
@@ -15,13 +15,22 @@ namespace Litium.Accelerator.TargetGroupconditions.LoginStatus
     /// Setup is triggered on application start and is used to register Automapper-mapping required by the condition
     /// and to register target group event to trigger every time a user
     /// </summary>
-    public class LoginStatusSetup : IStartupTask, IAutoMapperConfiguration
+    [Autostart]
+    public class LoginStatusSetup : IAutoMapperConfiguration
     {
-        private readonly TargetGroupEngine _targetGroupEngine;
-
-        public LoginStatusSetup(TargetGroupEngine targetGroupEngine)
+        public LoginStatusSetup(TargetGroupEngine targetGroupEngine, EventBroker eventBroker)
         {
-            _targetGroupEngine = targetGroupEngine;
+            // Setup a new targetgroup event to fire every time a user logs in or out, so that we can modify the 
+            // target group membership that depend on login status.
+
+            eventBroker.Subscribe<PersonSignedIn>(e =>
+            {
+                targetGroupEngine.Process(new LoginLogoutTargetGroupEvent(true));
+            });
+            eventBroker.Subscribe<PersonSignedOut>(e =>
+            {
+                targetGroupEngine.Process(new LoginLogoutTargetGroupEvent(false));
+            });
         }
 
         private string GetTitle(string value)
@@ -45,21 +54,6 @@ namespace Litium.Accelerator.TargetGroupconditions.LoginStatus
                 .ForMember(x => x.Operator, m => m.MapFrom(x => x.Operator))
                 .ForMember(x => x.ValueTitle, m => m.MapFrom(x => GetTitle(x.Value)))
                 .ForMember(x => x.Value, m => m.MapFrom(x => x.Value));
-        }
-
-        public void Start()
-        {
-            // Setup a new targetgroup event to fire every time a user logs in or out, so that we can modify the 
-            // target group membership that depend on login status.
-
-            Solution.Instance.EventManager.UserLoggedIn += (userID) =>
-            {
-                _targetGroupEngine.Process(new LoginLogoutTargetGroupEvent(true));
-            };
-            Solution.Instance.EventManager.UserLoggedOut += (userID) =>
-            {
-                _targetGroupEngine.Process(new LoginLogoutTargetGroupEvent(false));
-            };
         }
     }
 }
