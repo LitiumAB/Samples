@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>WebLog implementation of exceptional for Litium.Owin.</Description>
+    <TargetFrameworks>net472</TargetFrameworks>
+    <RootNamespace>Community.WebLog.Exceptional</RootNamespace>
+    <Version>1.0.0-pre01</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Web.config.install.xdt" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StackExchange.Exceptional" Version="2.1.0" />
+    <PackageReference Include="Litium.Foundation" Version="7.4.0" />
+  </ItemGroup>
+  
+</Project>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0"?>
+
+<!-- For more information on using Web.config transformation visit http://go.microsoft.com/fwlink/?LinkId=125889 -->
+
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <configSections xdt:Transform="InsertBefore(/configuration/*[1])" />
+  <configSections xdt:Locator="XPath(/configuration/configSections[last()])">
+    <section name="Exceptional" type="StackExchange.Exceptional.Settings, StackExchange.Exceptional" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)" />
+  </configSections>
+  <configSections xdt:Transform="RemoveAll" xdt:Locator="Condition(count(*)=0)" />
+  <Exceptional applicationName="LitiumSite" xdt:Transform="InsertIfMissing">
+    <ErrorStore type="SQL" connectionStringName="FoundationConnectionString" rollupSeconds="20" size="1000" />
+    <!-- This entire section is optional, if you want to log all exceptions you can leave off <IgnoreErrors> -->
+    <IgnoreErrors>
+      <!-- Optional: Error messages to ignore -->
+      <Regexes>
+        <!-- Exceptions with messages matching a regex here will not be logged -->
+        <!--<add name="connection broken" pattern="Request timed out\.$"/>-->
+      </Regexes>
+      <!-- Optional: Error types to ignore, e.g. <add type="System.Exception" /> or <add type="MyNameSpace.MyException" />-->
+      <Types>
+        <!-- Exceptions of the type here will not be logged, if you want to ignore an entire class of exception-->
+        <!--<add type="System.Exception" />-->
+      </Types>
+    </IgnoreErrors>
+    <LogFilters>
+      <Form>
+        <add name="password" replaceWith="********" />
+      </Form>
+      <Cookies>
+        <add name=".ASPXAUTH" replaceWith="**we don't record tokens!**" />
+        <add name=".AspNet.Litium" replaceWith="**we don't record tokens!**" />
+      </Cookies>
+    </LogFilters>
+    <!-- Email settings to send to, if an email per exception is desired, only toAddress is required, other defaults are pulled from the <system.net> section -->
+    <!-- other attributes are: smtpHost, smtpPort, smtpUserName, smtpPassword, smtpEnableSsl -->
+    <!--<Email fromAddress="exceptions@site.com" fromDisplayName="Bob the Builder" toAddress="youremail@gmail.com" />-->
+  </Exceptional>
+  <Exceptional applicationName="LitiumSite" xdt:Transform="SetAttributes(applicationName)" />
+</configuration>
