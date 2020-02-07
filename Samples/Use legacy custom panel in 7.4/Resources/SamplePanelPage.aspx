@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SamplePanelPage.aspx.cs" Inherits="Litium.Accelerator.Mvc.Site.ECommerce.Panels.SamplePanelPage" %>
+<%@ Page Language="C#" %>
 <%@ Register src="SamplePanel.ascx" tagname="SamplePanel" tagprefix="uc1" %>
 
 <!DOCTYPE html>

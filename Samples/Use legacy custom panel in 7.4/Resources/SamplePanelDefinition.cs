@@ -9,11 +9,15 @@ namespace Litium.Accelerator.Mvc.Site.ECommerce.Panels
     public class SamplePanelDefinition : PanelDefinitionBase<EcommerceArea, SamplePanelDefinition.SettingsModel>
     {
         /// <summary>
-        /// Points to the path of SamplePanelPage.aspx
+        /// Defines Component name as null so <see cref="Url"/> is used.
         /// </summary>
-        public override string Url => "https://localhost/Site/ECommerce/Panels/SamplePanelPage.aspx";
-
         public override string ComponentName => null;
+
+        /// <summary>
+        /// Defines the Url to be loaded by pointing to the path of SamplePanelPage.aspx.
+        /// More information: https://docs.litium.com/documentation/architecture/back-office_1/creating-custom-panel
+        /// </summary>
+        public override string Url => "/Site/ECommerce/Panels/SamplePanelPage.aspx";
 
         public override bool PermissionCheck()
         {
