@@ -8,6 +8,6 @@ It is possible to re-use your existing custom panels, written in WebForms, by wr
 
 1. Assuming the legacy Custom panel we have were defined as [SamplePanel.ascx](Resources/SamplePanel.ascx) and [SamplePanel.ascx.cs](Resources/SamplePanel.ascx.cs)
 
-1. Create a [ASPX page](SamplePanelPage.aspx) to use that User control.
+1. Create a [ASPX page](Resources/SamplePanelPage.aspx) to use that User control.
 
 1. Define the Panel defition as described in the [guideline](https://docs.litium.com/documentation/architecture/back-office_1/creating-custom-panel), and set the Url field to the URL of SamplePanelPage.aspx page. A sample panel definition can be found [here](Resources/SamplePanelDefinition.cs).
