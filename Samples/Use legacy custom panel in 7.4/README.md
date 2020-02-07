@@ -6,7 +6,7 @@ It is possible to re-use your existing custom panels, written in WebForms, by wr
 
 ## Instructions
 
-1. Assuming the legacy Custom panel we have were defined as [SamplePanel.ascx](Resources/SamplePanel.ascx) and [SamplePanel.ascx.cs](Resources/SamplePanel.ascx.cs)
+1. Assuming the Custom panel we have were defined as [SamplePanel.ascx](Resources/SamplePanel.ascx) and [SamplePanel.ascx.cs](Resources/SamplePanel.ascx.cs)
 
 1. Create a [ASPX page](Resources/SamplePanelPage.aspx) to use that User control.
 
