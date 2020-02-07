@@ -20,6 +20,7 @@ However, with this in mind the samples can be used as inspiration or a starting 
 - [Logging with Stackexchange Exceptional (WebLog)](Samples/Logging%20with%20Stackexchange%20Exceptional%20%28WebLog%29) - Restore the WebLog that was removed in Litium version 7.4
 - [Sliding date span on smart groups](Samples/Sliding%20date%20span%20on%20smart%20groups)
 - [Target group condition Login status](Samples/Target%20group%20condition%20Login%20status) - Target group condition to filter out all anonymous or logged in users
+- [Use legacy custom panel in 7.4](Samples/Use%20legacy%20custom%20panel%20in%207.4) - Use legacy custom panel in 7.4.
 
 ## External samples
 
