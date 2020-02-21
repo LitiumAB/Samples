@@ -13,12 +13,13 @@ However, with this in mind the samples can be used as inspiration or a starting 
 
 ## Samples
 
-- [Block editorial section from Demo](Samples/Block%20editorial%20section%20from%20Demo)
-- [Block hero banner from Demo](Samples/Block%20hero%20banner%20from%20Demo)
+- [Block editorial section from Demo](Samples/Block%20editorial%20section%20from%20Demo) - Block used on public Litium demowebsite
+- [Block hero banner from Demo](Samples/Block%20hero%20banner%20from%20Demo) - Block used on public Litium demowebsite
 - [Custom field type YouTube video](Samples/Custom%20field%20type%20Youtube%20video)
 - [Display recently visited products](Samples/Display%20recently%20visited%20products)
 - [Logging with Stackexchange Exceptional (WebLog)](Samples/Logging%20with%20Stackexchange%20Exceptional%20%28WebLog%29) - Restore the WebLog that was removed in Litium version 7.4
-- [Sliding date span on smart groups](Samples/Sliding%20date%20span%20on%20smart%20groups)
+- [Login with Auth0](Samples/Login%20with%20Auth0) - Use the external identity provider Auth0 to login to Litium
+- [Sliding date span on smart groups](Samples/Sliding%20date%20span%20on%20smart%20groups) - Smart groups in Litium standard only support fixed date intervals
 - [Target group condition Login status](Samples/Target%20group%20condition%20Login%20status) - Target group condition to filter out all anonymous or logged in users
 - [Use WebForms custom panel in 7.4](Samples/Use%20legacy%20custom%20panel%20in%207.4) - Use WebForms custom panel in 7.4.
 
