@@ -54,14 +54,14 @@ The installation instruction below assumes you are adding Auth0 to a Litium Acce
 1. According to [the instructions on docs](https://docs.litium.com/documentation/architecture/external-login-providers), add the snippet below to the method `TryGet()` in _\Src\Litium.Accelerator.Mvc\Routing\LoginPageSignInUrlResolverDecorator.cs_:
     ```C#
     public bool TryGet(RouteRequestLookupInfo routeRequestLookupInfo, out string redirectUrl)
+    {
+        if (HttpContext.Current.SkipAuthorization)
         {
-            if (HttpContext.Current.SkipAuthorization)
-            {
-                redirectUrl = null;
-                return false;
-            }
+            redirectUrl = null;
+            return false;
+        }
 
-            ...
+        ...
     ```
 
 ## Use
@@ -81,3 +81,12 @@ else
 This could for example be in `\Src\Litium.Accelerator.Mvc\Views\Shared\Framework\Profile.cshtml` to render the button together with the _login/my page_-link of the Accelerator.
 
 The regular Log-out button of MyPage will also work fine to log out.
+
+Load your page and click the Auth0 login button, this should open a popup where you can login with your Auth0-account.
+
+> If you get an error similar to this: _"Could not load file or assembly 'Microsoft.Owin.Host.SystemWeb, Version=4.1.0.0"_ - you may need to consolidate nuget-packages to use the same most recent version for that package:
+>
+>   1. Open Tools > NuGet package manager > Manage NuGet packages for solution...
+>   1. Select the consolidate tab
+>   1. Verify that the package throwing the error is on the same latest version for all projects where it is used
+>
