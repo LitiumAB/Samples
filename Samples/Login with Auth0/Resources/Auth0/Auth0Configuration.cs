@@ -7,13 +7,15 @@ namespace Litium.Accelerator.Auth0
     {
         public Auth0Configuration()
         {
-            ProviderId = "Auth0";
             Domain = GetRequiredAppsetting("Auth0:Domain");
             ClientId = GetRequiredAppsetting("Auth0:ClientId");
             ClientSecret = GetRequiredAppsetting("Auth0:ClientSecret");
             RedirectUri = GetRequiredAppsetting("Auth0:RedirectUri");
             PostLogoutRedirectUri = GetRequiredAppsetting("Auth0:PostLogoutRedirectUri");
             PersonTemplate = GetRequiredAppsetting("Auth0:PersonTemplate");
+
+            // Set unique providerid per Auth0 app so that switching between Auth0 applications will still work
+            ProviderId = $"Auth0-{ClientId}";
         }
 
         public string Domain { get; }
