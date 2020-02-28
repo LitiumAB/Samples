@@ -38,8 +38,11 @@ The installation instruction below assumes you are adding Auth0 to a Litium Acce
 1. Add the following NuGet-packages to the `Litium.Accelerator`-project
     ```console
     Install-Package Microsoft.AspNet.Identity.Core
+    Install-Package Microsoft.Owin.Security.Cookies
+    Install-Package Microsoft.Owin.Security.OAuth
     Install-Package Microsoft.Owin.Security.OpenIdConnect
     Install-Package Microsoft.Owin.Host.SystemWeb
+    Install-Package Microsoft.AspNet.Identity.Owin
     ```
 
 1. Add the following NuGet-package to the `Litium.Accelerator.Mvc`-project (to generate proper binding-redirects)
