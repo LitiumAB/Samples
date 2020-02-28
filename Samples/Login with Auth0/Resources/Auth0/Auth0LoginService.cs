@@ -8,7 +8,6 @@ using Microsoft.Owin;
 
 namespace Litium.Accelerator.Auth0
 {
-
     public class Auth0LoginService : IAuth0LoginService
     {
         private readonly IAuth0Configuration _configuration;
@@ -55,7 +54,7 @@ namespace Litium.Accelerator.Auth0
             if (template == null)
                 throw new Exception($"Person not created, person template '{personTemplate}' does not exist.");
 
-            var person = new Person(template.SystemId) { Id = email, Email = email, LoginCredential = { Username = email } };
+            var person = new Person(template.SystemId) {Id = email, Email = email, LoginCredential = {Username = email}};
 
             var fullName = identity.FindFirstValue("name")?.Trim();
 

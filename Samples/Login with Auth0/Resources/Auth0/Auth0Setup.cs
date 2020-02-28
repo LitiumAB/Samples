@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Litium.Owin.Lifecycle;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
 
@@ -18,13 +19,18 @@ namespace Litium.Accelerator.Auth0
         }
 
         /// <summary>
-        /// Configure Auth0 authentication according to https://auth0.com/docs/quickstart/webapp/aspnet-owin/01-login
+        ///     Configure Auth0 authentication according to https://auth0.com/docs/quickstart/webapp/aspnet-owin/01-login
         /// </summary>
         /// <param name="app"></param>
         public void Configuration(IAppBuilder app)
         {
+            app.UseExternalSignInCookie();
+
             app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
             {
+                // Passive = Do not automatically log in with the OpenId cookie
+                // Login is done manually in Auth0LoginController
+                AuthenticationMode = AuthenticationMode.Passive,
                 AuthenticationType = _configuration.ProviderId,
                 Authority = $"https://{_configuration.Domain}",
                 ClientId = _configuration.ClientId,
