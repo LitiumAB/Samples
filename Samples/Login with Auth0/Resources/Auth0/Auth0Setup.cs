@@ -9,7 +9,7 @@ using Owin;
 
 namespace Litium.Accelerator.Auth0
 {
-    public class Auth0Setup : IOwinStartupConfiguration
+    public class Auth0Setup : IOwinStartupStageConfiguration
     {
         private readonly IAuth0Configuration _configuration;
 
@@ -17,6 +17,8 @@ namespace Litium.Accelerator.Auth0
         {
             _configuration = configuration;
         }
+
+        public PipelineStage PipelineStage => PipelineStage.PostAuthorize;
 
         /// <summary>
         ///     Configure Auth0 authentication according to https://auth0.com/docs/quickstart/webapp/aspnet-owin/01-login
