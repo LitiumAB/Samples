@@ -32,6 +32,7 @@ Samples hosted by others outside this repo
 - [Litium.AddOns.SmartImage](https://github.com/tonnguyen/litium-addons-smartimage) - Analyzes and extracts rich information from images, powered by machine learning, to categorize images in a better way
 - [Litium.AddOns.SmartImage.GoogleCloudVision](https://github.com/tonnguyen/litium-addons-smartimage-googlecloudvision) - Implementation of above using Google Cloud Vision
 - [Litium.FieldType.Bag](https://github.com/tonnguyen/litium-fieldtype-bag) - Contains several custom Litium Field types 
+- [LitiumDemoHelper](https://github.com/martenw/litium-demo-helper) - Useful tools when creating a customer demo
 - [LitiumLinksField](https://github.com/martenw/LitiumLinksField) - Field definition for Litium PIM to show all links where a product/category is published
 - [LitiumWebsiteTexts](https://github.com/martenw/LitiumWebsiteTexts) - Create and maintain website texts in code 
 
