@@ -1,6 +1,6 @@
 # litium-auth0
 
-**Tested in Litium version: 7.4**
+**Tested in Litium version: 7.4.3**
 
 Use the identityprovider [Auth0](https://auth0.com/) to login to Litium.
 
