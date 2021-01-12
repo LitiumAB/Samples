@@ -10,27 +10,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Litium.Foundation.Modules.ECommerce.Plugins.Campaigns.Conditions;
 
 namespace Litium.Accelerator.Mvc.Campaigns
 {
 	public class MultipleVoucherCodeCondition : CartConditionType, IOrderConfirmationHandler, IConditionRequireCampaignInfo
 	{
-		Data m_data;
+		private VoucherCodeCondition.Data m_data;
 		private Action<object> m_dataPersister = null;
-		private const string PATH = "~/Site/ECommerce/Campaigns/MultipleVoucherCodeConditionControl.ascx";
-		/// <summary>
-		/// Condition data.
-		/// </summary>
-		[Serializable]
-		public class Data
-		{
-			/// <summary>
-			/// Gets or sets the voucher codes.
-			/// </summary>
-			/// <value>The voucher codes.</value>
-			[JsonConverter(typeof(VoucherCodeConverter))]
-			public IDictionary<string, int> VoucherCodes { get; set; }
-		}
+		private const string PATH = "~/Litium/ECommerce/WebUserControls/Conditions/VoucherCodeConditionControl.ascx";
 
 		internal class VoucherCodeConverter : JsonConverter
 		{
@@ -94,7 +82,7 @@ namespace Litium.Accelerator.Mvc.Campaigns
 			lock (this)
 			{
 				base.Initialize(data);
-				m_data = (Data)data;
+				m_data = (VoucherCodeCondition.Data)data;
 			}
 		}
 
