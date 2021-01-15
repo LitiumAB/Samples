@@ -21,6 +21,7 @@ However, with this in mind the samples can be used as inspiration or a starting 
 - [Login with Auth0](Samples/Login%20with%20Auth0) - Use the external identity provider Auth0 to login to Litium
 - [Sliding date span on smart groups](Samples/Sliding%20date%20span%20on%20smart%20groups) - Smart groups in Litium standard only support fixed date intervals
 - [Target group condition Login status](Samples/Target%20group%20condition%20Login%20status) - Target group condition to filter out all anonymous or logged in users
+- [Use multiple voucher codes on single order](Samples/Use%20multiple%20voucher%20codes%20on%20one%20order) - Custom campaign condition that supports multiple voucher codes on a single order
 - [Use WebForms custom panel in 7.4](Samples/Use%20legacy%20custom%20panel%20in%207.4) - Use WebForms custom panel in 7.4.
 - [Erp connector app](Samples/Erp%20connector%20app) - ERP Connect integration application would connect to a Litium server instance, through web api registration. 
 
