@@ -1,0 +1,885 @@
+{
+	"info": {
+		"_postman_id": "add1993e-bf30-440f-8544-be0f19967c77",
+		"name": "DemoErpEmulation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01 Get Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1368d0cd-63b2-4f1d-8b5a-778e0afa3c56",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"//pm.globals.set(\"orderId\", jsonData.id);\r",
+							"//pm.globals.set(\"salesOrderPaymentReferenceId\", jsonData.paymentInfo[0].referenceID);\r",
+							"pm.globals.set(\"articleNumberToReturn\", jsonData.rows[0].articleNumber);\r",
+							"pm.globals.set(\"articleNumberToShipment1\", jsonData.rows[0].articleNumber);\r",
+							"pm.globals.set(\"articleNumberToShipment2\", jsonData.rows[1].articleNumber);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{app}}/orders/{{externalOrderId}}",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"orders",
+						"{{externalOrderId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "02 Create partial shipment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1368d0cd-63b2-4f1d-8b5a-778e0afa3c56",
+						"exec": [
+							"pm.globals.set(\"deliveryRefId\", responseBody.slice(1,-1));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"Id\": \"c40b8ba1-f165-4546-994b-7b4dbe69de70\",\r\n\t\"OrderId\": \"{{externalOrderId}}\",\r\n\t\"ShippingMethod\": \"Express\",\r\n\t\"Rows\": [\r\n\t\t{\r\n\t\t\t\"Id\": \"c40b8ba1-f165-4546-994b-7b4dbe69de69\",\r\n\t\t\t\"ArticleNumber\": \"{{articleNumberToShipment1}}\",\r\n\t\t\t\"Quantity\": 1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"Id\": \"c40b8ba1-f165-4546-994b-7b4dbe69de69\",\r\n\t\t\t\"ArticleNumber\": \"{{articleNumberToShipment2}}\",\r\n\t\t\t\"Quantity\": 1\r\n\t\t}]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app}}/orders/{{externalOrderId}}/shipment",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"orders",
+						"{{externalOrderId}}",
+						"shipment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03 Notify 1st shipment delivered",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ab2b77f-54cd-4452-89a7-d556c047503d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "client_id",
+							"value": "serviceuser",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "client_secret",
+							"value": "serviceuser",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{app}}/orders/{{externalOrderId}}/deliveries/{{deliveryRefId}}/notify/delivered",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"orders",
+						"{{externalOrderId}}",
+						"deliveries",
+						"{{deliveryRefId}}",
+						"notify",
+						"delivered"
+					]
+				},
+				"description": "create token"
+			},
+			"response": [
+				{
+					"name": "Create Token",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "serviceuser",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "serviceuser",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/Litium/Oauth/Token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Litium",
+								"Oauth",
+								"Token"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 12 Mar 2019 09:38:43 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "68"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"invalid_clientId\",\n    \"error_description\": \"Client is invalid\"\n}"
+				}
+			]
+		},
+		{
+			"name": "04 Build Rma from ReturnSlip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0c4dadba-69a8-4e2a-9934-92ce4eeba9d8",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"rmaSystemId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"SystemId\": \"c40b8ba1-f165-4546-994b-7b4dbe69de69\",\n\t\"SalesOrderId\": \"{{externalOrderId}}\",\n\t\"FirstName\": \"Steve\",\n\t\"LastName\": \"Jobs\",\n\t\"Phone\": \"12345-6\",\n\t\"Email\": \"steve.job@app.com\",\n\t\"Comments\": \"my first rma\",\n\t\"CreatedDateUtc\": \"03/12/2019\",\n\t\"LastUpdatedDateUtc\": \"03/12/2019\",\n\t\"SalesOrderSystemId\": \"{{orderSystemId}}\",\n\t\"Rows\": [\n\t\t\t{\n\t\t\t\t\"ArticleNumber\": \"{{articleNumberToReturn}}\",\n\t\t\t\t\"QuantityReturned\": \"1\",\n\t\t\t\t\"ReturnReason\": \"DamagedInShipment\"\n\t\t\t}\n\t\t]\n}"
+				},
+				"url": {
+					"raw": "{{app}}/rmas",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"rmas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "05 Set Rma State to PackageReceived",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "8"
+				},
+				"url": {
+					"raw": "{{app}}/rmas/{{rmaSystemId}}/notify/packagereceived",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"rmas",
+						"{{rmaSystemId}}",
+						"notify",
+						"packagereceived"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "06 Set Rma State to Processing",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "8"
+				},
+				"url": {
+					"raw": "{{app}}/rmas/{{rmaSystemId}}/notify/processing",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"rmas",
+						"{{rmaSystemId}}",
+						"notify",
+						"processing"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "07 Approve and Complete Rma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfacc5b4-1c24-4bc3-98f0-662ce8b81eb0",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"sroSystemId\", jsonData.salesReturnOrderSystemId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{app}}/rmas/{{rmaSystemId}}/approve",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"rmas",
+						"{{rmaSystemId}}",
+						"approve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "08 Get Sale Order By Rma",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "90e207fb-7ffb-4aba-b55d-a744bb8753f3",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.globals.set(\"sroId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{app}}/rmas/{{rmaSystemId}}/order",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"rmas",
+						"{{rmaSystemId}}",
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "09 Confirm SalesReturnOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfacc5b4-1c24-4bc3-98f0-662ce8b81eb0",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{app}}/orders/{{sroId}}/confirmReturn",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"orders",
+						"{{sroId}}",
+						"confirmReturn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10 Refund money",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ab2b77f-54cd-4452-89a7-d556c047503d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "client_id",
+							"value": "serviceuser",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "client_secret",
+							"value": "serviceuser",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{app}}/orders/{{sroId}}/refund",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"orders",
+						"{{sroId}}",
+						"refund"
+					]
+				},
+				"description": "create token"
+			},
+			"response": [
+				{
+					"name": "Create Token",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "serviceuser",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "serviceuser",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/Litium/Oauth/Token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Litium",
+								"Oauth",
+								"Token"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 12 Mar 2019 09:38:43 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "68"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"invalid_clientId\",\n    \"error_description\": \"Client is invalid\"\n}"
+				}
+			]
+		},
+		{
+			"name": "11 Create shipment for remaining items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1368d0cd-63b2-4f1d-8b5a-778e0afa3c56",
+						"exec": [
+							"pm.globals.set(\"deliveryRefId\", responseBody.slice(1,-1));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"Id\": \"c40b8ba1-f165-4546-994b-7b4dbe69de70\",\r\n\t\"OrderId\": \"{{externalOrderId}}\",\r\n\t\"ShippingMethod\": \"Express\",\r\n\t\"Rows\": [\r\n\t\t{\r\n\t\t\t\"Id\": \"c40b8ba1-f165-4546-994b-7b4dbe69de69\",\r\n\t\t\t\"ArticleNumber\": \"{{articleNumberToShipment1}}\",\r\n\t\t\t\"Quantity\": 1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"Id\": \"c40b8ba1-f165-4546-994b-7b4dbe69de69\",\r\n\t\t\t\"ArticleNumber\": \"{{articleNumberToShipment2}}\",\r\n\t\t\t\"Quantity\": 1\r\n\t\t}]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app}}/orders/{{externalOrderId}}/shipment",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"orders",
+						"{{externalOrderId}}",
+						"shipment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12 Notify 2nd shipment delivered",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ab2b77f-54cd-4452-89a7-d556c047503d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "bearer {{token}}",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "client_id",
+							"value": "serviceuser",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "client_secret",
+							"value": "serviceuser",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{app}}/orders/{{externalOrderId}}/deliveries/{{deliveryRefId}}/notify/delivered",
+					"host": [
+						"{{app}}"
+					],
+					"path": [
+						"orders",
+						"{{externalOrderId}}",
+						"deliveries",
+						"{{deliveryRefId}}",
+						"notify",
+						"delivered"
+					]
+				},
+				"description": "create token"
+			},
+			"response": [
+				{
+					"name": "Create Token",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "serviceuser",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "serviceuser",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/Litium/Oauth/Token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"Litium",
+								"Oauth",
+								"Token"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Server",
+							"value": "Microsoft-IIS/10.0"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "ASP.NET"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 12 Mar 2019 09:38:43 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "68"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"invalid_clientId\",\n    \"error_description\": \"Client is invalid\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "dbd5011a-0a8a-4189-b1ae-a78abaa41f46",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "721eeb36-e485-4864-8666-4935ad227aaa",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

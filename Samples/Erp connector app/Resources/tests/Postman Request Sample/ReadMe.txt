@@ -1,0 +1,1 @@
+These are postman collection samples for Litium Connect testing. This is a guide to import sample requests into postman : https://docs.litium.com/documentation/litium-documentation/sales/return-management_1_1/api-testing

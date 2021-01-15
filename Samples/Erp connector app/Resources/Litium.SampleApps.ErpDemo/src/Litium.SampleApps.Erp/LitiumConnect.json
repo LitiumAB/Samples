@@ -1,0 +1,2502 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Litium Connect Erp",
+    "version": "1.0"
+  },
+  "paths": {
+    "/Litium/api/connect/erp/inventories/{inventoryId}": {
+      "get": {
+        "tags": [
+          "Inventories"
+        ],
+        "summary": "Gets the inventory.",
+        "operationId": "Inventories_Get",
+        "parameters": [
+          {
+            "name": "inventoryId",
+            "in": "path",
+            "description": "The inventory identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Inventory"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Inventory"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Inventories"
+        ],
+        "summary": "Update inventory items.",
+        "operationId": "Inventories_Update",
+        "parameters": [
+          {
+            "name": "inventoryId",
+            "in": "path",
+            "description": "The inventory identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.InventoryItem"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.InventoryItem"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Inventories"
+        ],
+        "summary": "Delete inventory items.",
+        "operationId": "Inventories_Delete",
+        "parameters": [
+          {
+            "name": "inventoryId",
+            "in": "path",
+            "description": "The inventory identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.InventoryItem"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.InventoryItem"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/orders/{orderId}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Gets the order.",
+        "operationId": "Orders_Get",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "The order identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/orders/{orderId}/deliveries/{deliveryId}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Get shipment",
+        "operationId": "Orders_GetDelivery",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "The order identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "deliveryId",
+            "in": "path",
+            "description": "The delivery identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Shipment"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Shipment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/orders/{orderId}/deliveries/{deliveryId}/notify/delivered": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Notify order has being delivered to end customer.",
+        "operationId": "Orders_NotifyOrderDelivered",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "The order identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "deliveryId",
+            "in": "path",
+            "description": "The delivery identifier.",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/orders/{orderId}/orderExportedToErp": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Set all delivery state to processing after export order to ERP.",
+        "operationId": "Orders_OrderExportedToErp",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "The order identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/orders/{orderId}/shipment": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Creates a delivery.",
+        "operationId": "Orders_CreateShipment",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "The order identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Connect.Erp.Shipment"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Connect.Erp.Shipment"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/prices/{priceListId}": {
+      "get": {
+        "tags": [
+          "Prices"
+        ],
+        "summary": "Gets the price list.",
+        "operationId": "Prices_Get",
+        "parameters": [
+          {
+            "name": "priceListId",
+            "in": "path",
+            "description": "The price list identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.PriceList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.PriceList"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Prices"
+        ],
+        "summary": "Update price list items.",
+        "operationId": "Prices_Update",
+        "parameters": [
+          {
+            "name": "priceListId",
+            "in": "path",
+            "description": "The price list identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.PriceListItem"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.PriceListItem"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Prices"
+        ],
+        "summary": "Delete price list items.",
+        "operationId": "Prices_Delete",
+        "parameters": [
+          {
+            "name": "priceListId",
+            "in": "path",
+            "description": "The price list identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.PriceListItem"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.PriceListItem"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/rmas": {
+      "post": {
+        "tags": [
+          "Rmas"
+        ],
+        "summary": "Build RMA from information in the return slip.",
+        "operationId": "Rmas_BuildFromReturnSlip",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Connect.Erp.ReturnSlip"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Connect.Erp.ReturnSlip"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/rmas/{orderId}": {
+      "post": {
+        "tags": [
+          "Rmas"
+        ],
+        "summary": "Build RMA based on sales order id. \r\nAll articles that can be returned are included in the rma created, and will result in a full return of all remaining items of the sales order.",
+        "operationId": "Rmas_BuildFromSalesOrderId",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "The sales order identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/rmas/{systemId}": {
+      "get": {
+        "tags": [
+          "Rmas"
+        ],
+        "summary": "Gets the RMA.",
+        "operationId": "Rmas_Get",
+        "parameters": [
+          {
+            "name": "systemId",
+            "in": "path",
+            "description": "The rma system identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Rmas"
+        ],
+        "summary": "Delete the RMA.",
+        "operationId": "Rmas_Delete",
+        "parameters": [
+          {
+            "name": "systemId",
+            "in": "path",
+            "description": "The rma system identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/rmas/{systemId}/approve": {
+      "post": {
+        "tags": [
+          "Rmas"
+        ],
+        "summary": "Approves the RMA.",
+        "operationId": "Rmas_ApproveRma",
+        "parameters": [
+          {
+            "name": "systemId",
+            "in": "path",
+            "description": "The rma system identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/rmas/{systemId}/notify/completed": {
+      "post": {
+        "tags": [
+          "Rmas"
+        ],
+        "summary": "Set the rma state to completed.",
+        "operationId": "Rmas_SetStateCompleted",
+        "parameters": [
+          {
+            "name": "systemId",
+            "in": "path",
+            "description": "The rma system identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/rmas/{systemId}/notify/packageReceived": {
+      "post": {
+        "tags": [
+          "Rmas"
+        ],
+        "summary": "Set the rma state to package received.",
+        "operationId": "Rmas_SetStatePackageReceived",
+        "parameters": [
+          {
+            "name": "systemId",
+            "in": "path",
+            "description": "The rma system identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/rmas/{systemId}/notify/processing": {
+      "post": {
+        "tags": [
+          "Rmas"
+        ],
+        "summary": "Set the rma state to processing.",
+        "operationId": "Rmas_SetStateProcessing",
+        "parameters": [
+          {
+            "name": "systemId",
+            "in": "path",
+            "description": "The rma system identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/rmas/{systemId}/order": {
+      "get": {
+        "tags": [
+          "Rmas"
+        ],
+        "summary": "Gets the order which is composed with RMA.",
+        "operationId": "Rmas_GetOrder",
+        "parameters": [
+          {
+            "name": "systemId",
+            "in": "path",
+            "description": "The rma system identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/salesReturnOrders/{orderId}": {
+      "get": {
+        "tags": [
+          "Sales return orders"
+        ],
+        "summary": "Gets the sales return order.",
+        "operationId": "SalesReturnOrders_Get",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "The sales return order identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/salesReturnOrders/{orderId}/confirmReturn": {
+      "post": {
+        "tags": [
+          "Sales return orders"
+        ],
+        "summary": "Confirm the sales return order.",
+        "description": "In implementation, this should send a mail to the end-customer about the return as confirmed, and refund is under processing.",
+        "operationId": "SalesReturnOrders_ConfirmReturn",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "The sales return order identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Litium/api/connect/erp/salesReturnOrders/{orderId}/refund": {
+      "post": {
+        "tags": [
+          "Sales return orders"
+        ],
+        "summary": "Refund the money to customer, and finish the sales return order process.",
+        "operationId": "SalesReturnOrders_Refund",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "Sales return order identifier.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "header",
+            "description": "The requested API version",
+            "schema": {
+              "type": "string",
+              "default": "1.0",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Connect.Erp.Order"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Litium.Connect.Erp.Address": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the address identifier.",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Gets or sets the first name.",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Gets or sets the last name.",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "Gets or sets the title.",
+            "nullable": true
+          },
+          "careOf": {
+            "type": "string",
+            "description": "Gets or sets the care of.",
+            "nullable": true
+          },
+          "address1": {
+            "type": "string",
+            "description": "Gets or sets the address 1.",
+            "nullable": true
+          },
+          "address2": {
+            "type": "string",
+            "description": "Gets or sets the address 2.",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "description": "Gets or sets the city",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "description": "Gets or sets the country.",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "Gets or sets the email.",
+            "nullable": true
+          },
+          "fax": {
+            "type": "string",
+            "description": "Gets or sets the fax.",
+            "nullable": true
+          },
+          "mobilePhone": {
+            "type": "string",
+            "description": "Gets or sets the mobile phone.",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "Gets or sets the phone.",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "description": "Gets or sets the state.",
+            "nullable": true
+          },
+          "zip": {
+            "type": "string",
+            "description": "Gets or sets the zip code.",
+            "nullable": true
+          },
+          "houseExtension": {
+            "type": "string",
+            "description": "Gets or sets the house extension.",
+            "nullable": true
+          },
+          "houseNumber": {
+            "type": "string",
+            "description": "Gets or sets the house number.",
+            "nullable": true
+          },
+          "organizationName": {
+            "type": "string",
+            "description": "Gets or sets the organization name.",
+            "nullable": true
+          }
+        },
+        "description": "Represents an address."
+      },
+      "Litium.Connect.Erp.CustomerInfo": {
+        "type": "object",
+        "properties": {
+          "customerNumber": {
+            "type": "string",
+            "description": "Gets or sets the customer number.",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Gets or sets the first name.",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Gets or sets the last name.",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "Gets or sets the email.",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "description": "Gets or sets the mobile.",
+            "nullable": true
+          },
+          "organizationCustomerNumber": {
+            "type": "string",
+            "description": "Gets or sets the organization customer number.",
+            "nullable": true
+          },
+          "additionalInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets or sets additional information, the value should be JSON serializable.",
+            "nullable": true
+          }
+        },
+        "description": "Represents infomation about Customer."
+      },
+      "Litium.Connect.Erp.Inventory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the inventory identifier.",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.InventoryItem"
+            },
+            "description": "Gets or set the collection of inventory item.",
+            "nullable": true
+          }
+        },
+        "description": "Represents the storage of products."
+      },
+      "Litium.Connect.Erp.InventoryItem": {
+        "type": "object",
+        "properties": {
+          "articleNumber": {
+            "type": "string",
+            "description": "Gets or sets the acticle number.",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Gets or set the quantity.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "description": "Represents the inventory item."
+      },
+      "Litium.Connect.Erp.Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the order identifier.",
+            "nullable": true
+          },
+          "currencyCode": {
+            "type": "string",
+            "description": "Gets or sets the order currency code.",
+            "nullable": true
+          },
+          "grandTotal": {
+            "type": "number",
+            "description": "Gets or sets the order grand total.",
+            "format": "double"
+          },
+          "orderCreatedAt": {
+            "type": "string",
+            "description": "Gets or sets the order created time.",
+            "format": "date-time"
+          },
+          "origin": {
+            "type": "string",
+            "description": "Gets or sets the origin of the order.",
+            "nullable": true
+          },
+          "totalVat": {
+            "type": "number",
+            "description": "Gets or sets the order total Vat.",
+            "format": "double"
+          },
+          "channelId": {
+            "type": "string",
+            "description": "Gets or sets order channel identifier.",
+            "nullable": true
+          },
+          "webSiteId": {
+            "type": "string",
+            "description": "Gets or sets the order website identifier.",
+            "nullable": true
+          },
+          "marketId": {
+            "type": "string",
+            "description": "Gets or sets the order market identifier.",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "Gets or sets the order country code.",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "none",
+              "salesOrder",
+              "salesReturnOrder",
+              "exchangeSalesOrder"
+            ],
+            "type": "string",
+            "description": "Gets or sets the order type."
+          },
+          "clientIp": {
+            "type": "string",
+            "description": "Gets or sets the order customer ip.",
+            "nullable": true
+          },
+          "originalSalesOrderId": {
+            "type": "string",
+            "description": "Gets or sets the original sales order identifier.\r\nOnly available for Sales Return Order.\r\nGet SystemId of the SalesOrder that linked to this SaleReturnOrder. \r\nThe original Sales order should always have this property null.",
+            "nullable": true
+          },
+          "salesReturnOrderIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": true
+            },
+            "description": "Gets or sets a collection of system identifiers for associate sales return orders.",
+            "nullable": true
+          },
+          "rmaIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": true
+            },
+            "description": "Gets or sets the Rma system identifiers for associate Rma. The original Sales order should always have this property null.",
+            "nullable": true
+          },
+          "comments": {
+            "type": "string",
+            "description": "Gets or sets the order comments.",
+            "nullable": true
+          },
+          "additionalInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets or sets the order additional information. The value should be JSON serializable.",
+            "nullable": true
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.OrderRow"
+            },
+            "description": "Gets or sets the collection of the order row.",
+            "nullable": true
+          },
+          "vatSummary": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Gets or sets the vat summary.\r\nKey is vat rate.\r\nValue is the total vat amount for the vat rate.",
+            "nullable": true
+          },
+          "promotions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.PromotionInfo"
+            },
+            "description": "Gets or sets the collection of promotions.",
+            "nullable": true
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.Payment"
+            },
+            "description": "Gets or sets the collection of payments.",
+            "nullable": true
+          },
+          "shipments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.Shipment"
+            },
+            "description": "Gets or sets the collection of shipments.",
+            "nullable": true
+          },
+          "customerInfo": {
+            "$ref": "#/components/schemas/Litium.Connect.Erp.CustomerInfo"
+          },
+          "billingAddress": {
+            "$ref": "#/components/schemas/Litium.Connect.Erp.Address"
+          },
+          "shippingInfo": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.ShippingInfo"
+            },
+            "description": "Gets or sets collection of shipping information.",
+            "nullable": true
+          },
+          "rmas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.Rma"
+            },
+            "description": "Gets or sets the rma's that belong to this order.",
+            "nullable": true
+          }
+        },
+        "description": "Represents a ECommerce Order."
+      },
+      "Litium.Connect.Erp.OrderRow": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the order row identifier.",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "product",
+              "promotion",
+              "shippingCost",
+              "fee",
+              "roundingOffAdjustment"
+            ],
+            "type": "string",
+            "description": "Gets or sets the order row type."
+          },
+          "articleNumber": {
+            "type": "string",
+            "description": "Gets or sets the article number.",
+            "nullable": true
+          },
+          "descriptions": {
+            "type": "string",
+            "description": "Gets or sets the descriptions.",
+            "nullable": true
+          },
+          "unitPriceIncludingVat": {
+            "type": "number",
+            "description": "Gets the unit price with vat included.",
+            "format": "double",
+            "readOnly": true
+          },
+          "unitPriceExcludingVat": {
+            "type": "number",
+            "description": "Gets the unit price with vat excluded.",
+            "format": "double",
+            "readOnly": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Gets or sets the quantity.",
+            "format": "double"
+          },
+          "unitOfMeasurement": {
+            "type": "string",
+            "description": "Gets or sets the unit of measurement.",
+            "nullable": true
+          },
+          "vatRate": {
+            "type": "number",
+            "description": "Gets or sets the vat rate up to 3 decimals.\r\nE.g: 8.25% should be 0.825.",
+            "format": "double"
+          },
+          "totalIncludingVat": {
+            "type": "number",
+            "description": "Gets the total with vat included.",
+            "format": "double",
+            "readOnly": true
+          },
+          "totalExcludingVat": {
+            "type": "number",
+            "description": "Gets or sets the total with vat excluded.",
+            "format": "double"
+          },
+          "totalVat": {
+            "type": "number",
+            "description": "Gets or sets the total vat.",
+            "format": "double"
+          },
+          "additionalInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets or sets the additional information, the value should be JSON serializable.",
+            "nullable": true
+          }
+        },
+        "description": "Represents an order row."
+      },
+      "Litium.Connect.Erp.Payment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the payment identifier.",
+            "nullable": true
+          },
+          "paymentProviderName": {
+            "type": "string",
+            "description": "Gets or sets the payment provider name.",
+            "nullable": true
+          },
+          "paymentMethodName": {
+            "type": "string",
+            "description": "Gets or sets the payment method name.",
+            "nullable": true
+          },
+          "paymentAccountId": {
+            "type": "string",
+            "description": "Gets or sets the payment account identifier.",
+            "nullable": true
+          },
+          "paymentProviderReferenceId1": {
+            "type": "string",
+            "description": "Gets or sets the payment provider reference Id 1.",
+            "nullable": true
+          },
+          "paymentProviderReferenceId2": {
+            "type": "string",
+            "description": "Gets or sets the payment Provider reference Id 2.",
+            "nullable": true
+          },
+          "totalAuthorizedAmount": {
+            "type": "number",
+            "description": "Gets or sets the total authorized amount.",
+            "format": "double"
+          },
+          "totalCapturedAmount": {
+            "type": "number",
+            "description": "Gets or sets the total captured amount.",
+            "format": "double"
+          },
+          "totalRefundedAmount": {
+            "type": "number",
+            "description": "Gets or sets the total refunded amount.",
+            "format": "double"
+          },
+          "totalPendingCapture": {
+            "type": "number",
+            "description": "Gets or sets the total pending capture.",
+            "format": "double"
+          },
+          "totalPendingRefund": {
+            "type": "number",
+            "description": "Gets or sets the total pending refund.",
+            "format": "double"
+          },
+          "totalPendingCancel": {
+            "type": "number",
+            "description": "Gets or sets the total pending cancel.",
+            "format": "double"
+          },
+          "totalCancelledAmount": {
+            "type": "number",
+            "description": "Gets or sets the total cancel amount.",
+            "format": "double"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.Transaction"
+            },
+            "description": "Gets or sets the collection of transaction.",
+            "nullable": true
+          }
+        },
+        "description": "Represents a payment."
+      },
+      "Litium.Connect.Erp.PriceList": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the price list identifier.",
+            "nullable": true
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.PriceListItem"
+            },
+            "description": "Gets or set the collection of price list item.",
+            "nullable": true
+          }
+        },
+        "description": "Represents a list giving the prices of items for sale."
+      },
+      "Litium.Connect.Erp.PriceListItem": {
+        "type": "object",
+        "properties": {
+          "articleNumber": {
+            "type": "string",
+            "description": "Gets or sets the article number.",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "description": "Gets or sets the price.",
+            "format": "double",
+            "nullable": true
+          },
+          "minimumQuantity": {
+            "type": "number",
+            "description": "Gets or sets the minimum quantity.",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "description": "Represents a price list item."
+      },
+      "Litium.Connect.Erp.PromotionInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the promotion identifier.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Gets or sets the promotion description.",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "product",
+              "delivery",
+              "fee",
+              "order"
+            ],
+            "type": "string",
+            "description": "Gets or sets the promotion type."
+          },
+          "discountType": {
+            "enum": [
+              "unknown"
+            ],
+            "type": "string",
+            "description": "Gets or sets the promotion discount type."
+          },
+          "additionalInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets or sets the promotion additional information, the value should be JSON serializable.",
+            "nullable": true
+          },
+          "sourceOrderRowIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": true
+            },
+            "description": "Gets or sets the collection of order row identifier which are included in this promotion.",
+            "nullable": true
+          },
+          "resultOrderRowId": {
+            "type": "string",
+            "description": "Gets or sets the order row identifier after promotion applied.",
+            "nullable": true
+          }
+        },
+        "description": "Represent a promotion information."
+      },
+      "Litium.Connect.Erp.ReturnSlip": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or set the return slip identifier.",
+            "nullable": true
+          },
+          "salesOrderId": {
+            "type": "string",
+            "description": "Gets or sets the sales order identifier.",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Gets or sets the first name of person who creates the return slip.",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Gets or sets the last name of person who creates the return slip.",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "Gets or sets the phone of person who creates the return slip.",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "Gets or sets the email of person who creates the return slip.",
+            "nullable": true
+          },
+          "comments": {
+            "type": "string",
+            "description": "Gets or sets the return slip comments.",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Gets or sets the created date.",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Gets or sets updated date.",
+            "format": "date-time"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.ReturnSlipRow"
+            },
+            "description": "Gets or sets the collection of return slip row.",
+            "nullable": true
+          }
+        },
+        "description": "Represents a return slip."
+      },
+      "Litium.Connect.Erp.ReturnSlipRow": {
+        "type": "object",
+        "properties": {
+          "articleNumber": {
+            "type": "string",
+            "description": "Gets or sets the article number of the returned product.",
+            "nullable": true
+          },
+          "quantityReturned": {
+            "type": "number",
+            "description": "Gets or sets the quantity returned.",
+            "format": "double"
+          },
+          "returnReason": {
+            "type": "string",
+            "description": "Gets or sets the reason to return.",
+            "nullable": true
+          }
+        },
+        "description": "Represents a return slip row."
+      },
+      "Litium.Connect.Erp.Rma": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the rma identifier.",
+            "nullable": true
+          },
+          "returnSlipId": {
+            "type": "string",
+            "description": "Gets or sets the readable identifier of the return slip. Return slip can belong to an external system.",
+            "nullable": true
+          },
+          "receivedAt": {
+            "type": "string",
+            "description": "Gets or sets the received date.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Gets or sets the created date.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Gets or sets the updated date.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "receivedByPersonId": {
+            "type": "string",
+            "description": "Gets or sets the person identifier who receives.",
+            "nullable": true
+          },
+          "approvedByPersonId": {
+            "type": "string",
+            "description": "Gets or sets person identifier who approves.",
+            "nullable": true
+          },
+          "customerComments": {
+            "type": "string",
+            "description": "Gets or sets the customer comments.",
+            "nullable": true
+          },
+          "adminComments": {
+            "type": "string",
+            "description": "Gets or sets the admin comments.",
+            "nullable": true
+          },
+          "additionalInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets or sets the additional information.",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "description": "Gets or set the rma state.",
+            "nullable": true
+          },
+          "approvalCode": {
+            "type": "string",
+            "description": "Gets or set the approval code.",
+            "nullable": true
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.RmaRow"
+            },
+            "description": "Gets or sets the collection of rma row.",
+            "nullable": true
+          }
+        },
+        "description": "Represents a Return Merchandise Authorization."
+      },
+      "Litium.Connect.Erp.RmaRow": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the identifier.",
+            "nullable": true
+          },
+          "customerComments": {
+            "type": "string",
+            "description": "Gets or sets the customer comment.",
+            "nullable": true
+          },
+          "articleNumber": {
+            "type": "string",
+            "description": "Gets or sets the article number.",
+            "nullable": true
+          },
+          "quantityReturned": {
+            "type": "number",
+            "description": "Gets or sets the quantity returned.",
+            "format": "double",
+            "nullable": true
+          },
+          "quantityReceived": {
+            "type": "number",
+            "description": "Gets or sets quantity received (measured in units of measurement, identified by Litium.Connect.Erp.RmaRow.UnitOfMeasurementId.",
+            "format": "double",
+            "nullable": true
+          },
+          "unitOfMeasurementId": {
+            "type": "string",
+            "description": "Gets or sets the unit of measurement identifier.",
+            "nullable": true
+          },
+          "adminComments": {
+            "type": "string",
+            "description": "Gets or sets the admin comments.",
+            "nullable": true
+          },
+          "additionalInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets or sets the additional information, the value should be JSON serializable.",
+            "nullable": true
+          },
+          "returnReason": {
+            "type": "string",
+            "description": "Gets or sets the return reason.",
+            "nullable": true
+          },
+          "inventoryDecision": {
+            "type": "string",
+            "description": "Gets or sets the inventory decision.",
+            "nullable": true
+          }
+        },
+        "description": "Represents a Return Merchandise Authorization Row."
+      },
+      "Litium.Connect.Erp.Shipment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the shipment identifier.",
+            "nullable": true
+          },
+          "orderId": {
+            "type": "string",
+            "description": "Gets or sets the order external identifier.",
+            "nullable": true
+          },
+          "additionalInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets or sets the additional information, the value should be JSON serializable.",
+            "nullable": true
+          },
+          "shippingMethod": {
+            "type": "string",
+            "description": "Gets or sets the shipping method.",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/Litium.Connect.Erp.Address"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.ShipmentRow"
+            },
+            "description": "Gets or sets the collection of shipment row.",
+            "nullable": true
+          }
+        },
+        "description": "Represent a shipment request."
+      },
+      "Litium.Connect.Erp.ShipmentRow": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the shipment row identifier.",
+            "nullable": true
+          },
+          "articleNumber": {
+            "type": "string",
+            "description": "Gets or sets the acticle number.",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Gets or set the quantity.",
+            "format": "double"
+          },
+          "additionalInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets or sets the additional information, the value should be JSON serializable.",
+            "nullable": true
+          },
+          "orderRowId": {
+            "type": "string",
+            "description": "Gets or sets the order row identifier.",
+            "nullable": true
+          }
+        },
+        "description": "Represent an shipment row."
+      },
+      "Litium.Connect.Erp.ShippingInfo": {
+        "type": "object",
+        "properties": {
+          "shippingMethod": {
+            "type": "string",
+            "description": "Gets or sets the shipping method. E.g Express delivery; Standard delivery.",
+            "nullable": true
+          },
+          "additionalInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets or sets the additional information, the value should be JSON serializable.",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/Litium.Connect.Erp.Address"
+          }
+        },
+        "description": "Represent shipping information."
+      },
+      "Litium.Connect.Erp.Transaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Gets or sets the transaction identifier.",
+            "nullable": true
+          },
+          "transactionRef1": {
+            "type": "string",
+            "description": "Gets or sets the transaction reference 1.",
+            "nullable": true
+          },
+          "transactionRef2": {
+            "type": "string",
+            "description": "Gets or sets the transaction reference 2.",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "success",
+              "failed",
+              "pending",
+              "denied"
+            ],
+            "type": "string",
+            "description": "Gets or sets the transaction status."
+          },
+          "type": {
+            "enum": [
+              "authorize",
+              "capture",
+              "refund",
+              "cancel"
+            ],
+            "type": "string",
+            "description": "Gets or sets the transaction type."
+          },
+          "totalIncludingVat": {
+            "type": "integer",
+            "description": "Gets or sets the total with vat included.",
+            "format": "int32"
+          },
+          "totalExcludingVat": {
+            "type": "integer",
+            "description": "Gets or sets the total with vat excluded.",
+            "format": "int32"
+          },
+          "totalVat": {
+            "type": "integer",
+            "description": "Gets or sets the total vat.",
+            "format": "int32"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Litium.Connect.Erp.TransactionRow"
+            },
+            "description": "Gets or sets collection of transaction row.",
+            "nullable": true
+          }
+        },
+        "description": "Represent a transaction beloging to a Litium.Connect.Erp.Payment, a given payment may have several transactions."
+      },
+      "Litium.Connect.Erp.TransactionRow": {
+        "type": "object",
+        "properties": {
+          "orderRowId": {
+            "type": "string",
+            "description": "Gets or sets the order row identifier.",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "unknown",
+              "product",
+              "promotion",
+              "shippingCost",
+              "fee",
+              "roundingOffAdjustment"
+            ],
+            "type": "string",
+            "description": "Gets or sets the order row type."
+          },
+          "descriptions": {
+            "type": "string",
+            "description": "Gets or sets the description.",
+            "nullable": true
+          },
+          "unitPriceIncludingVat": {
+            "type": "number",
+            "description": "Gets or sets the unit price with vat included.",
+            "format": "double"
+          },
+          "unitPriceExcludingVat": {
+            "type": "number",
+            "description": "Gets or sets the unit price with vat excluded.",
+            "format": "double"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Gets or sets the quantity.",
+            "format": "double"
+          },
+          "vatRate": {
+            "type": "number",
+            "description": "Gets or sets the vat rate up to 3 decimals.\r\nE.g: 8.25% should be 0.825.",
+            "format": "double"
+          },
+          "totalIncludingVat": {
+            "type": "number",
+            "description": "Gets or sets the total with vat included.",
+            "format": "double"
+          },
+          "totalExcludingVat": {
+            "type": "number",
+            "description": "Gets or sets the total with vat excluded.",
+            "format": "double"
+          },
+          "totalVat": {
+            "type": "number",
+            "description": "Gets or set the total vat.",
+            "format": "double"
+          },
+          "additionalInfo": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets or set the additional infomation, the value should be JSON serializable.",
+            "nullable": true
+          }
+        },
+        "description": "Represent a row of Litium.Connect.Erp.Transaction."
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "description": "Litium Account",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "oauth2": {
+        "type": "oauth2",
+        "description": "Litium OAuth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "/Litium/OAuth/Token",
+            "scopes": { }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth2": [ ],
+      "bearer": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Inventories"
+    },
+    {
+      "name": "Orders"
+    },
+    {
+      "name": "Prices"
+    },
+    {
+      "name": "Rmas"
+    },
+    {
+      "name": "Sales return orders"
+    }
+  ]
+}

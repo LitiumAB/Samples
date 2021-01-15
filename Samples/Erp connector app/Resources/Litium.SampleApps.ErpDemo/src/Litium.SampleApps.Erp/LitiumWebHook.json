@@ -1,0 +1,432 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Litium WebHook",
+    "version": "1.0"
+  },
+  "paths": {
+    "/litium/api/webhooks/filters": {
+      "get": {
+        "tags": [
+          "Web hook filters"
+        ],
+        "summary": "Gets all WebHook filters that a user can register with. The filters indicate which WebHook\r\nevents that this WebHook will be notified for.",
+        "operationId": "WebHookFilters_Get",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Litium.Web.WebHooks.ViewModels.WebHookFilter"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Litium.Web.WebHooks.ViewModels.WebHookFilter"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Litium.Web.WebHooks.ViewModels.WebHookFilter"
+                  }
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Litium.Web.WebHooks.ViewModels.WebHookFilter"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/litium/api/webhooks/registrations": {
+      "get": {
+        "tags": [
+          "Web hook registrations"
+        ],
+        "summary": "Gets all registered WebHooks.",
+        "operationId": "WebHookRegistrations_Get",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                  }
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Web hook registrations"
+        ],
+        "summary": "Registers a new WebHook.",
+        "operationId": "WebHookRegistrations_Post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Web hook registrations"
+        ],
+        "summary": "Deletes all existing WebHook registrations.",
+        "operationId": "WebHookRegistrations_DeleteAll",
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      }
+    },
+    "/litium/api/webhooks/registrations/{id}": {
+      "get": {
+        "tags": [
+          "Web hook registrations"
+        ],
+        "summary": "Looks up a registered WebHook with the given id.",
+        "operationId": "WebHookRegistrations_Lookup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Web hook registrations"
+        ],
+        "summary": "Updates an existing WebHook registration.",
+        "operationId": "WebHookRegistrations_Put",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The WebHook ID.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Litium.Application.Events.WebHooks.RequestData"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Web hook registrations"
+        ],
+        "summary": "Deletes an existing WebHook registration.",
+        "operationId": "WebHookRegistrations_Delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The WebHook ID.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NoContent"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Litium.Application.Events.WebHooks.RequestData": {
+        "required": [
+          "webHookUri"
+        ],
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Gets or sets a description of the WebHook.",
+            "nullable": true
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "nullable": true
+            },
+            "description": "Gets the set of case-insensitive filters associated with this WebHook. The filters indicate\r\nwhich WebHook events that this WebHook will be notified for.",
+            "nullable": true
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "nullable": true
+            },
+            "description": "Gets a set of additional HTTP headers that will be sent with the WebHook request.",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "Gets or sets a unique ID of the WebHook. This ID can be used to later refer to the WebHook in case it\r\nneeds to be updated or deleted. The ID is by default in the form of a System.Guid and if the field\r\nis cleared it will be reset to a System.Guid.",
+            "nullable": true
+          },
+          "isPaused": {
+            "type": "boolean",
+            "description": "Gets or sets a value indicating whether the WebHook is paused."
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            },
+            "description": "Gets a set of additional case-insensitive properties that will be sent with the WebHook request\r\nas part of the HTTP request entity body.",
+            "nullable": true
+          },
+          "secret": {
+            "type": "string",
+            "description": "Gets or sets the secret used to sign the body of the WebHook request.",
+            "nullable": true
+          },
+          "webHookUri": {
+            "type": "string",
+            "description": "Gets or sets the URI of the WebHook.",
+            "format": "uri",
+            "nullable": true
+          }
+        },
+        "description": "Describes the contents and behavior or a WebHook. A Litium.Application.Events.WebHooks.RequestData is similar to a subscription in a\r\npub/sub system in that it allows the subscriber to indicate when and how event notifications should get\r\ndispatched and where they should get dispatched to. A Litium.Application.Events.WebHooks.RequestData is registered and managed on a\r\nper user basis which means that each user has a separate set of WebHooks that can get trigged by actions\r\nexecuted by that user. That is, user {A} will not see a WebHook fired for an action performed by user {B}\r\n."
+      },
+      "Litium.Web.WebHooks.ViewModels.WebHookFilter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Gets or sets the name of the filter, e.g. {Blob Update}.",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Gets or sets a description of the filter.",
+            "nullable": true
+          }
+        },
+        "description": "Defines a filter which can be applied when registering a WebHook. \r\nThe filter determines which event notifications will get dispatched to a given WebHook. \r\nThat is, depending on which filters a WebHook is created with, it will only see event \r\nnotifications that match one or more of those filters."
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "description": "Litium Account",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "oauth2": {
+        "type": "oauth2",
+        "description": "Litium OAuth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "/Litium/OAuth/Token",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "oauth2": [],
+      "bearer": []
+    }
+  ]
+}

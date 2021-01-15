@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="LitiumConnect.json" />
+    <None Remove="LitiumWebHook.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <OpenApiReference Include="LitiumConnect.json" CodeGenerator="NSwagCSharp" Namespace="Litium.Connect.Erp" Options="/generateClientInterfaces:true /useBaseUrl:false /operationGenerationMode:&quot;SingleClientFromOperationId&quot; /generateExceptionClasses:false" />
+    <OpenApiReference Include="LitiumWebHook.json" CodeGenerator="NSwagCSharp" Namespace="Litium.Connect.Erp" Options="/generateClientInterfaces:true /useBaseUrl:false /operationGenerationMode:&quot;SingleClientFromOperationId&quot; /generateExceptionClasses:false" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="CommonServiceLocator" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNet.WebHooks.Receivers" Version="1.2.2" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NSwag.ApiDescription.Client" Version="13.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+</Project>

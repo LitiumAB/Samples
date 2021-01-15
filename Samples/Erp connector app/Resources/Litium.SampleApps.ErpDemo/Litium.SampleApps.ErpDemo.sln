@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litium.SampleApps.ErpDemo", "src\Litium.SampleApps.ErpDemo\Litium.SampleApps.ErpDemo.csproj", "{F70D1196-C326-4783-9402-21DD21CC8139}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litium.SampleApps.Erp", "src\Litium.SampleApps.Erp\Litium.SampleApps.Erp.csproj", "{1449BABB-1C7D-43ED-960B-9565ADDDB9AC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F70D1196-C326-4783-9402-21DD21CC8139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F70D1196-C326-4783-9402-21DD21CC8139}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F70D1196-C326-4783-9402-21DD21CC8139}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F70D1196-C326-4783-9402-21DD21CC8139}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1449BABB-1C7D-43ED-960B-9565ADDDB9AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1449BABB-1C7D-43ED-960B-9565ADDDB9AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1449BABB-1C7D-43ED-960B-9565ADDDB9AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1449BABB-1C7D-43ED-960B-9565ADDDB9AC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {734422A7-6316-4112-B9FE-5AF5F2589E50}
+	EndGlobalSection
+EndGlobal
