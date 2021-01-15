@@ -20,59 +20,6 @@ namespace Litium.Accelerator.Mvc.Campaigns
 		private Action<object> m_dataPersister = null;
 		private const string PATH = "~/Litium/ECommerce/WebUserControls/Conditions/VoucherCodeConditionControl.ascx";
 
-		internal class VoucherCodeConverter : JsonConverter
-		{
-			public override bool CanRead => true;
-			public override bool CanWrite => true;
-
-			public override bool CanConvert(Type objectType)
-			{
-				return true;
-			}
-
-			public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-			{
-				if (reader.TokenType == JsonToken.Null)
-				{
-					return null;
-				}
-				if (!(existingValue is Dictionary<string, int>))
-				{
-					existingValue = new Dictionary<string, int>();
-				}
-
-				var dictionary = (Dictionary<string, int>)existingValue;
-
-				var jObject = JObject.Load(reader);
-				foreach (var readerItem in jObject)
-				{
-					if (!readerItem.Key.Equals("$type"))
-					{
-						dictionary.Add(readerItem.Key, readerItem.Value.ToObject<int>(ApplicationConverter.JsonSerializer));
-					}
-				}
-
-				return existingValue;
-			}
-
-			public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-			{
-				var dictionary = value as Dictionary<string, int>;
-				if (dictionary == null)
-				{
-					return;
-				}
-
-				writer.WriteStartObject();
-				foreach (var item in dictionary)
-				{
-					writer.WritePropertyName(item.Key);
-					serializer.Serialize(writer, item.Value, typeof(int));
-				}
-				writer.WriteEndObject();
-			}
-		}
-
 		/// <summary>
 		/// Initializes the specified data.
 		/// </summary>
