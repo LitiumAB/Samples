@@ -23,6 +23,7 @@ This sample integration application would be running its own life-cycle as a sep
 
 In web.config we could config the endpoint for Litium Connect server, here is an example appSettings section in the demo application to connect to Litium Connect server: 
 
+```
 <appSettings>
     <add key="MS_WebHookReceiverSecret_Litium" value="<Secrect value>" />
     <add key="WebHookSelfRegistrationCallbackHost" value="<Application call back url>"/>
@@ -30,12 +31,18 @@ In web.config we could config the endpoint for Litium Connect server, here is 
     <add key="WebHookSelfRegistrationClientId" value="<ServiceAccount username>"/>
     <add key="WebHookSelfRegistrationClientSecret" value="<ServiceAccount password>"/>
 </appSettings>
+```
   
-  MS_WebHookReceiverSecrect_Lithium: Secrect code that will be sent over to litium Connect server. This secrect code will be included in the header of the server's notification back to this connector. Request this code from Litium Support.
-  WebHookSelfRegistrationCallbackHost: Hosting url of this ERP sample demo application. Litium Connect server will send a notification to this address when the subscribed event was raised. This url should be visible to the Litium server, the one you configure in WebHookSelfRegistrationHost appSetting. During auto registration, this url will be sent to the Litium server.
-  WebHookSelfRegistrationHost: Url of Litium server. During self registration flow we need to create an registration and send to this address to subscribe to a event on server.
-  WebHookSelfRegistrationClientId: Id of Service Account for accessing Litium API.
-  WebHookSelfRegistrationClientSecrect: Secrect code / Password of Service Account to access Litium API. 
+  
+ - MS_WebHookReceiverSecrect_Lithium: Secrect code that will be sent over to litium Connect server. This secrect code will be included in the header of the server's notification back to this connector. Request this code from Litium Support.
+  
+  - WebHookSelfRegistrationCallbackHost: Hosting url of this ERP sample demo application. Litium Connect server will send a notification to this address when the subscribed event was raised. This url should be visible to the Litium server, the one you configure in WebHookSelfRegistrationHost appSetting. During auto registration, this url will be sent to the Litium server.
+  
+  - WebHookSelfRegistrationHost: Url of Litium server. During self registration flow we need to create an registration and send to this address to subscribe to a event on server.
+  
+  - WebHookSelfRegistrationClientId: Id of Service Account for accessing Litium API.
+  
+  - WebHookSelfRegistrationClientSecrect: Secrect code / Password of Service Account to access Litium API. 
 
 3. Register Erp Connector Application to Litium server
 
@@ -55,7 +62,7 @@ Litium Receiver implement WebHookReceiver and has ReceiveAsync as the main proc
 
 5. Litium Handler
 
-Litium Handler is defined to process the message which was sent over from Connect server, currently we wrote all the raw data into log files that looks like this: 
+Litium Handler is defined to process the message which was sent over from Connect server, currently we wrote all the raw data into log files that looks like this
 
 6. OpenApi Specification Generation.
 
@@ -71,12 +78,21 @@ There's also another way to generate the client code by using NSwagStudio. More 
 The application could be tested by importing the sample query collection to Postman, which could be dowloaded here >>. 
 For setting up postman, please see this article.
 There are 12 steps in the postman collection, which will calling to application to do these steps:
+    
     1: Retrieve the order, to run this step order externalId must be provided. We could try to book an order on Litium Connect for any two items with the quality = 2 each and copy the order number to Postman variable: 
+    
     2: Create partial shipment: Create a partial shipment for the first two items of the order. Shipping quality = 1 for each item.
+    
     3: Notify the first shipment delivered: Update the first shipment status to delivered. This will make Connect raise ReadyToShip event.
+    
     4: Build Rma from return split: Start return process to return the first item in the delivered shipment. More info on sales return management process could be found here>>.
+    
     5 to 7: Change Rma states all the way to Approved.
+    
     8 and 9:  Retrieve and Confirm the Sales Return Order.
+    
     10: Refund the money for the sales return order.
+    
     11: Create a second shipment, ship another two items of the order.
+    
     12: Notify the second shipment as delivered. If these was the last shipment of the order then the order state should be changed to Completed after this step.
