@@ -14,8 +14,7 @@ This is the guide for building a sample ERP connector integration application.
 
 ERP Connect integration application would connect to a Litium server instance, through web api registration. The process is described below.
 
-1. Download the sample integration application (require login to docs site with download permissions)
-ERP Connector Sample demo integration application and sample postman collection could be download in Litium github here >>. 
+1. Download the sample integration application 
 
 This sample integration application would be running its own life-cycle as a seperate web application. Also please note that the samples in litium github are not maintained and updated when new versions of Litium are released.
 
@@ -50,7 +49,7 @@ Update the Litium.Connect.Erp.Abstractions package to latest release (pre-releas
 Build the application and host it in IIS.
 ERP Connector application sample has a build in auto registration (file name Global.asax). These code will be executed at startup and will try to subscribe to OrderConfirmed event for a given host using the info we added in step #1.
 
-Optional: One may manually register/ double check the webhooks registration using web api endpoints as described here >>.
+Optional: One may manually register/ double check the webhooks registration using web api endpoints.
 
 Any error that happens during the seft-registration process will be logged in src\ErpDemo.log file.
 
@@ -62,7 +61,7 @@ Litium Receiver implement WebHookReceiver and has ReceiveAsync as the main proc
 
 5. Litium Handler
 
-Litium Handler is defined to process the message which was sent over from Connect server, currently we wrote all the raw data into log files that looks like this
+Litium Handler is defined to process the message which was sent over from Connect server, currently we wrote all the raw data into log files.
 
 6. OpenApi Specification Generation.
 
@@ -71,12 +70,12 @@ You can go to Litium server to get the new specification files
 Or you can use the existing one which are included to Litium.SampleApps.Erp project.
 And then go to the Service References to add/update the options for generated code.
 The generated code will be generated under obj folder
-There's also another way to generate the client code by using NSwagStudio. More detail could be found here.
+There's also another way to generate the client code by using NSwagStudio.
 
 7. Testing Demo Erp Connector Application
 
-The application could be tested by importing the sample query collection to Postman, which could be dowloaded here >>. 
-For setting up postman, please see this article.
+The application could be tested by importing the sample query collection to Postman. 
+For setting up postman, please see this article : https://docs.litium.com/documentation/litium-documentation/sales/return-management_1_1/api-testing.
 There are 12 steps in the postman collection, which will calling to application to do these steps:
     
     1: Retrieve the order, to run this step order externalId must be provided. We could try to book an order on Litium Connect for any two items with the quality = 2 each and copy the order number to Postman variable: 
@@ -85,7 +84,7 @@ There are 12 steps in the postman collection, which will calling to application
     
     3: Notify the first shipment delivered: Update the first shipment status to delivered. This will make Connect raise ReadyToShip event.
     
-    4: Build Rma from return split: Start return process to return the first item in the delivered shipment. More info on sales return management process could be found here>>.
+    4: Build Rma from return split: Start return process to return the first item in the delivered shipment. 
     
     5 to 7: Change Rma states all the way to Approved.
     
