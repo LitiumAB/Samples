@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web.UI.WebControls;
 using Litium.Foundation.Modules.ECommerce.Plugins.Campaigns;
 using Litium.Products;
-using Litium.Studio.KC.Samples.Campaigns;
 using Litium.Studio.UI.ECommerce.Common;
 using Litium.Studio.UI.ECommerce.Common.Constants;
 using Telerik.Web.UI;
@@ -39,14 +38,6 @@ namespace Litium.Studio.KC.Samples.Campaigns
 
         #endregion Control State
 
-        #region Constants
-
-        protected static class DialogType
-        {
-            public const string SELECT_PRODUCT_SET = "5";
-        }
-
-        #endregion
 
         #region Property
 
@@ -129,23 +120,6 @@ namespace Litium.Studio.KC.Samples.Campaigns
                 c_ProductListGrid.DataBind();
             }
         }
-
-
-        protected void GridPageIndexChanged(object source, GridPageChangedEventArgs e)
-        {
-            c_hiddenFieldIDs.Value = string.Join(",", Data.SelectedIDs.ToList().ConvertAll(x => x.ToString()).ToArray());
-        }
-
-        [Serializable]
-        internal sealed class ReducePriceByPercentageResult
-        {
-            public Guid ID { get; set; }
-
-            public string DisplayName { get; set; }
-
-            public string ArticleNumber { get; set; }
-        }
-
         #endregion Protected Methods
 
         #region Implementation of IUIExtensionPanel

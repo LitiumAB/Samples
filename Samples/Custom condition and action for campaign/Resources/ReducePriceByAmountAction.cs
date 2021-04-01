@@ -7,10 +7,6 @@ using Litium.Foundation.Modules.ECommerce;
 using Litium.Foundation.Modules.ECommerce.Plugins.Campaigns;
 using Litium.Foundation.Modules.ECommerce.Plugins.Campaigns.Actions;
 using Litium.Foundation.Modules.ECommerce.Plugins.Campaigns.Conditions;
-using Litium.Foundation.Modules.ProductCatalog.Articles;
-using Litium.Foundation.Modules.ProductCatalog.Assortments;
-using Litium.Foundation.Modules.ProductCatalog.Products;
-using Litium.Foundation.Modules.ProductCatalog.ProductSets;
 using Litium.Foundation.Security;
 using Litium.Products;
 
@@ -206,7 +202,7 @@ namespace Litium.Studio.KC.Samples.Campaigns
                                 if (productList != null)
                                 {
                                     sb.Append(Environment.NewLine);
-                                    sb.Append("- " + productList.Localizations[CultureInfo.CurrentCulture]);
+                                    sb.Append("- " + productList.Localizations[CultureInfo.CurrentCulture].Name);
                                 }
                             }
                             break;
