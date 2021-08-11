@@ -1,0 +1,10 @@
+{
+  "LitiumApi":{
+    ".": "Litium installation that we should connect to",
+    "ApiUrl": "https://litium-url"
+  },
+  "AppMetadata": {
+    ".": "Url for this application",
+    "AppUrl": "https://litium-app-url"
+  }
+}

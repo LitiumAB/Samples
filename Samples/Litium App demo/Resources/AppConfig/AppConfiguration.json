@@ -1,0 +1,12 @@
+{
+  "AppConfiguration": {
+    "Files": {
+      "connector.json": {
+        "DisplayName": "Configuration file for connector settings"
+      },
+      "project.json": {
+        "DisplayName": "Configuration file for project settings"
+      }
+    }
+  }
+}
