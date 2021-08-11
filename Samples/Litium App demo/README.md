@@ -8,13 +8,13 @@ This is the guide on how to develop an application as Litium App.
 
 ## Instructions
 
-1. Install `Litium.AppManagement.Application` package to application.
+1. Install latest `Litium.AppManagement.Application` package to application. 
     ```
     <ItemGroup>
-    <PackageReference Include="Litium.AppManagement.Application" Version="1.0.0-CI-*" />
+    <PackageReference Include="Litium.AppManagement.Application" Version="1.0.0" />
     </ItemGroup>
     ```
-    
+
 2. `AppConfig` folder contains sample configuration files for a Litium App.
     - `Hosting.json`: contains information of hosting.
     - `AppMetadata.json`: contains information of Litium App.
