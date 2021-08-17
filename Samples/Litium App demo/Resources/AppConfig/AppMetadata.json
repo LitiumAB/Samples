@@ -4,7 +4,7 @@
     "Id": "AppDemo",
     "DisplayName": "App Demo",
     "RequestedPermissions": [
-      "Function/SystemSettings"
+      "Function/Connect/Payments"
     ],
     "Subscribers":[
       {
