@@ -19,6 +19,7 @@ namespace Litium.SampleApps.Erp
             builder.RegisterType<LitiumPriceListService>().As<ILitiumPriceListService>();
             builder.RegisterType<LitiumClientFactory>().SingleInstance();
             builder.RegisterType<WebHookStorage>().SingleInstance();
+            builder.RegisterType<LitiumTokenValidator>().SingleInstance();
         }
     }
 }

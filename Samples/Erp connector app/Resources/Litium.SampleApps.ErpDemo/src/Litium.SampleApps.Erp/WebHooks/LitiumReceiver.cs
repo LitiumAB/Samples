@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using CommonServiceLocator;
 using IdentityModel;
 using IdentityModel.Client;
 using Litium.SampleApps.Erp.LitiumClients;
@@ -36,6 +37,8 @@ namespace Litium.SampleApps.Erp.WebHooks
         internal const string NotificationsKey = "Notifications";
         internal const string ActionKey = "Action";
 
+        private LitiumTokenValidator LitiumTokenValidator => ServiceLocator.Current.GetInstance<LitiumTokenValidator>();
+
         /// <summary>
         /// Gets the receiver name for this receiver.
         /// </summary>
@@ -63,7 +66,7 @@ namespace Litium.SampleApps.Erp.WebHooks
             if (request.Method == HttpMethod.Post)
             {
                 //await VerifySignature(id, request);
-                await ValidateJwt(request);
+                LitiumTokenValidator.Validate(request);
 
                 // Read the request entity body
                 var data = await ReadAsJsonAsync(request);
@@ -202,74 +205,6 @@ namespace Litium.SampleApps.Erp.WebHooks
                 request.GetConfiguration().DependencyResolver.GetLogger().Error(message, ex);
                 var invalidData = request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
                 throw new HttpResponseException(invalidData);
-            }
-        }
-    
-        /// <summary>
-        /// Validate Jwt token to authorize the request.
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        private async Task ValidateJwt(HttpRequestMessage request)
-        {
-            if(request.Headers.Authorization == null 
-                || request.Headers.Authorization.Scheme != "Bearer"
-                || string.IsNullOrEmpty(request.Headers.Authorization.Parameter))
-            {
-                throw new HttpResponseException(HttpStatusCode.Unauthorized);
-            }
-
-            var client = new HttpClient();
-            var doc = await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
-            {
-                Address = LitiumSettings.Host,
-                Policy =
-                {
-                    ValidateIssuerName = false
-                }
-            });
-
-            var keys = new List<SecurityKey>();
-            foreach (var webKey in doc.KeySet.Keys)
-            {
-                var e = Base64Url.Decode(webKey.E);
-                var n = Base64Url.Decode(webKey.N);
-
-                var key = new RsaSecurityKey(new RSAParameters { Exponent = e, Modulus = n })
-                {
-                    KeyId = webKey.Kid
-                };
-
-                keys.Add(key);
-            }
-
-            var parameters = new TokenValidationParameters
-            {
-                ValidateAudience = false,
-                ValidIssuer = doc.Issuer,
-                IssuerSigningKeys = keys,
-
-                NameClaimType = JwtClaimTypes.Name,
-                RoleClaimType = JwtClaimTypes.Role,
-
-                RequireSignedTokens = true
-            };
-
-            try
-            {
-                var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-                handler.InboundClaimTypeMap.Clear();
-
-
-                var claims = handler.ValidateToken(request.Headers.Authorization.Parameter, parameters, out var _);
-                if(claims?.Identity?.Name != LitiumSettings.ClientId)
-                {
-                    throw new HttpResponseException(HttpStatusCode.Unauthorized);
-                }
-            }
-            catch (Exception)
-            {
-                throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
         }
     }
