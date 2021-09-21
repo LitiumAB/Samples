@@ -1,0 +1,27 @@
+{
+  "AppMetadata": {
+    "Version": "1.0.0",
+    "Id": "AppDemo",
+    "DisplayName": "App Demo",
+    "RequestedPermissions": [
+      "Function/Connect/Payments"
+    ],
+    "Subscribers":[
+      {
+        "Url": "/api/webhook/OrderComplete",
+        "Event": "Litium.Connect.Erp.Events.OrderConfirmed"
+      },
+      {
+        "Url": "/api/webhook/ImportCompleted",
+        "Event": "Litium.Connect.Erp.Events.ImportCompleted"
+      }
+    ],
+    "ConfigFiles":[
+      {
+        "Id": "extendConfig.json",
+        "DisplayName": "Extend Config",
+        "Description": "This file can be uploaded from Litium Back-office."
+      }
+    ]
+  }
+}
