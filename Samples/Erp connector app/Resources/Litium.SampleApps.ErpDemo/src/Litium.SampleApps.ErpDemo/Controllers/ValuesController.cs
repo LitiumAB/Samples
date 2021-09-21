@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Litium.SampleApps.Erp;
+using System.Collections.Generic;
 using System.Web.Http;
 
 namespace Litium.SampleApps.ErpDemo.Controllers
 {
+    [LitiumTokenAuthorize]
     public class ValuesController : ApiController
     {
         // GET api/values

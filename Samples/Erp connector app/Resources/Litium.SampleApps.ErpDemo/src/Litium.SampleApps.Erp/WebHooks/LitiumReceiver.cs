@@ -8,7 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using CommonServiceLocator;
+using IdentityModel;
+using IdentityModel.Client;
+using Litium.SampleApps.Erp.LitiumClients;
 using Microsoft.AspNet.WebHooks;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 
 namespace Litium.SampleApps.Erp.WebHooks
@@ -31,6 +36,8 @@ namespace Litium.SampleApps.Erp.WebHooks
 
         internal const string NotificationsKey = "Notifications";
         internal const string ActionKey = "Action";
+
+        private LitiumTokenValidator LitiumTokenValidator => ServiceLocator.Current.GetInstance<LitiumTokenValidator>();
 
         /// <summary>
         /// Gets the receiver name for this receiver.
@@ -59,6 +66,7 @@ namespace Litium.SampleApps.Erp.WebHooks
             if (request.Method == HttpMethod.Post)
             {
                 //await VerifySignature(id, request);
+                LitiumTokenValidator.Validate(request);
 
                 // Read the request entity body
                 var data = await ReadAsJsonAsync(request);
