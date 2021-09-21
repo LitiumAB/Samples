@@ -16,7 +16,7 @@ namespace Litium.Studio.KC.Samples.Campaigns
     /// </summary>
     public class OrderTotalExcludingArticlesCondition : CartConditionType
     {
-        private const string PATH = "~/Litium/ECommerce/WebUserControls/Conditions/OrderTotalExcludingArticlesConditionControl.ascx";
+        private const string PATH = "~/Site/ECommerce/Campaigns/OrderTotalExcludingArticlesConditionControl.ascx";
         Data m_data;
 
         /// <summary>
