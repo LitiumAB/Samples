@@ -5,6 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Litium.AppManagement.Application" Version="1.0.0-CI-*" />
+    <PackageReference Include="Litium.AppManagement.Application" Version="1.2.0" />
   </ItemGroup>
 </Project>
