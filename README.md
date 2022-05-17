@@ -13,6 +13,7 @@ However, with this in mind the samples can be used as inspiration or a starting 
 
 ## Samples
 
+- [Accelerator via Podman on Linux](Samples/Accelerator%20via%20Podman%20on%20Linux)
 - [Block editorial section from Demo](Samples/Block%20editorial%20section%20from%20Demo) - Block used on public Litium demowebsite
 - [Block hero banner from Demo](Samples/Block%20hero%20banner%20from%20Demo) - Block used on public Litium demowebsite
 - [Custom field type YouTube video](Samples/Custom%20field%20type%20Youtube%20video)
