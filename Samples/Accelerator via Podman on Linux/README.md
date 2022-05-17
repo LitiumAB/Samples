@@ -39,9 +39,9 @@ This guide shows a modified version of that guide, allowing:
 
 3. [Install .NET 6](./Tasks/DotNet/README.md)
 
-4. [Setup Litium Accelerator](./Tasks/Litium Accelerator/README.md)
+4. [Setup Litium Accelerator](./Tasks/Litium%20Accelerator/README.md)
 
-5. [Setup Litium Search](./Tasks/Litium Search/README.md)
+5. [Setup Litium Search](./Tasks/Litium%20Search/README.md)
 
 6. Continue with [Litium Developer Education](https://github.com/LitiumAB/Education/tree/main/Developer%20Education)
    docs, "Development tasks" step 5 *("Author page")* and beyond.

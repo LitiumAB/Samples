@@ -107,7 +107,7 @@ make install-developer-certificate
 
 ## Test starting the docker-compose
 
-(Make sure your Podman socket is running first: [../Docker Compose/README.md](../Docker Compose/README.md#use-docker-compose-with-podman))
+(Make sure your Podman socket is running first: [../Docker Compose/README.md](../Docker%20Compose/README.md#use-docker-compose-with-podman))
 
 ```sh
 # This can take a while:
