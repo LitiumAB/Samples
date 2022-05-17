@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Follow the [Setup Litium Accelerator](../Litium Accelerator/README.md)
+- Follow the [Setup Litium Accelerator](../Litium%20Accelerator/README.md)
   guide first.
 
 ## Configure Litium to use Elasticsearch

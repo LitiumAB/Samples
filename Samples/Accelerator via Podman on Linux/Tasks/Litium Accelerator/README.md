@@ -5,7 +5,7 @@
 ### From this repo
 
 - [Podman](../Podman/README.md)
-- [Docker Compose](../Docker Compose/README.md)
+- [Docker Compose](../Docker%20Compose/README.md)
 - [.NET 6 CLI](../DotNet/README.md)
 
 ### From `LitiumAB/Education`

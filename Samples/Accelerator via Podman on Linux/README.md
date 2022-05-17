@@ -35,7 +35,7 @@ This guide shows a modified version of that guide, allowing:
    - Podman CNI plugins, including `dnsname` which is really helpful when using
      docker-compose.
 
-2. [Install Docker Compose (without Docker)](./Tasks/Docker Compose/README.md)
+2. [Install Docker Compose (without Docker)](./Tasks/Docker%20Compose/README.md)
 
 3. [Install .NET 6](./Tasks/DotNet/README.md)
 
