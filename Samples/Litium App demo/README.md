@@ -1,45 +1,21 @@
 # Litium App Demo
 
-**Tested in Litium version: Litium 8 beta**
+A [Litium App](https://docs.litium.com/documentation/litium-apps) is a decoupled application that communicates with Litium using Web API.
 
-Introducing Litium App - a decoupled application that communicates with Litium using web API.
+This is a guide on how to set up a sample app.
 
-This is the guide on how to develop an application as Litium App.
+## Setup
 
-## Instructions
+1. The project-file has a reference to the `Litium.AppManagement.Application`-package (update the package if a newer version is available). Features used from the package:
 
-1. Install latest `Litium.AppManagement.Application` package to application. 
-    ```
-    <ItemGroup>
-    <PackageReference Include="Litium.AppManagement.Application" Version="1.0.0" />
-    </ItemGroup>
-    ```
+    * `AddLitiumConfiguration` in `Program.cs` - adds the additional configuration files as part of appsettings.json
 
-2. `AppConfig` folder contains sample configuration files for a Litium App.
-    - `Hosting.json`: contains information of hosting.
-    - `AppMetadata.json`: contains information of Litium App.
+    * Middleware `UseLitiumAppConfigurationExtension` in `Startup.cs` - to handle the request/response pipeline
 
-3. Set `AppConfig` folder path to enviroment variable `CONFIG_PATH`.  
-In the sample, it has been set in `launchSettings.json`
+    * `AddLitiumAppConfiguration` in `Startup.cs` - to add services
 
-4. In the `Program.cs`, add `LitiumConfiguration`.
-    ```
-    .ConfigureHostConfiguration(config =>
-    {
-        config.AddLitiumConfiguration();
-        config.AddEnvironmentVariables();
-    })
-    ```
-5. In the `ConfigureServices` method of `Startup.cs`, register service of Litium App
-    ```
-    services.AddLitiumAppConfiguration(Configuration, opt =>
-    {
-        opt.ShutdownOnConfigChanges = true;
-        opt.ValidateCertificate = false;
-    });
-    ```
+1. The `Resources/AppConfig`-folder contains configuration files that should be modified for your app. The path to the folder is configured as the enviroment variable `CONFIG_PATH` in `\Resources\src\Litium.SampleApps.LitiumAppDemo\Properties\launchSettings.json`.
 
-6. In the `Configure` method, insert middleware to use Litium App
-    ```
-    app.UseLitiumAppConfigurationExtension();
-    ```
+    * `Hosting.json`: contains hosting information
+
+    * `AppMetadata.json`: contains app information
