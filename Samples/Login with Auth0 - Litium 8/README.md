@@ -1,6 +1,6 @@
 # litium-auth0
 
-**Tested in Litium version: 8.1.0**
+**Tested in Litium version: 8.19.1**
 
 Use the identityprovider [Auth0](https://auth0.com/) to login to Litium administration.
 
@@ -14,7 +14,7 @@ The sample is based on logic from:
 
 1. Login to Auth0 and select your application (ASP.NET Core med MVC for both React and MVC accelerator)
 
-1. Add your sites domain to your Auth0-applications list of _Allowed Callback URLs_ AND _Allowed Logout URLs_ (MVC domain for mvc accelerator and React domain for react accelerator)
+1. Add your sites domain to your Auth0-applications list of _Allowed Callback URLs_ AND _Allowed Logout URLs_ (MVC domain for MVC accelerator and React domain for React accelerator)
 
 1. Copy the values for **Domain**, **Client ID** and **Client Secret** to use in Litium setup
 
