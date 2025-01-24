@@ -1,21 +1,15 @@
-﻿using System;
-using System.Threading.Tasks;
-using IdentityModel;
+﻿using IdentityModel;
 using Litium.Runtime;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
-namespace Litium.Accelerator.Auth0
+namespace Auth0
 {
     public class Auth0Setup : IApplicationConfiguration
     {
         /// <summary>
-        ///     Configure Auth0 authentication according to https://auth0.com/docs/quickstart/webapp/aspnet-core-2/01-login
+        ///     Configure Auth0 authentication according to https://auth0.com/docs/quickstart/webapp/aspnet-core/interactive
         /// </summary>
         /// <param name="app">The application builder</param>
         public void Configure(ApplicationConfigurationBuilder app)
@@ -52,10 +46,12 @@ namespace Litium.Accelerator.Auth0
 
                         options.SignedOutRedirectUri = config.RedirectUri;
 
-                        // Set the callback path, so Auth0 will call back to https://auth0.localtest.me:5001/auth0-callback
+                        // Set the callback path, so Auth0 will call back to your mvc accelerator https://mvc.localtest.me:5001/auth0-callback
+                        // or your react accelerator https://react.localtest.me:3001/auth0-callback
                         // Also ensure that you have added the URL as an Allowed Callback URL in your Auth0 dashboard
                         options.CallbackPath = new PathString("/auth0-callback");
-                        // Set the callback path, so Auth0 will call back to https://auth0.localtest.me:5001/auth0-signout-callback
+                        // Set the callback path, so Auth0 will call back to your mvc https://mvc.localtest.me:5001/auth0-signout-callback
+                        // or your react accelerator  https://react.localtest.me:5001/auth0-signout-callback
                         // Also ensure that you have added the URL as an Allowed Logout URLs in your Auth0 dashboard
                         options.SignedOutCallbackPath = new PathString("/auth0-signout-callback");
 

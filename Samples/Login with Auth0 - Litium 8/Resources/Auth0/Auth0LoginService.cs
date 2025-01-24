@@ -1,15 +1,11 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using IdentityModel;
+﻿using IdentityModel;
 using Litium.Customers;
 using Litium.FieldFramework;
 using Litium.Security;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
-namespace Litium.Accelerator.Auth0
+namespace Auth0
 {
     public class Auth0LoginService : IAuth0LoginService
     {

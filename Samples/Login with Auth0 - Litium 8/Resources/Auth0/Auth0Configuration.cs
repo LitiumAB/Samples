@@ -1,4 +1,4 @@
-﻿namespace Litium.Accelerator.Auth0
+﻿namespace Auth0
 {
     public class Auth0Configuration
     {
