@@ -54,27 +54,27 @@ The installation instruction below assumes you are adding Auth0 to a Litium Acce
 
 1. Configure allowed paths if you are using react accelerator.
 
-```json
-{
-  "Litium": {
-    "DevProxy": {
-      "Items": [
-        {
-          "Name": "Auth0 end points",
-          "Path": "auth0-authentication/{**remainder}"
-        },
-        {
-          "Name": "Auth0Callback",
-          "Path": "auth0-callback"
-        },
-        {
-          "Name": "Auth0SignoutCallback",
-          "Path": "auth0-signout-callback"
-        }
-      ]
-    }
-  }
-}
-```
+   ```json
+   {
+     "Litium": {
+       "DevProxy": {
+         "Items": [
+           {
+             "Name": "Auth0 end points",
+             "Path": "auth0-authentication/{**remainder}"
+           },
+           {
+             "Name": "Auth0Callback",
+             "Path": "auth0-callback"
+           },
+           {
+             "Name": "Auth0SignoutCallback",
+             "Path": "auth0-signout-callback"
+           }
+         ]
+       }
+     }
+   }
+   ```
 
 1. Copy the folder `Auth0` from `Resources` with all its files to the _Litium.Accelerator.Mvc_-project in your solution if you are using MVC accelerator. If you are using React accelerator copy the folder to your Litium Empty project.
