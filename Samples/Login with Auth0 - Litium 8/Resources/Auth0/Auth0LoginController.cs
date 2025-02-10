@@ -1,8 +1,4 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Litium.Accelerator.Routing;
-using Litium.ComponentModel;
+﻿using Litium.ComponentModel;
 using Litium.Configuration;
 using Litium.Security;
 using Litium.Web;
@@ -12,12 +8,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
+using System.Security.Claims;
 using AuthenticationService = Litium.Security.AuthenticationService;
 
-namespace Litium.Accelerator.Auth0
+namespace Auth0
 {
     [Route("auth0-authentication")]
     public class Auth0LoginController : Controller
@@ -26,7 +21,6 @@ namespace Litium.Accelerator.Auth0
         private readonly AuthenticationService _authenticationService;
         private readonly IOptions<Auth0Configuration> _configuration;
         private readonly IAuth0LoginService _loginService;
-        private readonly RequestModelAccessor _requestModelAccessor;
         private readonly UrlService _urlService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IOptions<AdministrationSecurityConfig> _administrationSecurityConfig;
@@ -38,7 +32,6 @@ namespace Litium.Accelerator.Auth0
             AuthenticationService authenticationService,
             IAuth0LoginService auth0LoginService,
             IOptions<Auth0Configuration> auth0Configuration,
-            RequestModelAccessor requestModelAccessor,
             UrlService urlService,
             UserManager<ApplicationUser> userManager,
             IOptions<AdministrationSecurityConfig> administrationSecurityConfig,
@@ -49,7 +42,6 @@ namespace Litium.Accelerator.Auth0
             _authenticationService = authenticationService;
             _loginService = auth0LoginService;
             _configuration = auth0Configuration;
-            _requestModelAccessor = requestModelAccessor;
             _urlService = urlService;
             _userManager = userManager;
             _administrationSecurityConfig = administrationSecurityConfig;
@@ -59,23 +51,29 @@ namespace Litium.Accelerator.Auth0
 
         private string GetChannelRootPageUrl()
         {
-            var channel = _requestModelAccessor?.RequestModel?.ChannelModel?.Channel;
-            if (channel is null)
+            if (_channelResolver.TryGet(out var info))
             {
-                if (_channelResolver.TryGet(out var info))
+                var url = _urlService.GetUrl(info.Channel, new ChannelUrlArgs
                 {
-                    channel = info.Channel;
-                }
-                else
-                {
-                    return "/";
-                }
+                    AbsoluteUrl = true
+                });
+                // Add port number if it is development and you are using different port numbers than IIS has.
+                //if (!string.IsNullOrWhiteSpace(url))
+                //{
+                //    return $"{url}:3001";
+                //}
+                //else
+                //{
+                //    return "/";
+                //}
+                return url;
             }
-
-            return _urlService.GetUrl(channel, new ChannelUrlArgs
+            else
             {
-                AbsoluteUrl = true
-            });
+                return "/";
+            }
+           
+            
         }
 
         [HttpGet("login")]
