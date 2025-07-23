@@ -66,8 +66,13 @@
     <Reference Include="CommonServiceLocator, Version=2.0.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\..\packages\CommonServiceLocator.2.0.1\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
-    <Reference Include="Magick.NET-Q16-AnyCPU, Version=7.14.2.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Magick.NET-Q16-AnyCPU.7.14.2\lib\net40\Magick.NET-Q16-AnyCPU.dll</HintPath>
+    <Reference Include="Magick.NET-Q16-AnyCPU, Version=14.7.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec">
+      <HintPath>..\..\packages\Magick.NET-Q16-AnyCPU.14.7.0\lib\netstandard20\Magick.NET-Q16-AnyCPU.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Magick.NET.Core, Version=14.7.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec">
+      <HintPath>..\..\packages\Magick.NET.Core.14.7.0\lib\netstandard20\Magick.NET.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.WebHooks.Common, Version=1.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebHooks.Common.1.2.2\lib\net45\Microsoft.AspNet.WebHooks.Common.dll</HintPath>
@@ -310,7 +315,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('../../packages/Magick.NET-Q16-AnyCPU.14.7.0/build/netstandard20/Magick.NET-Q16-AnyCPU.targets')" Text="$([System.String]::Format('$(ErrorText)', '../../packages/Magick.NET-Q16-AnyCPU.14.7.0/build/netstandard20/Magick.NET-Q16-AnyCPU.targets'))" />
   </Target>
+  <Import Project="../../packages/Magick.NET-Q16-AnyCPU.14.7.0/build/netstandard20/Magick.NET-Q16-AnyCPU.targets" Condition="Exists('../../packages/Magick.NET-Q16-AnyCPU.14.7.0/build/netstandard20/Magick.NET-Q16-AnyCPU.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
