@@ -31,4 +31,28 @@ public class LitiumAdminWebApiSalesOrders(ISales_sales_orderClient salesSalesOrd
             return Problem(title: "Failed to get sales order", detail: ex.Message, statusCode: StatusCodes.Status502BadGateway);
         }
     }
+
+    /// <summary>
+    /// Looks up a sales order system id by its string order id using the Litium Admin Web API key lookup endpoint.
+    /// </summary>
+    /// <param name="orderId">The string order identifier.</param>
+    /// <param name="cancellationToken">Cancellation token for the request.</param>
+    /// <returns>The Guid system id of the sales order.</returns>
+    [HttpGet("KeyLookupSalesOrder/{orderId}")]
+    public async Task<IActionResult> KeyLookupSalesOrder(string orderId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _salesSalesOrderClient.Litium_Sales_SalesOrders_LookupSystemIdAsync([orderId], cancellationToken);
+            if (result.TryGetValue(orderId, out var systemId))
+            {
+                return Ok(systemId);
+            }
+            return NotFound($"No sales order found for order id '{orderId}'.");
+        }
+        catch (Exception ex)
+        {
+            return Problem(title: "Failed to look up sales order", detail: ex.Message, statusCode: StatusCodes.Status502BadGateway);
+        }
+    }
 }
