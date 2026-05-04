@@ -1,0 +1,15 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio workspace/cache
+.vs/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+
+# NuGet packages created during packing
+*.nupkg
+*.snupkg
