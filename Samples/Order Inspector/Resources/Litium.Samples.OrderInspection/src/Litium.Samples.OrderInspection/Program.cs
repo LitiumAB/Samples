@@ -1,5 +1,6 @@
 using Litium.Samples.OrderInspection.Configuration;
 using Litium.Samples.OrderInspection.LitiumApis.Generated;
+using Litium.Samples.OrderInspection.LitiumApis.Generated.Admin;
 using Litium.Samples.OrderInspection.Services;
 using System.Reflection;
 
@@ -23,6 +24,13 @@ builder.Services.AddHttpClient<ILitiumAuthenticationService, LitiumAuthenticatio
 builder.Services.AddHttpClient<ILitiumOrderInspectorClient, LitiumOrderInspectorClient>();
 builder.Services
     .AddHttpClient<ILitiumConnectErpClient, LitiumConnectErpClient>((serviceProvider, client) =>
+    {
+        var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
+        client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
+    })
+    .AddHttpMessageHandler<LitiumAccessTokenHandler>();
+builder.Services
+    .AddHttpClient<ISales_sales_orderClient, Sales_sales_orderClient>((serviceProvider, client) =>
     {
         var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
         client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
