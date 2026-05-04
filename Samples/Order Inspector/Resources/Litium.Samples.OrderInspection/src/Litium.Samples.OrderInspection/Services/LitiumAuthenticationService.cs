@@ -13,11 +13,11 @@ public sealed class LitiumAuthenticationService(
     private readonly LitiumAdminApiOptions _options = options.Value;
     private readonly ILogger<LitiumAuthenticationService> _logger = logger;
 
-    public async Task<string> AuthenticateAsync(string username, string password, CancellationToken cancellationToken)
+    public async Task<string> AuthenticateAsync(CancellationToken cancellationToken)
     {
         using var request = new HttpRequestMessage(HttpMethod.Post, BuildTokenUri())
         {
-            Content = new FormUrlEncodedContent(BuildTokenRequestValues(username, password))
+            Content = new FormUrlEncodedContent(BuildTokenRequestValues())
         };
 
         using var response = await _httpClient.SendAsync(request, cancellationToken);
@@ -44,24 +44,19 @@ public sealed class LitiumAuthenticationService(
         return token;
     }
 
-    private Dictionary<string, string> BuildTokenRequestValues(string username, string password)
+    private Dictionary<string, string> BuildTokenRequestValues()
     {
+        if (string.IsNullOrWhiteSpace(_options.ClientId) || string.IsNullOrWhiteSpace(_options.ClientSecret))
+        {
+            throw new InvalidOperationException("LitiumAdminApi ClientId and ClientSecret must be configured.");
+        }
+
         var values = new Dictionary<string, string>
         {
-            ["grant_type"] = "password",
-            ["username"] = username,
-            ["password"] = password
+            ["grant_type"] = "client_credentials",
+            ["client_id"] = _options.ClientId,
+            ["client_secret"] = _options.ClientSecret
         };
-
-        if (!string.IsNullOrWhiteSpace(_options.ClientId))
-        {
-            values["client_id"] = _options.ClientId;
-        }
-
-        if (!string.IsNullOrWhiteSpace(_options.ClientSecret))
-        {
-            values["client_secret"] = _options.ClientSecret;
-        }
 
         if (!string.IsNullOrWhiteSpace(_options.Scope))
         {

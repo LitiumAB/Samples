@@ -1,20 +1,19 @@
-using System.Security.Claims;
 using System.Text.Json;
-using Litium.Samples.OrderInspection.Authentication;
 using Litium.Samples.OrderInspection.Configuration;
 using Litium.Samples.OrderInspection.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Litium.Samples.OrderInspection.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class OrderInspectorController(ILitiumOrderInspectorClient litiumOrderInspectorClient) : ControllerBase
+public class OrderInspectorController(
+    ILitiumOrderInspectorClient litiumOrderInspectorClient,
+    ILitiumAuthenticationService litiumAuthenticationService) : ControllerBase
 {
     private readonly ILitiumOrderInspectorClient _litiumOrderInspectorClient = litiumOrderInspectorClient;
+    private readonly ILitiumAuthenticationService _litiumAuthenticationService = litiumAuthenticationService;
 
-    [Authorize(AuthenticationSchemes = LitiumAuthenticationDefaults.SchemeName)]
     [HttpGet("ValidateOrder/{orderId}")]
     public async Task<IActionResult> ValidateOrder(string orderId, CancellationToken cancellationToken)
     {
@@ -23,14 +22,9 @@ public class OrderInspectorController(ILitiumOrderInspectorClient litiumOrderIns
             return BadRequest(new { error = "orderId is required." });
         }
 
-        var accessToken = User.FindFirstValue(LitiumAuthenticationDefaults.AccessTokenClaimType);
-        if (string.IsNullOrWhiteSpace(accessToken))
-        {
-            return Unauthorized(new { error = "Missing Litium access token for this request." });
-        }
-
         try
         {
+            var accessToken = await _litiumAuthenticationService.AuthenticateAsync(cancellationToken);
             var endpoint = $"{EndPointRoute.AdminApi}/orders/{Uri.EscapeDataString(orderId)}";
             var response = await _litiumOrderInspectorClient.GetOrderAsync(endpoint, accessToken, cancellationToken);
             if (string.Equals(response.ContentType, "application/json", StringComparison.OrdinalIgnoreCase))

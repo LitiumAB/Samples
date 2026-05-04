@@ -62,7 +62,7 @@ public sealed class LitiumAuthenticationHandler(
         string accessToken;
         try
         {
-            accessToken = await _litiumAuthenticationService.AuthenticateAsync(username, password, Context.RequestAborted);
+            accessToken = await _litiumAuthenticationService.AuthenticateAsync(Context.RequestAborted);
         }
         catch (Exception ex)
         {
