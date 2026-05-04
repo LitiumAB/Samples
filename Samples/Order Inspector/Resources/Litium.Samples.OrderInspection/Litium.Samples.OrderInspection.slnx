@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Litium.Samples.OrderInspection/Litium.Samples.OrderInspection.csproj" />
+  </Folder>
+</Solution>

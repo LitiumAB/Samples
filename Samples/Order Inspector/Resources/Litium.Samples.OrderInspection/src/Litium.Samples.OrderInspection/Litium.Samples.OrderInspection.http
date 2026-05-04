@@ -1,0 +1,9 @@
+@Litium.Samples.OrderInspection_HostAddress = http://localhost:5235
+# Base64 of username:password for Litium integration user.
+@BasicAuthToken = REPLACE_WITH_BASE64_USERNAME_PASSWORD
+
+GET {{Litium.Samples.OrderInspection_HostAddress}}/OrderInspector/ValidateOrder/ORDER_ID_HERE
+Accept: application/json
+Authorization: Basic {{BasicAuthToken}}
+
+###
