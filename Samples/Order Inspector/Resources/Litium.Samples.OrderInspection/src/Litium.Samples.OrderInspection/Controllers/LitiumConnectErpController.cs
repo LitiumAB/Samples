@@ -29,7 +29,7 @@ public class LitiumConnectErpController(ILitiumConnectErpClient litiumConnectErp
 
         try
         {
-            var result = await _litiumConnectErpClient.GetOrderAsync(orderId, "2.6", "2.6", cancellationToken);
+            var result = await _litiumConnectErpClient.GetOrderAsync(orderId, null, null, cancellationToken);
             return Ok(result);
         }
         catch (ApiException ex)
