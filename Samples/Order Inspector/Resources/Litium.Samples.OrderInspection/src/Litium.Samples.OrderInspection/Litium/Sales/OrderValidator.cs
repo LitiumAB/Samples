@@ -4,8 +4,7 @@ using Litium.Samples.OrderInspection.LitiumApis.Generated.Admin;
 namespace Litium.Samples.OrderInspection.Litium.Sales
 {
     public class OrderValidator
-    {        
-
+    {
         public OrderValidationResult Validate(OrderOverview orderOverview)
         {
             var orderId = orderOverview?.SalesOrder?.Id.ToString() ?? "Unknown";

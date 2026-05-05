@@ -51,6 +51,13 @@ builder.Services
     })
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services
+    .AddHttpClient<ISales_transactionClient, Sales_transactionClient>((serviceProvider, client) =>
+    {
+        var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
+        client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
+    })
+    .AddHttpMessageHandler<LitiumAccessTokenHandler>();
+builder.Services
     .AddHttpClient<ISales_sales_return_orderClient, Sales_sales_return_orderClient>((serviceProvider, client) =>
     {
         var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
@@ -66,6 +73,8 @@ builder.Services
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services.AddScoped<OrderOverviewFactory>();
 builder.Services.AddScoped<OrderValidator>();
+builder.Services.AddScoped<ValidateCancellationsFixer>();
+builder.Services.AddScoped<OrderFixer>();
 
 var app = builder.Build();
 
