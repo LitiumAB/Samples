@@ -85,7 +85,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             checks.Add("allFulfillmentCaptured", new OrderValidationCheck
             {
                 Status = allFulfillmentCaptured,
-                Description = allFulfillmentCaptured ? $"All fulfillment amounts  {fullfillmentShipmentValue} captured" : $"Total amount in all fulfillment shipments is {fullfillmentShipmentValue}. But only {totalCaptured} is captured."
+                Description = allFulfillmentCaptured ? $"All fulfillment amounts  {fullfillmentShipmentValue} is captured {totalCaptured}" : $"Total amount in all fulfillment shipments is {fullfillmentShipmentValue}. But only {totalCaptured} is captured."
             });
 
             ValidateCancellations(orderOverview, checks);
@@ -104,12 +104,12 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             return checks;
         }
 
-        private static void ValidateCancellations(OrderOverview orderOverview, Dictionary<string, OrderValidationCheck> checks)
+        public void ValidateCancellations(OrderOverview orderOverview, Dictionary<string, OrderValidationCheck> checks)
         {
             var cancellationShipments = orderOverview.Shipments.Where(s => s.ShipmentType == ShipmentType.Cancellation).ToList();
             if (!cancellationShipments.Any())
             {
-                checks.Add("cancellationShipments", new OrderValidationCheck
+                checks.Add("ValidateCancellations", new OrderValidationCheck
                 {
                     Status = true,
                     Description = "No cancellation shipments found"
@@ -120,11 +120,11 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             var cancelledShipmentValue = Math.Round(cancellationShipments.SelectMany(x => x.Rows).Sum(x => x.TotalIncludingVat), 2);
             var totalCancelledAndRefunded = Math.Round(orderOverview.PaymentOverviews.Sum(p => p.TotalCancelledAmount) + orderOverview.PaymentOverviews.Sum(p => p.TotalRefundedAmount), 2);
             var allCancellationsProcessed = cancelledShipmentValue == totalCancelledAndRefunded;
-            checks.Add("allCancellationsProcessed", new OrderValidationCheck
+            checks.Add("ValidateCancellations", new OrderValidationCheck
             {
                 Status = allCancellationsProcessed,
                 Description = allCancellationsProcessed ? $"All cancellation amounts {cancelledShipmentValue} refunded or cancelled" : $"Total amount in all cancelled shipments is {cancelledShipmentValue}. But only {totalCancelledAndRefunded} is cancelled or refunded."
-            });
+            });            
         }
 
         private static void ValidateSalesTax(OrderOverview orderOverview, Dictionary<string, OrderValidationCheck> checks, IEnumerable<ShipmentRow> shipmentAllRows)
