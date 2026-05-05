@@ -22,18 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <OpenApiReference Include="LitiumApis\LitiumConnectErp.json"
-                      CodeGenerator="NSwagCSharp"
-                      Namespace="Litium.Samples.OrderInspection.LitiumApis.Generated"
-                      ClassName="LitiumConnectErpClient"
-                      OutputPath="LitiumApis\Generated\LitiumConnectErpClient.g.cs"
-                      Options="/GenerateClientInterfaces:true /InjectHttpClient:true /UseBaseUrl:false" />
-    <OpenApiReference Include="LitiumApis\LitiumAdminWebApi.json"
-                      CodeGenerator="NSwagCSharp"
-                      Namespace="Litium.Samples.OrderInspection.LitiumApis.Generated.Admin"
-                      ClassName="{controller}Client"
-                      OutputPath="LitiumApis\Generated\LitiumAdminWebApiClient.g.cs"
-                      Options="/GenerateClientInterfaces:true /InjectHttpClient:true /UseBaseUrl:false /OperationGenerationMode:MultipleClientsFromFirstTagAndOperationId" />
+    <OpenApiReference Include="LitiumApis\LitiumConnectErp.json" CodeGenerator="NSwagCSharp" Namespace="Litium.Samples.OrderInspection.LitiumApis.Generated" ClassName="LitiumConnectErpClient" OutputPath="LitiumApis\Generated\LitiumConnectErpClient.g.cs" Options="/GenerateClientInterfaces:true /InjectHttpClient:true /UseBaseUrl:false" />
+    <OpenApiReference Include="LitiumApis\LitiumAdminWebApi.json" CodeGenerator="NSwagCSharp" Namespace="Litium.Samples.OrderInspection.LitiumApis.Generated.Admin" ClassName="{controller}Client" OutputPath="LitiumApis\Generated\LitiumAdminWebApiClient.g.cs" Options="/GenerateClientInterfaces:true /InjectHttpClient:true /UseBaseUrl:false /OperationGenerationMode:MultipleClientsFromFirstTagAndOperationId" />
   </ItemGroup>
 
 </Project>

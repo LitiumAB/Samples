@@ -21,7 +21,6 @@ builder.Services
 
 builder.Services.AddTransient<LitiumAccessTokenHandler>();
 builder.Services.AddHttpClient<ILitiumAuthenticationService, LitiumAuthenticationService>();
-builder.Services.AddHttpClient<ILitiumOrderInspectorClient, LitiumOrderInspectorClient>();
 builder.Services
     .AddHttpClient<ILitiumConnectErpClient, LitiumConnectErpClient>((serviceProvider, client) =>
     {
