@@ -1,5 +1,6 @@
 ﻿using Guid = System.Guid;
 using Litium.Samples.OrderInspection.LitiumApis.Generated.Admin;
+using Microsoft.Extensions.Logging;
 
 namespace Litium.Samples.OrderInspection.Litium.Sales
 {
@@ -15,19 +16,22 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
         private readonly ISales_paymentClient _paymentClient;
         private readonly ISales_sales_return_orderClient _salesReturnOrderClient;
         private readonly ISales_return_authorizationClient _returnAuthorizationClient;
+        private readonly ILogger<OrderOverviewFactory> _logger;
 
         public OrderOverviewFactory(
             ISales_sales_orderClient salesOrderClient,
             ISales_shipmentClient shipmentClient,
             ISales_paymentClient paymentClient,
             ISales_sales_return_orderClient salesReturnOrderClient,
-            ISales_return_authorizationClient returnAuthorizationClient)
+            ISales_return_authorizationClient returnAuthorizationClient,
+            ILogger<OrderOverviewFactory> logger)
         {
             _salesOrderClient = salesOrderClient;
             _shipmentClient = shipmentClient;
             _paymentClient = paymentClient;
             _salesReturnOrderClient = salesReturnOrderClient;
             _returnAuthorizationClient = returnAuthorizationClient;
+            _logger = logger;
         }
 
         public OrderOverview Create(string orderId)
@@ -55,6 +59,8 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 .Litium_Sales_SalesOrders_GetBySystemIdAsync(orderSystemId, cancellationToken)
                 .ConfigureAwait(false);
 
+            _logger.LogDebug("Building order overview for orderId {OrderId} (systemId: {OrderSystemId}).", orderId, orderSystemId);
+
             var tags = await _salesOrderClient
                 .Litium_Sales_SalesOrders_GetAllTagsAsync(orderSystemId, cancellationToken)
                 .ConfigureAwait(false);
@@ -63,6 +69,15 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             var paymentOverviews = await GetPaymentOverviewsAsync(salesOrder, cancellationToken).ConfigureAwait(false);
             var returnAuthorizations = await GetReturnAuthorizationsAsync(orderSystemId, cancellationToken).ConfigureAwait(false);
             var salesReturnOrders = await GetSalesReturnOrdersAsync(returnAuthorizations, cancellationToken).ConfigureAwait(false);
+
+            _logger.LogDebug(
+                "Order overview built for orderId {OrderId}: shipments={ShipmentCount}, paymentOverviews={PaymentOverviewCount}, returnAuthorizations={ReturnAuthorizationCount}, salesReturnOrders={SalesReturnOrderCount}, tags={TagCount}.",
+                orderId,
+                shipments.Count,
+                paymentOverviews.Count,
+                returnAuthorizations.Count,
+                salesReturnOrders.Count,
+                tags?.Count ?? 0);
 
             return new OrderOverview
             {
@@ -146,13 +161,27 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
             while (true)
             {
-                var page = await _returnAuthorizationClient
-                    .Litium_Sales_ReturnAuthorizations_SearchAsync(new SearchModel
-                    {
-                        Take = PageSize,
-                        Skip = skip
-                    }, cancellationToken)
-                    .ConfigureAwait(false);
+                ReturnAuthorization2? page;
+                try
+                {
+                    page = await _returnAuthorizationClient
+                        .Litium_Sales_ReturnAuthorizations_SearchAsync(new SearchModel
+                        {
+                            Take = PageSize,
+                            Skip = skip
+                        }, cancellationToken)
+                        .ConfigureAwait(false);
+                }
+                catch (Exception ex) when (IsEmptySearchResponseDeserializationError(ex, "ReturnAuthorization2"))
+                {
+                    // Some environments return HTTP 200 with an empty body for this search endpoint.
+                    // Treat that as an empty result set so the overview can still be built.
+                    _logger.LogWarning(
+                        ex,
+                        "Return authorization search returned HTTP 200 with empty/invalid body for salesOrderSystemId {SalesOrderSystemId}. Falling back to empty return authorization list.",
+                        salesOrderSystemId);
+                    return returnAuthorizations;
+                }
 
                 var items = page?.Items?.ToList() ?? [];
                 if (items.Count == 0)
@@ -186,17 +215,29 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             }
 
             var salesReturnOrders = new List<SalesReturnOrder>();
+            var salesReturnOrderSystemIds = new HashSet<Guid>();
             var skip = 0;
 
             while (true)
             {
-                var page = await _salesReturnOrderClient
-                    .Litium_Sales_SalesReturnOrders_SearchAsync(new SearchModel
-                    {
-                        Take = PageSize,
-                        Skip = skip
-                    }, cancellationToken)
-                    .ConfigureAwait(false);
+                SalesReturnOrder2? page;
+                try
+                {
+                    page = await _salesReturnOrderClient
+                        .Litium_Sales_SalesReturnOrders_SearchAsync(new SearchModel
+                        {
+                            Take = PageSize,
+                            Skip = skip
+                        }, cancellationToken)
+                        .ConfigureAwait(false);
+                }
+                catch (Exception ex) when (IsEmptySearchResponseDeserializationError(ex, "SalesReturnOrder2"))
+                {
+                    _logger.LogWarning(
+                        ex,
+                        "Sales return order search returned HTTP 200 with empty/invalid body. Falling back to currently discovered sales return order list.");
+                    break;
+                }
 
                 var items = page?.Items?.ToList() ?? [];
                 if (items.Count == 0)
@@ -204,7 +245,11 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                     break;
                 }
 
-                salesReturnOrders.AddRange(items.Where(x => x.ReturnAuthorizationSystemId.HasValue && returnAuthorizationSystemIds.Contains(x.ReturnAuthorizationSystemId.Value)));
+                foreach (var item in items.Where(x => x.ReturnAuthorizationSystemId.HasValue && returnAuthorizationSystemIds.Contains(x.ReturnAuthorizationSystemId.Value)))
+                {
+                    salesReturnOrderSystemIds.Add(item.SystemId);
+                }
+
                 skip += items.Count;
 
                 if (skip >= page!.Total)
@@ -213,7 +258,24 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 }
             }
 
+            foreach (var salesReturnOrderSystemId in salesReturnOrderSystemIds)
+            {
+                var salesReturnOrder = await _salesReturnOrderClient
+                    .Litium_Sales_SalesReturnOrders_GetBySystemIdAsync(salesReturnOrderSystemId, cancellationToken)
+                    .ConfigureAwait(false);
+
+                salesReturnOrders.Add(salesReturnOrder);
+            }
+
             return salesReturnOrders;
+        }
+
+        private static bool IsEmptySearchResponseDeserializationError(Exception exception, string modelName)
+        {
+            var message = exception.ToString();
+            return message.Contains($"Could not deserialize the response body stream as Litium.Samples.OrderInspection.LitiumApis.Generated.Admin.{modelName}", StringComparison.Ordinal)
+                && message.Contains("Status: 200", StringComparison.Ordinal)
+                && message.Contains("Response:", StringComparison.Ordinal);
         }
     }
 }
