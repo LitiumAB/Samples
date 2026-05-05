@@ -5,9 +5,10 @@ namespace Litium.Samples.OrderInspection.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class OrderInspectorController(OrderOverviewFactory orderOverviewFactory) : ControllerBase
+public class OrderInspectorController(OrderOverviewFactory orderOverviewFactory, OrderValidator orderValidator) : ControllerBase
 {
     private readonly OrderOverviewFactory _orderOverviewFactory = orderOverviewFactory;
+    private readonly OrderValidator _orderValidator = orderValidator;
 
     [HttpGet("ValidateOrder/{orderId}")]
     public async Task<IActionResult> ValidateOrder(string orderId, CancellationToken cancellationToken)
@@ -20,7 +21,8 @@ public class OrderInspectorController(OrderOverviewFactory orderOverviewFactory)
         try
         {
             var orderOverview = await _orderOverviewFactory.CreateAsync(orderId, cancellationToken);
-            return Ok(orderOverview);
+            var validationResult = _orderValidator.Validate(orderOverview);
+            return Ok(validationResult);
         }
         catch (KeyNotFoundException)
         {

@@ -65,6 +65,7 @@ builder.Services
     })
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services.AddScoped<OrderOverviewFactory>();
+builder.Services.AddScoped<OrderValidator>();
 
 var app = builder.Build();
 
