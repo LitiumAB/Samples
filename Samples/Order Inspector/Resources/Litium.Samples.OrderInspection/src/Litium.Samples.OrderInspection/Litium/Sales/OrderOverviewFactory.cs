@@ -52,11 +52,15 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
             if (!lookupResult.TryGetValue(orderId, out var orderSystemId))
             {
-                throw new KeyNotFoundException($"No sales order found for order id '{orderId}'.");
+                throw new KeyNotFoundException($"No sales order found for order id '{orderId}' in Lookup cache.");
             }
 
             var salesOrder = await _salesOrderClient
                 .Litium_Sales_SalesOrders_GetBySystemIdAsync(orderSystemId, cancellationToken)
+                .ConfigureAwait(false);
+
+            salesOrder.OrderState = await _salesOrderClient
+                .Litium_Sales_SalesOrders_GetStateAsync(orderSystemId, cancellationToken)
                 .ConfigureAwait(false);
 
             _logger.LogDebug("Building order overview for orderId {OrderId} (systemId: {OrderSystemId}).", orderId, orderSystemId);
@@ -118,6 +122,13 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 {
                     break;
                 }
+            }
+
+            foreach(var shipment in shipments) 
+            {
+                shipment.ShipmentState = await _shipmentClient
+                    .Litium_Sales_Shipments_GetStateAsync(shipment.SystemId, cancellationToken)
+                    .ConfigureAwait(false);
             }
 
             return shipments;
