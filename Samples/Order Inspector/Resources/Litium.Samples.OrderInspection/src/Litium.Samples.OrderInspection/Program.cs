@@ -1,4 +1,5 @@
 using Litium.Samples.OrderInspection.Configuration;
+using Litium.Samples.OrderInspection.Litium.Sales;
 using Litium.Samples.OrderInspection.LitiumApis.Generated;
 using Litium.Samples.OrderInspection.LitiumApis.Generated.Admin;
 using Litium.Samples.OrderInspection.Services;
@@ -35,6 +36,35 @@ builder.Services
         client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
     })
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
+builder.Services
+    .AddHttpClient<ISales_shipmentClient, Sales_shipmentClient>((serviceProvider, client) =>
+    {
+        var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
+        client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
+    })
+    .AddHttpMessageHandler<LitiumAccessTokenHandler>();
+builder.Services
+    .AddHttpClient<ISales_paymentClient, Sales_paymentClient>((serviceProvider, client) =>
+    {
+        var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
+        client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
+    })
+    .AddHttpMessageHandler<LitiumAccessTokenHandler>();
+builder.Services
+    .AddHttpClient<ISales_sales_return_orderClient, Sales_sales_return_orderClient>((serviceProvider, client) =>
+    {
+        var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
+        client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
+    })
+    .AddHttpMessageHandler<LitiumAccessTokenHandler>();
+builder.Services
+    .AddHttpClient<ISales_return_authorizationClient, Sales_return_authorizationClient>((serviceProvider, client) =>
+    {
+        var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
+        client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
+    })
+    .AddHttpMessageHandler<LitiumAccessTokenHandler>();
+builder.Services.AddScoped<OrderOverviewFactory>();
 
 var app = builder.Build();
 
