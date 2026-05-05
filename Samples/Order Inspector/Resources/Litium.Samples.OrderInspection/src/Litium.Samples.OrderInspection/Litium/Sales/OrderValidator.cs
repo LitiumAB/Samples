@@ -16,7 +16,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 return new OrderValidationResult { IsValid = false, ValidationChecks = validationChecks };
             }
 
-            validationChecks.Add("Order", new OrderValidationCheck { Status = true, Description = "Order found" });
+            validationChecks.Add("Order", new OrderValidationCheck { Status = true, Description = $"Order found. Grand Total = {orderOverview.SalesOrder.GrandTotal}" });
 
             var payment = orderOverview.PaymentOverviews.FirstOrDefault();
             if (payment == null)
@@ -93,11 +93,12 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             var shipmentAllRows = orderOverview.Shipments.Where(s => s.ShipmentType == ShipmentType.Fulfillment || s.ShipmentType == ShipmentType.Cancellation).SelectMany(x => x.Rows);
             ValidateSalesTax(orderOverview, checks, shipmentAllRows);
 
-            var shipmentTotalMatchWithOrderTotal = Math.Round(orderOverview.SalesOrder.GrandTotal, 2) == Math.Round(shipmentAllRows.Sum(x => x.TotalIncludingVat), 2);
+            var shipmentAllRowsTotal = Math.Round(shipmentAllRows.Sum(x => x.TotalIncludingVat), 2);
+            var shipmentTotalMatchWithOrderTotal = Math.Round(orderOverview.SalesOrder.GrandTotal, 2) == shipmentAllRowsTotal;
             checks.Add("shipmentTotalMatchesOrderTotal", new OrderValidationCheck
             {
                 Status = shipmentTotalMatchWithOrderTotal,
-                Description = shipmentTotalMatchWithOrderTotal ? "Shipment total matches order total" : "Shipments total value, (total value of both fulfilled and cancelled shipments) does not match with order total value."
+                Description = shipmentTotalMatchWithOrderTotal ? $"Shipment total {shipmentAllRowsTotal} matches order total {Math.Round(orderOverview.SalesOrder.GrandTotal, 2)}" : $"Shipments total value , (total value of both fulfilled and cancelled shipments) {shipmentAllRowsTotal} does not match with order total value {Math.Round(orderOverview.SalesOrder.GrandTotal, 2)}."
             });
 
             return checks;
