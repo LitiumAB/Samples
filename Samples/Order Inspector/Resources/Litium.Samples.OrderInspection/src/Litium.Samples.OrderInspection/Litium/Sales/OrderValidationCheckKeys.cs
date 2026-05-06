@@ -12,5 +12,6 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
         public const string ShipmentTotalMatchesOrderTotal = "shipmentTotalMatchesOrderTotal";
         public const string SalesTaxesReconciled = "salesTaxesReconciled";
         public const string ShipmentTransactionConsistency = "shipmentTransactionConsistency";
+        public const string CancellationShipmentStates = "cancellationShipmentStates";
     }
 }

@@ -41,9 +41,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
             ValidateShipmentTransactionConsistency(orderOverview, validationChecks);
 
-            //TODO:
-            //if there are cancellation shipments, its state shold be cancelled, not shipped.
-            //validate if the cancellation shipments have the correct state of cancelled instead of shipped.
+            ValidateCancellationShipmentStates(orderOverview, validationChecks);
 
             var isValid = validationChecks.Values.All(v => v.Success);
             return new OrderValidationResult { IsValid = isValid, ValidationChecks = validationChecks };
@@ -79,6 +77,33 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             checks.Add(OrderValidationCheckKeys.ShipmentTransactionConsistency, new OrderValidationCheck
             {
                 Success = isValid,
+                Description = description
+            });
+        }
+
+        private void ValidateCancellationShipmentStates(OrderOverview orderOverview, Dictionary<string, OrderValidationCheck> checks)
+        {
+            var cancellationShipments = orderOverview.Shipments.Where(s => s.ShipmentType == ShipmentType.Cancellation).ToList();
+            if (!cancellationShipments.Any())
+            {
+                checks.Add(OrderValidationCheckKeys.CancellationShipmentStates, new OrderValidationCheck
+                {
+                    Success = true,
+                    Description = "No cancellation shipments found"
+                });
+                return;
+            }
+
+            var invalidCancellationShipments = cancellationShipments.Where(s => s.ShipmentState != "Cancelled").ToList();
+            var allCancellationShipmentsHaveCorrectState = !invalidCancellationShipments.Any();
+
+            var description = allCancellationShipmentsHaveCorrectState
+                ? "All cancellation shipments are in Cancelled state"
+                : $"Cancellation shipments should be in Cancelled state. Invalid shipments: {string.Join("; ", invalidCancellationShipments.Select(s => $"Shipment {s.Id} is in {s.ShipmentState} state"))}";
+
+            checks.Add(OrderValidationCheckKeys.CancellationShipmentStates, new OrderValidationCheck
+            {
+                Success = allCancellationShipmentsHaveCorrectState,
                 Description = description
             });
         }
