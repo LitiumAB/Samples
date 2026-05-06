@@ -39,12 +39,48 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 }
             }
 
-            //TODO: check whether the order has a fulfillment shipment set to shipped, even though the order has no Capture transactions, but has Cancel transactions.
-            //A shipment is of type fulfillment when its ShipmentType is fulfilment.
-            //if the shipment type is fulfilment, but the order has no capture transactions, but has cancel transactions, then it is a validation failure.
+            ValidateShipmentTransactionConsistency(orderOverview, validationChecks);
+
+            //TODO:
+            //if there are cancellation shipments, its state shold be cancelled, not shipped.
+            //validate if the cancellation shipments have the correct state of cancelled instead of shipped.
 
             var isValid = validationChecks.Values.All(v => v.Success);
             return new OrderValidationResult { IsValid = isValid, ValidationChecks = validationChecks };
+        }
+
+        private static void ValidateShipmentTransactionConsistency(OrderOverview orderOverview, Dictionary<string, OrderValidationCheck> checks)
+        {
+            var captureTransactions = orderOverview.PaymentOverviews
+                .SelectMany(p => p.Transactions)
+                .Where(t => t.TransactionType == TransactionType.Capture && (t.TransactionResult == TransactionResult.Unknown || t.TransactionResult == TransactionResult.Success || t.TransactionResult == TransactionResult.Pending))
+                .ToList();
+            var cancelTransactions = orderOverview.PaymentOverviews
+                .SelectMany(p => p.Transactions)
+                .Where(t => t.TransactionType == TransactionType.Cancel && (t.TransactionResult == TransactionResult.Unknown || t.TransactionResult == TransactionResult.Success || t.TransactionResult == TransactionResult.Pending))
+                .ToList();
+
+            var captureTransactionAmount = Math.Round(captureTransactions.Sum(t => t.TotalIncludingVat), 2);
+            var cancelTransactionAmount = Math.Round(cancelTransactions.Sum(t => t.TotalIncludingVat), 2);
+            var fulfillmentShipmentAmount = Math.Round(orderOverview.Shipments
+                .Where(s => s.ShipmentType == ShipmentType.Fulfillment)
+                .SelectMany(s => s.Rows)
+                .Sum(r => r.TotalIncludingVat), 2);
+            var cancellationShipmentAmount = Math.Round(orderOverview.Shipments
+                .Where(s => s.ShipmentType == ShipmentType.Cancellation)
+                .SelectMany(s => s.Rows)
+                .Sum(r => r.TotalIncludingVat), 2);
+
+            var isValid = cancelTransactionAmount == cancellationShipmentAmount && captureTransactionAmount == fulfillmentShipmentAmount;
+            var description = isValid
+                ? "Shipment types are consistent with payment transactions."
+                : $"Validation failed: cancel transactions total {cancelTransactionAmount}, cancellation shipments total {cancellationShipmentAmount}, capture transactions total {captureTransactionAmount}, and fulfillment shipments total {fulfillmentShipmentAmount}.";
+
+            checks.Add(OrderValidationCheckKeys.ShipmentTransactionConsistency, new OrderValidationCheck
+            {
+                Success = isValid,
+                Description = description
+            });
         }
 
         private Dictionary<string, OrderValidationCheck> ProcessingToCompletedValidation(OrderOverview orderOverview)
