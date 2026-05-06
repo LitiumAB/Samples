@@ -45,16 +45,8 @@ public class OrderInspectorController(OrderOverviewFactory orderOverviewFactory,
 
         try
         {
-            var orderOverview = await _orderOverviewFactory.CreateAsync(orderId, cancellationToken);
-            var validationResult = _orderValidator.Validate(orderOverview);
-            if (validationResult.IsValid) {
-                return Ok(validationResult);
-            }
-            else
-            {               
-                var fixResult = await _orderFixer.FixOrderAsync(orderOverview, validationResult);
-                return Ok(new { validationResult, fixResult });
-            }
+            var fixResult = await _orderFixer.FixOrderAsync(orderId, cancellationToken);
+            return Ok(fixResult);
         }
         catch (KeyNotFoundException)
         {

@@ -21,6 +21,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             var allCancellationsProcessed = cancelledShipmentValue == totalCancelledAndRefunded;
             if (!allCancellationsProcessed)
             {
+                result.Add($"Attempting to fix: Cancelled shipment value {cancelledShipmentValue} does not match the total cancelled or refunded value {totalCancelledAndRefunded}");
                 var nonSuccessCancelTransactions = orderOverview.PaymentOverviews
                     .SelectMany(p => p.Transactions)
                     .Where(t => (t.TransactionType == TransactionType.Cancel || t.TransactionType == TransactionType.Refund) && t.TransactionResult != TransactionResult.Success)
