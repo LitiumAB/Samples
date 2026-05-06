@@ -11,24 +11,24 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             var validationChecks = new Dictionary<string, OrderValidationCheck>();
             if (orderOverview == null)
             {
-                validationChecks.Add("Order", new OrderValidationCheck { Status = false, Description = $"Order {orderId} not found" });
+                validationChecks.Add(OrderValidationCheckKeys.Order, new OrderValidationCheck { Success = false, Description = $"Order {orderId} not found" });
                 return new OrderValidationResult { IsValid = false, ValidationChecks = validationChecks };
             }
 
-            validationChecks.Add("Order", new OrderValidationCheck { Status = true, Description = $"Order found. Grand Total = {orderOverview.SalesOrder.GrandTotal}" });
+            validationChecks.Add(OrderValidationCheckKeys.Order, new OrderValidationCheck { Success = true, Description = $"Order found. Grand Total = {orderOverview.SalesOrder.GrandTotal}" });
 
             var payment = orderOverview.PaymentOverviews.FirstOrDefault();
             if (payment == null)
             {
-                validationChecks.Add("Payment", new OrderValidationCheck { Status = false, Description = $"Payment for order {orderId} not found" });
+                validationChecks.Add(OrderValidationCheckKeys.Payment, new OrderValidationCheck { Success = false, Description = $"Payment for order {orderId} not found" });
             }
             else
             {
-                validationChecks.Add("Payment", new OrderValidationCheck { Status = true, Description = "Payment found" });
+                validationChecks.Add(OrderValidationCheckKeys.Payment, new OrderValidationCheck { Success = true, Description = "Payment found" });
             }
 
             var orderState = orderOverview.SalesOrder.OrderState;
-            validationChecks.Add("orderState", new OrderValidationCheck { Status = true, Description = $"Current order state: {orderOverview.SalesOrder.OrderState}" });
+            validationChecks.Add(OrderValidationCheckKeys.OrderState, new OrderValidationCheck { Success = true, Description = $"Current order state: {orderOverview.SalesOrder.OrderState}" });
 
             if (orderState == "Processing" || orderState == "Completed")
             {
@@ -39,7 +39,11 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 }
             }
 
-            var isValid = validationChecks.Values.All(v => v.Status);
+            //TODO: check whether the order has a fulfillment shipment set to shipped, even though the order has no Capture transactions, but has Cancel transactions.
+            //A shipment is of type fulfillment when its ShipmentType is fulfilment.
+            //if the shipment type is fulfilment, but the order has no capture transactions, but has cancel transactions, then it is a validation failure.
+
+            var isValid = validationChecks.Values.All(v => v.Success);
             return new OrderValidationResult { IsValid = isValid, ValidationChecks = validationChecks };
         }
 
@@ -65,25 +69,25 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 }
             }
 
-            checks.Add("allShipmentsInFinalState", new OrderValidationCheck
+            checks.Add(OrderValidationCheckKeys.AllShipmentsInFinalState, new OrderValidationCheck
             {
-                Status = allShipmentsInFinalState,
+                Success = allShipmentsInFinalState,
                 Description = allShipmentsInFinalState ? "All shipments are in final state" : string.Join("; ", shipmentStateErrors)
             });
 
             var hasAllItemsShippedOrCancelled = HasAllItemsShippedOrCancelled(orderOverview);
-            checks.Add("hasAllItemsShippedOrCancelled", new OrderValidationCheck
+            checks.Add(OrderValidationCheckKeys.HasAllItemsShippedOrCancelled, new OrderValidationCheck
             {
-                Status = hasAllItemsShippedOrCancelled,
+                Success = hasAllItemsShippedOrCancelled,
                 Description = hasAllItemsShippedOrCancelled ? "All items are shipped or cancelled" : "All items in the order should be either shipped or cancelled."
             });
 
             var fullfillmentShipmentValue = Math.Round(orderOverview.Shipments.Where(s => s.ShipmentType == ShipmentType.Fulfillment).SelectMany(x => x.Rows).Sum(x => x.TotalIncludingVat), 2);
             var totalCaptured = Math.Round(orderOverview.PaymentOverviews.Sum(p => p.TotalCapturedAmount), 2);
             var allFulfillmentCaptured = totalCaptured >= fullfillmentShipmentValue;
-            checks.Add("allFulfillmentCaptured", new OrderValidationCheck
+            checks.Add(OrderValidationCheckKeys.AllFulfillmentCaptured, new OrderValidationCheck
             {
-                Status = allFulfillmentCaptured,
+                Success = allFulfillmentCaptured,
                 Description = allFulfillmentCaptured ? $"All fulfillment amounts  {fullfillmentShipmentValue} is captured {totalCaptured}" : $"Total amount in all fulfillment shipments is {fullfillmentShipmentValue}. But only {totalCaptured} is captured."
             });
 
@@ -94,9 +98,9 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
             var shipmentAllRowsTotal = Math.Round(shipmentAllRows.Sum(x => x.TotalIncludingVat), 2);
             var shipmentTotalMatchWithOrderTotal = Math.Round(orderOverview.SalesOrder.GrandTotal, 2) == shipmentAllRowsTotal;
-            checks.Add("shipmentTotalMatchesOrderTotal", new OrderValidationCheck
+            checks.Add(OrderValidationCheckKeys.ShipmentTotalMatchesOrderTotal, new OrderValidationCheck
             {
-                Status = shipmentTotalMatchWithOrderTotal,
+                Success = shipmentTotalMatchWithOrderTotal,
                 Description = shipmentTotalMatchWithOrderTotal ? $"Shipment total {shipmentAllRowsTotal} matches order total {Math.Round(orderOverview.SalesOrder.GrandTotal, 2)}" : $"Shipments total value , (total value of both fulfilled and cancelled shipments) {shipmentAllRowsTotal} does not match with order total value {Math.Round(orderOverview.SalesOrder.GrandTotal, 2)}."
             });
 
@@ -108,9 +112,9 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             var cancellationShipments = orderOverview.Shipments.Where(s => s.ShipmentType == ShipmentType.Cancellation).ToList();
             if (!cancellationShipments.Any())
             {
-                checks.Add("ValidateCancellations", new OrderValidationCheck
+                checks.Add(OrderValidationCheckKeys.ValidateCancellations, new OrderValidationCheck
                 {
-                    Status = true,
+                    Success = true,
                     Description = "No cancellation shipments found"
                 });
                 return;
@@ -119,9 +123,9 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             var cancelledShipmentValue = Math.Round(cancellationShipments.SelectMany(x => x.Rows).Sum(x => x.TotalIncludingVat), 2);
             var totalCancelledAndRefunded = Math.Round(orderOverview.PaymentOverviews.Sum(p => p.TotalCancelledAmount) + orderOverview.PaymentOverviews.Sum(p => p.TotalRefundedAmount), 2);
             var allCancellationsProcessed = cancelledShipmentValue == totalCancelledAndRefunded;
-            checks.Add("ValidateCancellations", new OrderValidationCheck
+            checks.Add(OrderValidationCheckKeys.ValidateCancellations, new OrderValidationCheck
             {
-                Status = allCancellationsProcessed,
+                Success = allCancellationsProcessed,
                 Description = allCancellationsProcessed ? $"All cancellation amounts {cancelledShipmentValue} refunded or cancelled" : $"Total amount in all cancelled shipments is {cancelledShipmentValue}. But only {totalCancelledAndRefunded} is cancelled or refunded."
             });            
         }
@@ -145,9 +149,9 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 salesTaxDescription = taxesReconciled ? "All sales taxes reconciled" : "Total estimated sales tax != (total actual sales tax in shipments - any excess sales tax estimated).";
             }
 
-            checks.Add("salesTaxesReconciled", new OrderValidationCheck
+            checks.Add(OrderValidationCheckKeys.SalesTaxesReconciled, new OrderValidationCheck
             {
-                Status = taxesReconciled,
+                Success = taxesReconciled,
                 Description = salesTaxDescription
             });
         }
@@ -175,7 +179,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
     public class OrderValidationCheck
     {
-        public bool Status { get; set; }
+        public bool Success { get; set; }
         public string Description { get; set; }
     }
 

@@ -57,4 +57,6 @@ public class OrderInspectorController(OrderOverviewFactory orderOverviewFactory,
             return Problem(title: "Failed to validate order", detail: ex.Message, statusCode: StatusCodes.Status502BadGateway);
         }
     }
+
+
 }
