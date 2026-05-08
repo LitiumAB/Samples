@@ -74,6 +74,7 @@ builder.Services
 builder.Services.AddScoped<OrderOverviewFactory>();
 builder.Services.AddScoped<OrderValidator>();
 builder.Services.AddScoped<ValidateCancellationsFixer>();
+builder.Services.AddScoped<ValidateAllFulfilmentCapturedFixer>();
 builder.Services.AddScoped<OrderFixer>();
 
 var app = builder.Build();

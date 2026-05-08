@@ -7,17 +7,20 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
         private readonly OrderOverviewFactory _orderOverviewFactory;
         private readonly OrderValidator _orderValidator;
         private readonly ValidateCancellationsFixer _validateCancellationsFixer;
+        private readonly ValidateAllFulfilmentCapturedFixer _validateAllFulfilmentCapturedFixer;
         private readonly ISales_sales_orderClient _salesOrderClient;
 
         public OrderFixer(
             OrderOverviewFactory orderOverviewFactory,
             OrderValidator orderValidator,
             ValidateCancellationsFixer validateCancellationsFixer,
+            ValidateAllFulfilmentCapturedFixer validateAllFulfilmentCapturedFixer,
             ISales_sales_orderClient salesOrderClient)
         {
             _orderOverviewFactory = orderOverviewFactory;
             _orderValidator = orderValidator;
             _validateCancellationsFixer = validateCancellationsFixer;
+            _validateAllFulfilmentCapturedFixer = validateAllFulfilmentCapturedFixer;
             _salesOrderClient = salesOrderClient;
         }
 
@@ -47,6 +50,12 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             if (validationResult.ValidationChecks.TryGetValue(OrderValidationCheckKeys.ValidateCancellations, out var cancellationsCheck) && !cancellationsCheck.Success)
             {
                 var fixResult = await _validateCancellationsFixer.Fix(orderOverview);
+                result.AddRange(fixResult);
+            }
+
+            if (validationResult.ValidationChecks.TryGetValue(OrderValidationCheckKeys.AllFulfillmentCaptured, out var allFulfillmentCapturedCheck) && !allFulfillmentCapturedCheck.Success)
+            {
+                var fixResult = await _validateAllFulfilmentCapturedFixer.Fix(orderOverview, cancellationToken);
                 result.AddRange(fixResult);
             }
 

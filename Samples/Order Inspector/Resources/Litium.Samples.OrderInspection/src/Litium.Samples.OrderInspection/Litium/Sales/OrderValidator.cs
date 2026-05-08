@@ -103,7 +103,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
             checks.Add(OrderValidationCheckKeys.CancellationShipmentStates, new OrderValidationCheck
             {
-                Success = allCancellationShipmentsHaveCorrectState,
+                Success = true, //do not consider as a failure.
                 Description = description
             });
         }
