@@ -11,6 +11,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             _salesOrderClient = salesOrderClient;
         }
 
+
         public async Task<IReadOnlyList<SalesOrder>> FindOrdersByTagAsync(
             string tags,
             bool matchAll = false,
@@ -22,51 +23,51 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 return [];
             }
 
-            var allOrders = await GetAllOrdersAsync(requestedTags, cancellationToken).ConfigureAwait(false);
-            var ordersWithTags = new List<(SalesOrder Order, HashSet<string> Tags)>();
-
-            foreach (var order in allOrders)
-            {
-                var orderTags = await _salesOrderClient
-                    .Litium_Sales_SalesOrders_GetAllTagsAsync(order.SystemId, cancellationToken)
-                    .ConfigureAwait(false);
-
-                var normalizedOrderTags = new HashSet<string>(orderTags ?? [], StringComparer.OrdinalIgnoreCase);
-                if (normalizedOrderTags.Overlaps(requestedTags))
-                {
-                    ordersWithTags.Add((order, normalizedOrderTags));
-                }
-            }
-
-            if (!matchAll)
-            {
-                return ordersWithTags.Select(x => x.Order).ToList();
-            }
-
-            return ordersWithTags
-                .Where(x => requestedTags.All(tag => x.Tags.Contains(tag)))
-                .Select(x => x.Order)
-                .ToList();
+            return await GetAllOrdersAsync(requestedTags, cancellationToken, matchAll).ConfigureAwait(false);
         }
+
 
         private async Task<IReadOnlyList<SalesOrder>> GetAllOrdersAsync(
             IReadOnlyCollection<string> requestedTags,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken,
+            bool matchAll = false)
         {
             const int pageSize = 200;
             var skip = 0;
             var orders = new List<SalesOrder>();
 
-            // Use the same typed condition format as Backoffice order-grid tag filtering.
-            var tagFilter = new FilterModel
+            List<FilterModel> tagFilters;
+            if (matchAll)
             {
-                AdditionalProperties = new Dictionary<string, object>
+                // One filter per tag, all must match (server-side AND)
+                tagFilters = requestedTags
+                    .Select(tag => new FilterModel
+                    {
+                        AdditionalProperties = new Dictionary<string, object>
+                        {
+                            ["$type"] = "Litium.Data.Queryable.Conditions.TaggingFilterCondition, Litium.Abstractions",
+                            ["operator"] = "contains",
+                            ["value"] = new[] { tag }
+                        }
+                    })
+                    .ToList();
+            }
+            else
+            {
+                // Single filter, any tag match (server-side OR)
+                tagFilters = new List<FilterModel>
                 {
-                    ["$type"] = "Litium.Data.Queryable.Conditions.TaggingFilterCondition, Litium.Abstractions",
-                    ["operator"] = "contains",
-                    ["value"] = requestedTags.ToArray()
-                }
-            };
+                    new FilterModel
+                    {
+                        AdditionalProperties = new Dictionary<string, object>
+                        {
+                            ["$type"] = "Litium.Data.Queryable.Conditions.TaggingFilterCondition, Litium.Abstractions",
+                            ["operator"] = "contains",
+                            ["value"] = requestedTags.ToArray()
+                        }
+                    }
+                };
+            }
 
             while (true)
             {
@@ -76,7 +77,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                         {
                             Take = pageSize,
                             Skip = skip,
-                            Filter = [tagFilter]
+                            Filter = tagFilters
                         },
                         cancellationToken)
                     .ConfigureAwait(false);

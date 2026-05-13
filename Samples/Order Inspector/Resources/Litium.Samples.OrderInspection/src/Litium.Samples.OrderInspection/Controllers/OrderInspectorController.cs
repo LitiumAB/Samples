@@ -81,7 +81,11 @@ public class OrderInspectorController(OrderOverviewFactory orderOverviewFactory,
         {
             var orders = await _orderFinder.FindOrdersByTagAsync(tags, matchAll, cancellationToken);
             var orderIds = orders.Select(x => x.Id).ToList();
-            return Ok(orderIds);
+            var result = new {
+                Total = orderIds.Count,
+                OrderIds = orderIds
+            };
+            return Ok(result);
         }
         catch (Exception ex)
         {
