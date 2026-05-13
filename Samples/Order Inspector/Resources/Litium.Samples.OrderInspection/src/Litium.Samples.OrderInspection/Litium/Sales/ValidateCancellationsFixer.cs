@@ -29,7 +29,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
                 if (nonSuccessCancelTransactions.Count == 0)
                 {
-                    result.Add($"No non-success cancel or refund transactions found. Unable to fix the issue. totalCancelledAndRefunded = {totalCancelledAndRefunded}, but amount in cancellation shipments = {cancelledShipmentValue}" );
+                    result.Add($"No non-success cancel or refund transactions found. totalCancelledAndRefunded = {totalCancelledAndRefunded}, but amount in cancellation shipments = {cancelledShipmentValue}" );
                     //only add the cancellation transaction, only if there are no other cancellation transactions.
                     var allCancelTransactions = orderOverview.PaymentOverviews
                     .SelectMany(p => p.Transactions)
