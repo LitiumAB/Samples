@@ -173,11 +173,22 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             var cancellationShipments = orderOverview.Shipments.Where(s => s.ShipmentType == ShipmentType.Cancellation).ToList();
             if (!cancellationShipments.Any())
             {
-                checks.Add(OrderValidationCheckKeys.ValidateCancellations, new OrderValidationCheck
+                if (orderOverview.Tags.Contains("xCancelledInQliro"))
                 {
-                    Success = true,
-                    Description = "No cancellation shipments found"
-                });
+                    checks.Add(OrderValidationCheckKeys.ValidateCancellations, new OrderValidationCheck
+                    {
+                        Success = false,
+                        Description = "Order is tagged with xCancelledInQliro but no cancellation shipments found."
+                    });
+                }
+                else
+                {
+                    checks.Add(OrderValidationCheckKeys.ValidateCancellations, new OrderValidationCheck
+                    {
+                        Success = true,
+                        Description = "No cancellation shipments found"
+                    });
+                }
                 return;
             }
 
