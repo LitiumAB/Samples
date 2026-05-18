@@ -106,53 +106,11 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 transaction.TransactionReference2 = originalTransaction.TransactionReference2;
                 transaction.TransactionEnvironment = originalTransaction.TransactionEnvironment;
             }
-            transaction.Rows = shipmentRows.Select(CreateTransactionRow)
+            transaction.Rows = shipmentRows.Select(TransactionRowMapper.FromShipmentRow)
                 .ToList()
                 .SetRowNumber();
 
             return transaction;
-        }
-
-        private static TransactionRow CreateTransactionRow(ShipmentRow shipmentRow)
-        {
-            return new TransactionRow
-            {
-                OrderRowSystemId = shipmentRow.OrderRowSystemId,
-                OriginOrderRowSystemId = shipmentRow.OriginOrderRowSystemId,
-                RowType = GetRowType(shipmentRow.OrderRowType, shipmentRow.ProductType),
-                ShipmentRowSystemId = shipmentRow.SystemId,
-                Description = shipmentRow.Description,
-                UnitPriceIncludingVat = shipmentRow.UnitPriceIncludingVat,
-                UnitPriceExcludingVat = shipmentRow.UnitPriceExcludingVat,
-                Quantity = shipmentRow.Quantity,
-                VatRate = shipmentRow.VatRate,
-                TotalIncludingVat = shipmentRow.TotalIncludingVat,
-                TotalExcludingVat = shipmentRow.TotalExcludingVat,
-                TotalVat = shipmentRow.TotalVat,
-                AdditionalInfo = shipmentRow.AdditionalInfo?.ToDictionary(s => s.Key, s => s.Value),
-                ArticleNumber = shipmentRow.ArticleNumber,
-                VatDetails = shipmentRow.VatDetails?.Select(x => (VatDetail)((ICloneable)x).Clone()).ToList(),
-                TaxDetails = shipmentRow.TaxDetails?.Select(x => (TaxDetail)((ICloneable)x).Clone()).ToList()
-            };
-        }
-
-        private static TransactionRowRowType GetRowType(ShipmentRowOrderRowType orderRowType, ShipmentRowProductType productType)
-        {
-            return orderRowType switch
-            {
-                ShipmentRowOrderRowType.ShippingFee => TransactionRowRowType.ShippingFee,
-                ShipmentRowOrderRowType.Tax => TransactionRowRowType.Tax,
-                ShipmentRowOrderRowType.Fee => TransactionRowRowType.Fee,
-                ShipmentRowOrderRowType.Discount => TransactionRowRowType.Discount,
-                ShipmentRowOrderRowType.RoundingOffAdjustment => TransactionRowRowType.RoundingOffAdjustment,
-                _ => productType switch
-                {
-                    ShipmentRowProductType.DigitalGoods => TransactionRowRowType.DigitalGoods,
-                    ShipmentRowProductType.PhysicalGoods => TransactionRowRowType.PhysicalGoods,
-                    ShipmentRowProductType.Service => TransactionRowRowType.Service,
-                    _ => TransactionRowRowType.Unknown,
-                },
-            };
         }
 
         public string CreateTransactionId(PaymentOverview paymentOverview, int index)

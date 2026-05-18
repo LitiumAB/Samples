@@ -14,9 +14,11 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
         public async Task<List<string>> Fix(OrderOverview orderOverview, CancellationToken cancellationToken = default)
         {
             var result = new List<string>();
-
-            var fullfillmentShipmentValue = Math.Round(orderOverview.Shipments
+            var fulfillmentShipments = orderOverview.Shipments
                 .Where(s => s.ShipmentType == ShipmentType.Fulfillment && s.ShipmentState == "Shipped")
+                .ToList();
+
+            var fullfillmentShipmentValue = Math.Round(fulfillmentShipments
                 .SelectMany(x => x.Rows)
                 .Sum(x => x.TotalIncludingVat), 2);
             var totalCaptured = Math.Round(orderOverview.PaymentOverviews.Sum(p => p.TotalCapturedAmount), 2);
@@ -39,7 +41,41 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
             if (nonSuccessCaptureTransactions.Count == 0)
             {
-                result.Add("No capture transactions available., attempt to create a capture transaction, and set its state to Success.");
+                result.Add($"No non-success capture transactions found. totalCaptured = {totalCaptured}, but amount in fulfillment shipments = {fullfillmentShipmentValue}");
+
+                var allCaptureTransactions = orderOverview.PaymentOverviews
+                    .SelectMany(p => p.Transactions)
+                    .Where(t => t.TransactionType == TransactionType.Capture)
+                    .ToList();
+
+                if (allCaptureTransactions.Count == 0)
+                {
+                    result.Add("No capture transactions found. Creating a capture transaction.");
+                    var authorization = orderOverview.PaymentOverviews
+                        .SelectMany(p => p.Transactions)
+                        .FirstOrDefault(t => t.TransactionType == TransactionType.Authorize && t.TransactionResult == TransactionResult.Success);
+                    var paymentOverview = orderOverview.PaymentOverviews.FirstOrDefault();
+
+                    if (authorization != null && paymentOverview != null)
+                    {
+                        var captureTransaction = CreateTransaction(TransactionType.Capture, authorization, paymentOverview, fulfillmentShipments.SelectMany(s => s.Rows), allCaptureTransactions.Count);
+                        captureTransaction.TransactionResult = TransactionResult.Success;
+
+                        result.Add($"Start creating capture transaction {captureTransaction.Id} : {captureTransaction.SystemId} to success. Transaction value: {captureTransaction.TotalIncludingVat}");
+                        await _salesTransactionClient.Litium_Sales_Transactions_CreateAsync(captureTransaction, cancellationToken);
+                        result.Add($"Created capture transaction {captureTransaction.Id} : {captureTransaction.SystemId} to success. Transaction value: {captureTransaction.TotalIncludingVat}");
+
+                        outstandingAmount = Math.Round(outstandingAmount - captureTransaction.Rows.Sum(x => x.TotalIncludingVat), 2);
+                    }
+                    else if (paymentOverview == null)
+                    {
+                        result.Add("No payment overview found. Unable to create a capture transaction.");
+                    }
+                    else
+                    {
+                        result.Add("No successful authorization transaction found. Unable to create a capture transaction.");
+                    }
+                }
 
                 return result;
             }
@@ -77,6 +113,53 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             }
 
             return result;
+        }
+
+        private Transaction CreateTransaction(TransactionType transactionType, Transaction originalTransaction, PaymentOverview paymentOverview, IEnumerable<ShipmentRow> shipmentRows, int index = 0)
+        {
+            var transaction = new Transaction
+            {
+                Id = CreateTransactionId(paymentOverview, index),
+                TransactionType = transactionType,
+                TransactionResult = TransactionResult.Unknown,
+                PaymentSystemId = paymentOverview.Payment.SystemId,
+                PaymentOption = paymentOverview.Payment.PaymentOption,
+                MerchantAccountId = paymentOverview.Payment.MerchantAccountId,
+                CurrencyCode = paymentOverview.Payment.CurrencyCode,
+            };
+
+            if (originalTransaction is not null)
+            {
+                transaction.RelatedTransactionSystemId = originalTransaction.SystemId;
+                transaction.TransactionReference1 = originalTransaction.TransactionReference1;
+                transaction.TransactionReference2 = originalTransaction.TransactionReference2;
+                transaction.TransactionEnvironment = originalTransaction.TransactionEnvironment;
+            }
+
+            transaction.Rows = shipmentRows.Select(TransactionRowMapper.FromShipmentRow)
+                .ToList()
+                .SetRowNumber();
+
+            return transaction;
+        }
+
+        private string CreateTransactionId(PaymentOverview paymentOverview, int index)
+        {
+            var paymentOverviewIndex = paymentOverview.Transactions.Count + 1 + index;
+            string? id = null;
+            while (id is null)
+            {
+                var nextId = $"{paymentOverview.Payment.Id}T{paymentOverviewIndex}";
+                if (paymentOverview.Transactions.Any(t => t.Id == nextId))
+                {
+                    paymentOverviewIndex++;
+                    continue;
+                }
+
+                id = nextId;
+            }
+
+            return id;
         }
     }
 }
