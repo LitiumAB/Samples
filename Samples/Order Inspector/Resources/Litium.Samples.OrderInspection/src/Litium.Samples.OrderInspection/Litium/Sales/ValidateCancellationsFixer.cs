@@ -92,6 +92,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             var transaction = new Transaction
             {
                 Id = CreateTransactionId(paymentOverview,index),
+                SystemId = System.Guid.NewGuid(),
                 TransactionType = transactionType,
                 TransactionResult = TransactionResult.Unknown,
                 PaymentSystemId = paymentOverview.Payment.SystemId,

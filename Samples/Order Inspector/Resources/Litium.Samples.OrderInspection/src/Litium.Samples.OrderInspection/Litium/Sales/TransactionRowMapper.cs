@@ -12,6 +12,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 OriginOrderRowSystemId = shipmentRow.OriginOrderRowSystemId,
                 RowType = GetRowType(shipmentRow.OrderRowType, shipmentRow.ProductType),
                 ShipmentRowSystemId = shipmentRow.SystemId,
+                SystemId = System.Guid.NewGuid(),
                 Description = shipmentRow.Description,
                 UnitPriceIncludingVat = shipmentRow.UnitPriceIncludingVat,
                 UnitPriceExcludingVat = shipmentRow.UnitPriceExcludingVat,
