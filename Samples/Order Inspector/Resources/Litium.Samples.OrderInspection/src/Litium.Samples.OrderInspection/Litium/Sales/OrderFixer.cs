@@ -61,9 +61,16 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             }
 
             if (validationResult.ValidationChecks.TryGetValue(OrderValidationCheckKeys.AllFulfillmentCaptured, out var allFulfillmentCapturedCheck) && !allFulfillmentCapturedCheck.Success)
-            {
-                var fixResult = await _validateAllFulfilmentCapturedFixer.Fix(orderOverview, cancellationToken);
-                result.AddRange(fixResult);
+            {                
+                if (!orderOverview.Tags.Contains("xCapturedInQliro"))
+                {
+                    result.Add("Capture validation checks fails, but order cannot be fixed because order is not tagged with xCapturedInQliro");
+                }
+                else
+                {
+                    var fixResult = await _validateAllFulfilmentCapturedFixer.Fix(orderOverview, cancellationToken);
+                    result.AddRange(fixResult);
+                }
             }
 
             var orderOverviewAfterFix = await _orderOverviewFactory.CreateAsync(orderId, cancellationToken);

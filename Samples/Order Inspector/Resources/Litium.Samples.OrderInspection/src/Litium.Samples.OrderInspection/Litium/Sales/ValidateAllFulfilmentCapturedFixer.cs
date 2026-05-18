@@ -39,7 +39,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
             if (nonSuccessCaptureTransactions.Count == 0)
             {
-                result.Add("No capture transactions available.");
+                result.Add("No capture transactions available., attempt to create a capture transaction, and set its state to Success.");
 
                 return result;
             }
