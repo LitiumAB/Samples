@@ -136,6 +136,18 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 Description = allShipmentsInFinalState ? "All shipments are in final state" : string.Join("; ", shipmentStateErrors)
             });
 
+            var readyToShipFulfillmentShipments = orderOverview.Shipments
+                .Where(s => s.ShipmentType == ShipmentType.Fulfillment && s.ShipmentState == "ReadyToShip")
+                .ToList();
+            var hasReadyToShipFulfillmentShipments = readyToShipFulfillmentShipments.Count == 0;
+            checks.Add(OrderValidationCheckKeys.ReadyToShipShipmentStates, new OrderValidationCheck
+            {
+                Success = hasReadyToShipFulfillmentShipments,
+                Description = hasReadyToShipFulfillmentShipments
+                    ? "No fulfillment shipments are in ReadyToShip state"
+                    : $"There are fulfillment shipments still in ReadyToShip state: {string.Join("; ", readyToShipFulfillmentShipments.Select(s => $"Shipment {s.Id} is in {s.ShipmentState} state"))}"
+            });
+
             var hasAllItemsShippedOrCancelled = HasAllItemsShippedOrCancelled(orderOverview);
             checks.Add(OrderValidationCheckKeys.HasAllItemsShippedOrCancelled, new OrderValidationCheck
             {

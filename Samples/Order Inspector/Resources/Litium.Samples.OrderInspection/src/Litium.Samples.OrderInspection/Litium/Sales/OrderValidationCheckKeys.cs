@@ -6,6 +6,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
         public const string Payment = "Payment";
         public const string OrderState = "orderState";
         public const string AllShipmentsInFinalState = "allShipmentsInFinalState";
+        public const string ReadyToShipShipmentStates = "readyToShipShipmentStates";
         public const string HasAllItemsShippedOrCancelled = "hasAllItemsShippedOrCancelled";
         public const string AllFulfillmentCaptured = "allFulfillmentCaptured";
         public const string ValidateCancellations = "ValidateCancellations";

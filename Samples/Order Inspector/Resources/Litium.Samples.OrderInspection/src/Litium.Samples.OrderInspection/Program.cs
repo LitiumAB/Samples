@@ -7,6 +7,19 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+HttpMessageHandler CreateLitiumHttpMessageHandler()
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        return new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+    }
+
+    return new HttpClientHandler();
+}
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -21,13 +34,16 @@ builder.Services
     .ValidateDataAnnotations();
 
 builder.Services.AddTransient<LitiumAccessTokenHandler>();
-builder.Services.AddHttpClient<ILitiumAuthenticationService, LitiumAuthenticationService>();
+builder.Services
+    .AddHttpClient<ILitiumAuthenticationService, LitiumAuthenticationService>()
+    .ConfigurePrimaryHttpMessageHandler(CreateLitiumHttpMessageHandler);
 builder.Services
     .AddHttpClient<ILitiumConnectErpClient, LitiumConnectErpClient>((serviceProvider, client) =>
     {
         var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
         client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
     })
+    .ConfigurePrimaryHttpMessageHandler(CreateLitiumHttpMessageHandler)
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services
     .AddHttpClient<ISales_sales_orderClient, Sales_sales_orderClient>((serviceProvider, client) =>
@@ -35,6 +51,7 @@ builder.Services
         var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
         client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
     })
+    .ConfigurePrimaryHttpMessageHandler(CreateLitiumHttpMessageHandler)
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services
     .AddHttpClient<ISales_shipmentClient, Sales_shipmentClient>((serviceProvider, client) =>
@@ -42,6 +59,7 @@ builder.Services
         var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
         client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
     })
+    .ConfigurePrimaryHttpMessageHandler(CreateLitiumHttpMessageHandler)
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services
     .AddHttpClient<ISales_paymentClient, Sales_paymentClient>((serviceProvider, client) =>
@@ -49,6 +67,7 @@ builder.Services
         var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
         client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
     })
+    .ConfigurePrimaryHttpMessageHandler(CreateLitiumHttpMessageHandler)
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services
     .AddHttpClient<ISales_transactionClient, Sales_transactionClient>((serviceProvider, client) =>
@@ -56,6 +75,7 @@ builder.Services
         var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
         client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
     })
+    .ConfigurePrimaryHttpMessageHandler(CreateLitiumHttpMessageHandler)
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services
     .AddHttpClient<ISales_sales_return_orderClient, Sales_sales_return_orderClient>((serviceProvider, client) =>
@@ -63,6 +83,7 @@ builder.Services
         var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
         client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
     })
+    .ConfigurePrimaryHttpMessageHandler(CreateLitiumHttpMessageHandler)
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services
     .AddHttpClient<ISales_return_authorizationClient, Sales_return_authorizationClient>((serviceProvider, client) =>
@@ -70,6 +91,7 @@ builder.Services
         var options = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<LitiumAdminApiOptions>>().Value;
         client.BaseAddress = new Uri(options.BaseUrl, UriKind.Absolute);
     })
+    .ConfigurePrimaryHttpMessageHandler(CreateLitiumHttpMessageHandler)
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services.AddScoped<OrderOverviewFactory>();
 builder.Services.AddScoped<OrderFinder>();

@@ -9,19 +9,22 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
         private readonly ValidateCancellationsFixer _validateCancellationsFixer;
         private readonly ValidateAllFulfilmentCapturedFixer _validateAllFulfilmentCapturedFixer;
         private readonly ISales_sales_orderClient _salesOrderClient;
+        private readonly ISales_shipmentClient _salesShipmentClient;
 
         public OrderFixer(
             OrderOverviewFactory orderOverviewFactory,
             OrderValidator orderValidator,
             ValidateCancellationsFixer validateCancellationsFixer,
             ValidateAllFulfilmentCapturedFixer validateAllFulfilmentCapturedFixer,
-            ISales_sales_orderClient salesOrderClient)
+            ISales_sales_orderClient salesOrderClient,
+            ISales_shipmentClient salesShipmentClient)
         {
             _orderOverviewFactory = orderOverviewFactory;
             _orderValidator = orderValidator;
             _validateCancellationsFixer = validateCancellationsFixer;
             _validateAllFulfilmentCapturedFixer = validateAllFulfilmentCapturedFixer;
             _salesOrderClient = salesOrderClient;
+            _salesShipmentClient = salesShipmentClient;
         }
 
         public async Task<List<string>> FixOrderAsync(string orderId, CancellationToken cancellationToken = default)
@@ -45,6 +48,19 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             foreach (var check in validationResult.ValidationChecks)
             {
                 result.Add($"{check.Key}: {(check.Value.Success ? "Passed" : "Failed")} - {check.Value.Description}");
+            }
+
+            if (validationResult.ValidationChecks.TryGetValue(OrderValidationCheckKeys.ReadyToShipShipmentStates, out var readyToShipShipmentStatesCheck) && !readyToShipShipmentStatesCheck.Success)
+            {
+                if (!orderOverview.Tags.Contains("xShipped"))
+                {
+                    result.Add("ReadyToShip shipment validation check fails, but order cannot be fixed because order is not tagged with xShipped");
+                }
+                else
+                {
+                    var fixResult = await SetReadyToShipShipmentsToShippedAsync(orderOverview, cancellationToken);
+                    result.AddRange(fixResult);
+                }
             }
 
             if (validationResult.ValidationChecks.TryGetValue(OrderValidationCheckKeys.ValidateCancellations, out var cancellationsCheck) && !cancellationsCheck.Success)
@@ -86,6 +102,36 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 foreach (var check in validationAfterFix.ValidationChecks)
                 {
                     result.Add($"{check.Key}: {(check.Value.Success ? "Passed" : "Failed")} - {check.Value.Description}");
+                }
+            }
+
+            return result;
+        }
+
+        private async Task<List<string>> SetReadyToShipShipmentsToShippedAsync(OrderOverview orderOverview, CancellationToken cancellationToken)
+        {
+            var result = new List<string>();
+            var readyToShipFulfillmentShipments = orderOverview.Shipments
+                .Where(s => s.ShipmentType == ShipmentType.Fulfillment && s.ShipmentState == "ReadyToShip")
+                .ToList();
+
+            if (readyToShipFulfillmentShipments.Count == 0)
+            {
+                result.Add("No fulfillment shipments in ReadyToShip state found.");
+                return result;
+            }
+
+            foreach (var shipment in readyToShipFulfillmentShipments)
+            {
+                try
+                {
+                    result.Add($"Attempting to update shipment {shipment.Id} to Shipped state.");
+                    await _salesShipmentClient.Litium_Sales_Shipments_SetStateAsync(shipment.SystemId, State4.Shipped, cancellationToken);
+                    result.Add($"Shipment {shipment.Id} updated to Shipped state.");
+                }
+                catch (Exception ex)
+                {
+                    result.Add($"Failed to update shipment {shipment.Id} to Shipped state. {ex.Message}");
                 }
             }
 
