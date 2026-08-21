@@ -115,6 +115,45 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             return result;
         }
 
+        internal async Task<IEnumerable<string>> RetryCapture(OrderOverview orderOverview, CancellationToken cancellationToken)
+        {
+            var result = new List<string>();
+            var fulfillmentShipments = orderOverview.Shipments
+                .Where(s => s.ShipmentType == ShipmentType.Fulfillment && s.ShipmentState == "Shipped")
+                .ToList();
+
+            var fullfillmentShipmentValue = Math.Round(fulfillmentShipments
+                .SelectMany(x => x.Rows)
+                .Sum(x => x.TotalIncludingVat), 2);
+            var totalCaptured = Math.Round(orderOverview.PaymentOverviews.Sum(p => p.TotalCapturedAmount), 2);
+
+            if (totalCaptured >= fullfillmentShipmentValue)
+            {
+                result.Add($"All fulfillment amounts {fullfillmentShipmentValue} are already captured {totalCaptured}.");
+                return result;
+            }
+
+            result.Add($"Attempting to fix by retrying capture: Fulfillment shipment value {fullfillmentShipmentValue} is greater than captured amount {totalCaptured}.");
+
+            var nonSuccessCaptureTransactions = orderOverview.PaymentOverviews
+                                                            .SelectMany(p => p.Transactions)
+                                                            .Where(t => t.TransactionType == TransactionType.Capture && t.TransactionResult != TransactionResult.Success)
+                                                            .OrderBy(t => t.SystemId)
+                                                            .ToList();
+            foreach (var transaction in nonSuccessCaptureTransactions)
+            {
+                if(transaction.TransactionResult == TransactionResult.Unknown)
+                {
+                    //TODO: Retry capture.
+                } 
+                else
+                {
+                    result.Add($"Cannot retry capture {transaction.Id} since transaction result {transaction.TransactionResult} is not in TransactionResult.Unknown state");
+                }
+            }
+            return result;
+        }
+
         private Transaction CreateTransaction(TransactionType transactionType, Transaction originalTransaction, PaymentOverview paymentOverview, IEnumerable<ShipmentRow> shipmentRows, int index = 0)
         {
             var transaction = new Transaction
