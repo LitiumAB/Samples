@@ -28,7 +28,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             }
 
             var orderState = orderOverview.SalesOrder.OrderState;
-            validationChecks.Add(OrderValidationCheckKeys.OrderState, new OrderValidationCheck { Success = true, Description = $"Current order state: {orderOverview.SalesOrder.OrderState}" });
+            validationChecks.Add(OrderValidationCheckKeys.OrderState, new OrderValidationCheck { Success = orderState == "Completed", Description = $"Current order state: {orderOverview.SalesOrder.OrderState}" });
 
             if (orderState == "Processing" || orderState == "Completed")
             {
@@ -38,6 +38,10 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                     validationChecks.TryAdd(check.Key, check.Value);
                 }
             }
+            else if(orderState == "Init")
+            {
+                InitiatedToConfirmedValidation(orderOverview, validationChecks);               
+            }
 
             ValidateShipmentTransactionConsistency(orderOverview, validationChecks);
 
@@ -45,6 +49,38 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
             var isValid = validationChecks.Values.All(v => v.Success);
             return new OrderValidationResult { IsValid = isValid, ValidationChecks = validationChecks };
+        }
+
+        private static void InitiatedToConfirmedValidation(OrderOverview orderOverview, Dictionary<string, OrderValidationCheck> checks)
+        {
+            var authorizationTransactions = orderOverview.PaymentOverviews
+               .SelectMany(p => p.Transactions)
+               .Where(t => t.TransactionType == TransactionType.Authorize)
+               .ToList();
+            if(authorizationTransactions.Count == 0)
+            {
+                checks.Add(OrderValidationCheckKeys.AuthorizationSuccess, new OrderValidationCheck
+                {
+                    Success = false,
+                    Description = "No authorization transactions found"
+                });
+                return;
+            }
+            var totalAuthorizedAmount = Math.Round(authorizationTransactions.Where(x=>x.TransactionResult == TransactionResult.Success).Sum(t => t.TotalIncludingVat), 2);
+            if(totalAuthorizedAmount != Math.Round(orderOverview.SalesOrder.GrandTotal, 2))
+            {
+                checks.Add(OrderValidationCheckKeys.AuthorizationSuccess, new OrderValidationCheck
+                {
+                    Success = false,
+                    Description = $"The order amount {orderOverview.SalesOrder.GrandTotal} is not fully authorized. Authorization success amount = {totalAuthorizedAmount}"
+                });
+                return;
+            }
+            checks.Add(OrderValidationCheckKeys.AuthorizationSuccess, new OrderValidationCheck
+            {
+                Success = true,
+                Description = $"The order amount {orderOverview.SalesOrder.GrandTotal} is successfully authorized."
+            });
         }
 
         private static void ValidateShipmentTransactionConsistency(OrderOverview orderOverview, Dictionary<string, OrderValidationCheck> checks)
