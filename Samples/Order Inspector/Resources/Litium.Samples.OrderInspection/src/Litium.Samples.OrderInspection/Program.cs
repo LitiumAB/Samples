@@ -95,6 +95,7 @@ builder.Services
     .AddHttpMessageHandler<LitiumAccessTokenHandler>();
 builder.Services.AddScoped<OrderOverviewFactory>();
 builder.Services.AddScoped<OrderFinder>();
+builder.Services.AddScoped<OrderSearchService>();
 builder.Services.AddScoped<OrderValidator>();
 builder.Services.AddScoped<ValidateCancellationsFixer>();
 builder.Services.AddScoped<ValidateAllFulfilmentCapturedFixer>();
