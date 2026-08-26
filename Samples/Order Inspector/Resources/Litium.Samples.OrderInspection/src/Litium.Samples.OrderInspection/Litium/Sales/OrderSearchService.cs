@@ -63,7 +63,9 @@ public sealed class OrderSearchService(ISales_sales_orderClient salesOrderClient
             throw new OrderSearchFormatException("The backoffice URL must contain a filters query parameter.");
         }
 
-        var filterText = DecodeUntilStable(encodedFilters);
+        // Decode only once here. Repeated decoding can turn encoded ':' (%3A) inside date values
+        // into literal separators before ParseFilter splits on ':', which corrupts daterange tokens.
+        var filterText = Uri.UnescapeDataString(encodedFilters);
         var result = new List<FilterModel>();
         foreach (var clause in filterText.Split('|', StringSplitOptions.RemoveEmptyEntries))
         {
