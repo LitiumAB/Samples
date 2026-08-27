@@ -16,18 +16,15 @@ public class CustomOrderFixer(
     private readonly OrderFixer _orderFixer = orderFixer;
     private readonly ILogger<CustomOrderFixer> _logger = logger;
 
-    public Task<List<string>> RetryCaptureAsync(string orderId, CancellationToken cancellationToken = default)
+    public Task<List<string>> RetryCaptureAsync(System.DateTimeOffset startDate, System.DateTimeOffset endDate, string orderTag, CancellationToken cancellationToken = default)
     {
-        return RetryCaptureForPaymentOrdersAsync(cancellationToken);
+        return RetryCaptureForPaymentOrdersAsync(startDate, endDate, orderTag, cancellationToken);
     }
 
-    private async Task<List<string>> RetryCaptureForPaymentOrdersAsync(CancellationToken cancellationToken)
+    private async Task<List<string>> RetryCaptureForPaymentOrdersAsync(System.DateTimeOffset fromDate, System.DateTimeOffset toDate, string orderTag, CancellationToken cancellationToken)
     {
-        var fromDate = new System.DateTimeOffset(2026, 8, 1, 13, 35, 0, System.TimeSpan.Zero);
-        var toDate = new System.DateTimeOffset(2026, 8, 24, 13, 35, 0, System.TimeSpan.Zero);
-
         var orders = await _orderFinder
-            .FindOrdersByDateRangeTagsAsync("PaymentOrder", fromDate, toDate, matchAll: true, cancellationToken)
+            .FindOrdersByDateRangeTagsAsync(orderTag, fromDate, toDate, matchAll: true, cancellationToken)
             .ConfigureAwait(false);
 
         var matchingOrderIds = new List<string>();
@@ -60,7 +57,7 @@ public class CustomOrderFixer(
 
         var result = new List<string>
         {
-            $"Found {orders.Count} orders with tag 'PaymentOrder' between {fromDate:yyyy-MM-dd HH:mm} and {toDate:yyyy-MM-dd HH:mm}.",
+            $"Found {orders.Count} orders with tag '{orderTag}' between {fromDate:yyyy-MM-dd HH:mm} and {toDate:yyyy-MM-dd HH:mm}.",
             $"Orders in state 'Processing' with a capture transaction result 'Unknown': {matchingOrderIds.Count}."
         };
         _logger.LogInformation("Found {matchingOrderIdsCount} orders with state 'Processing' and a capture transaction result 'Unknown'.", matchingOrderIds.Count);
@@ -91,7 +88,6 @@ public class CustomOrderFixer(
                                 .ConfigureAwait(false);
 
                             result.Add($"Processed order {matchingOrderId}: tagged with xRetryCaptureInQliro and invoked FixOrderAsync.");
-                            result.AddRange(fixResult.Select(x => $"{matchingOrderId}: {x}"));
                         }
                     }
                 }
@@ -102,8 +98,6 @@ public class CustomOrderFixer(
                 result.Add($"Failed to process order {matchingOrderId}: {ex.Message}");
             }
         }
-
-        result.AddRange(matchingOrderIds.Select(id => $"Matched order: {id}"));
 
         return result;
     }

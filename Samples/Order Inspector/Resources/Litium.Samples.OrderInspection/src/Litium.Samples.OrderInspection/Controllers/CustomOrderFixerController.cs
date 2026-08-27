@@ -9,17 +9,22 @@ public class CustomOrderFixerController(CustomOrderFixer customOrderFixer) : Con
 {
     private readonly CustomOrderFixer _customOrderFixer = customOrderFixer;
 
-    [HttpPut("RetryCaptureAsync/{orderId}")]
-    public async Task<IActionResult> RetryCaptureAsync(string orderId, CancellationToken cancellationToken)
+    [HttpPut("RetryCaptureAsync")]
+    public async Task<IActionResult> RetryCaptureAsync(DateTimeOffset startDate, DateTimeOffset endDate, string orderTag, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(orderId))
+        if (string.IsNullOrWhiteSpace(orderTag))
         {
-            return BadRequest(new { error = "orderId is required." });
+            return BadRequest(new { error = "orderTag is required." });
+        }
+
+        if (startDate > endDate)
+        {
+            return BadRequest(new { error = "startDate must be less than or equal to endDate." });
         }
 
         try
         {
-            var result = await _customOrderFixer.RetryCaptureAsync(orderId, cancellationToken);
+            var result = await _customOrderFixer.RetryCaptureAsync(startDate, endDate, orderTag, cancellationToken);
             return Ok(result);
         }
         catch (Exception ex)
