@@ -93,5 +93,29 @@ public class OrderInspectorController(OrderOverviewFactory orderOverviewFactory,
         }
     }
 
+    [HttpGet("FindOrdersByDateRange")]
+    public async Task<IActionResult> FindOrdersByDateRange(
+       System.DateTimeOffset startDate,
+       System.DateTimeOffset endDate,
+       CancellationToken cancellationToken = default)
+    {
+      
+        try
+        {
+            var orders = await _orderFinder.FindOrdersAsync(startDate, endDate, cancellationToken);
+            var orderIds = orders.Select(x => x.Id).ToList();
+            var result = new
+            {
+                Total = orderIds.Count,
+                OrderIds = orderIds
+            };
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return Problem(title: "Failed to find orders by tag", detail: ex.Message, statusCode: StatusCodes.Status502BadGateway);
+        }
+    }
+
 
 }
