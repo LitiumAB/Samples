@@ -8,6 +8,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
         private readonly OrderValidator _orderValidator;
         private readonly ValidateCancellationsFixer _validateCancellationsFixer;
         private readonly ValidateAllFulfilmentCapturedFixer _validateAllFulfilmentCapturedFixer;
+        private readonly ValidateOrderStateFixer _validateOrderStateFixer;
         private readonly ISales_sales_orderClient _salesOrderClient;
         private readonly ISales_shipmentClient _salesShipmentClient;
 
@@ -16,6 +17,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             OrderValidator orderValidator,
             ValidateCancellationsFixer validateCancellationsFixer,
             ValidateAllFulfilmentCapturedFixer validateAllFulfilmentCapturedFixer,
+            ValidateOrderStateFixer validateOrderStateFixer,
             ISales_sales_orderClient salesOrderClient,
             ISales_shipmentClient salesShipmentClient)
         {
@@ -23,6 +25,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
             _orderValidator = orderValidator;
             _validateCancellationsFixer = validateCancellationsFixer;
             _validateAllFulfilmentCapturedFixer = validateAllFulfilmentCapturedFixer;
+            _validateOrderStateFixer = validateOrderStateFixer;
             _salesOrderClient = salesOrderClient;
             _salesShipmentClient = salesShipmentClient;
         }
@@ -92,6 +95,18 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 {
                     result.Add("Capture validation checks fails, but order cannot be fixed because order is not tagged with xCapturedInQliro");                   
                 }
+            }
+
+            var allChecksExceptOrderStatePass = validationResult.ValidationChecks
+                .Where(check => check.Key != OrderValidationCheckKeys.OrderState)
+                .All(check => check.Value.Success);
+
+            if (allChecksExceptOrderStatePass
+                && validationResult.ValidationChecks.TryGetValue(OrderValidationCheckKeys.OrderState, out var orderStateCheck)
+                && !orderStateCheck.Success)
+            {
+                var fixResult = await _validateOrderStateFixer.Fix(orderOverview, cancellationToken);
+                result.AddRange(fixResult);
             }
 
             var orderOverviewAfterFix = await _orderOverviewFactory.CreateAsync(orderId, cancellationToken);

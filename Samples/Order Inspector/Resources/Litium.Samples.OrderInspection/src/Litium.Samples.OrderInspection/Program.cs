@@ -102,6 +102,7 @@ builder.Services.AddScoped<OrderFinder>();
 builder.Services.AddScoped<OrderValidator>();
 builder.Services.AddScoped<ValidateCancellationsFixer>();
 builder.Services.AddScoped<ValidateAllFulfilmentCapturedFixer>();
+builder.Services.AddScoped<ValidateOrderStateFixer>();
 builder.Services.AddScoped<OrderFixer>();
 builder.Services.AddScoped<CustomOrderFixer>();
 
