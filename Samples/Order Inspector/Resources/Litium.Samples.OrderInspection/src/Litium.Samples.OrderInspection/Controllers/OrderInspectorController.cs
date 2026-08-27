@@ -117,5 +117,63 @@ public class OrderInspectorController(OrderOverviewFactory orderOverviewFactory,
         }
     }
 
+    [HttpGet("FindOrdersByDateRangeOrderState")]
+    public async Task<IActionResult> FindOrdersByDateRangeOrderState(
+        string orderState,
+        System.DateTimeOffset startDate,
+        System.DateTimeOffset endDate,
+        CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(orderState))
+        {
+            return BadRequest(new { error = "orderState is required." });
+        }
+
+        try
+        {
+            var orders = await _orderFinder.FindOrdersByDateRangeOrderStateAsync(orderState, startDate, endDate, cancellationToken);
+            var orderIds = orders.Select(x => x.Id).ToList();
+            var result = new
+            {
+                Total = orderIds.Count,
+                OrderIds = orderIds
+            };
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return Problem(title: "Failed to find orders by date range and state", detail: ex.Message, statusCode: StatusCodes.Status502BadGateway);
+        }
+    }
+
+    [HttpGet("FindOrdersByDateRangeTags")]
+    public async Task<IActionResult> FindOrdersByDateRangeTags(
+        string tags,
+        System.DateTimeOffset startDate,
+        System.DateTimeOffset endDate,
+        bool matchAll = false,
+        CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(tags))
+        {
+            return BadRequest(new { error = "tags is required." });
+        }
+
+        try
+        {
+            var orders = await _orderFinder.FindOrdersByDateRangeTagsAsync(tags, startDate, endDate, matchAll, cancellationToken);
+            var orderIds = orders.Select(x => x.Id).ToList();
+            var result = new
+            {
+                Total = orderIds.Count,
+                OrderIds = orderIds
+            };
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return Problem(title: "Failed to find orders by date range and tags", detail: ex.Message, statusCode: StatusCodes.Status502BadGateway);
+        }
+    }
 
 }
