@@ -3,9 +3,13 @@ using Litium.Samples.OrderInspection.Litium.Sales;
 using Litium.Samples.OrderInspection.LitiumApis.Generated;
 using Litium.Samples.OrderInspection.LitiumApis.Generated.Admin;
 using Litium.Samples.OrderInspection.Services;
+using NLog.Web;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
 HttpMessageHandler CreateLitiumHttpMessageHandler()
 {
@@ -99,6 +103,7 @@ builder.Services.AddScoped<OrderValidator>();
 builder.Services.AddScoped<ValidateCancellationsFixer>();
 builder.Services.AddScoped<ValidateAllFulfilmentCapturedFixer>();
 builder.Services.AddScoped<OrderFixer>();
+builder.Services.AddScoped<CustomOrderFixer>();
 
 var app = builder.Build();
 
