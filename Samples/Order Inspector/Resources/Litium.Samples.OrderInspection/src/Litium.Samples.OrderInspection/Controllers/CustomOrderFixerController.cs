@@ -10,7 +10,7 @@ public class CustomOrderFixerController(CustomOrderFixer customOrderFixer) : Con
     private readonly CustomOrderFixer _customOrderFixer = customOrderFixer;
 
     [HttpPut("RetryCaptureAsync")]
-    public async Task<IActionResult> RetryCaptureAsync(DateTimeOffset startDate, DateTimeOffset endDate, string orderTag, CancellationToken cancellationToken)
+    public async Task<IActionResult> RetryCaptureAsync(DateTimeOffset startDate, DateTimeOffset endDate, string? orderTag, CancellationToken cancellationToken)
     {
         if (startDate > endDate)
         {

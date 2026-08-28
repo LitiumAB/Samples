@@ -39,17 +39,23 @@ public class CustomOrderFixer(
                 .SelectMany(p => p.Transactions)
                 .Any(t => t.TransactionType == TransactionType.Capture && t.TransactionResult == TransactionResult.Unknown);
 
-            var fulfillmentTotal = Math.Round(orderOverview.Shipments
+            var fulfillmentShipments = orderOverview.Shipments
                 .Where(s => s.ShipmentType == ShipmentType.Fulfillment)
+                .ToList();
+
+            var fulfillmentTotal = Math.Round(fulfillmentShipments
                 .SelectMany(s => s.Rows)
                 .Sum(r => r.TotalIncludingVat), 2);
 
             var orderTotal = Math.Round(orderOverview.SalesOrder.GrandTotal, 2);
             var orderTotalIncludedInFulfillmentShipments = fulfillmentTotal >= orderTotal;
+            var allFulfillmentShipmentsShipped = fulfillmentShipments.Count != 0
+                && fulfillmentShipments.All(s => string.Equals(s.ShipmentState, "Shipped", StringComparison.OrdinalIgnoreCase));
 
             if (string.Equals(orderOverview.SalesOrder.OrderState, "Processing", StringComparison.OrdinalIgnoreCase)
                 && hasUnknownCapture
-                && orderTotalIncludedInFulfillmentShipments)
+                && orderTotalIncludedInFulfillmentShipments
+                && allFulfillmentShipmentsShipped)
             {
                 matchingOrderIds.Add(orderOverview.SalesOrder.Id);
             }
