@@ -87,7 +87,7 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
         }
 
         public async Task<IReadOnlyList<SalesOrder>> FindOrdersByDateRangeOrderStateAsync(
-           string orderState,
+           string? orderState,
            System.DateTimeOffset? startDate,
            System.DateTimeOffset? endDate,
            CancellationToken cancellationToken = default)
@@ -174,10 +174,6 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
            CancellationToken cancellationToken = default)
         {
             var requestedTags = ParseTags(tags);
-            if (requestedTags.Count == 0)
-            {
-                return [];
-            }
 
             if (startDate.HasValue && endDate.HasValue && startDate.Value > endDate.Value)
             {
@@ -203,32 +199,33 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
                 });
             }
 
-            if (matchAll)
+            if (requestedTags.Count > 0)
             {
-                filters.AddRange(requestedTags.Select(tag => new FilterModel
+                if (matchAll)
                 {
-                    AdditionalProperties = new Dictionary<string, object?>
+                    filters.AddRange(requestedTags.Select(tag => new FilterModel
                     {
-                        ["$type"] = "Litium.Data.Queryable.Conditions.TaggingFilterCondition, Litium.Abstractions",
-                        ["operator"] = "contains",
-                        ["value"] = new[] { tag }
-                    }
-                }));
-            }
-            else
-            {
-                filters.Add(new FilterModel
+                        AdditionalProperties = new Dictionary<string, object?>
+                        {
+                            ["$type"] = "Litium.Data.Queryable.Conditions.TaggingFilterCondition, Litium.Abstractions",
+                            ["operator"] = "contains",
+                            ["value"] = new[] { tag }
+                        }
+                    }));
+                }
+                else
                 {
-                    AdditionalProperties = new Dictionary<string, object?>
+                    filters.Add(new FilterModel
                     {
-                        ["$type"] = "Litium.Data.Queryable.Conditions.TaggingFilterCondition, Litium.Abstractions",
-                        ["operator"] = "contains",
-                        ["value"] = requestedTags.ToArray()
-                    }
-                });
+                        AdditionalProperties = new Dictionary<string, object?>
+                        {
+                            ["$type"] = "Litium.Data.Queryable.Conditions.TaggingFilterCondition, Litium.Abstractions",
+                            ["operator"] = "contains",
+                            ["value"] = requestedTags.ToArray()
+                        }
+                    });
+                }
             }
-
-            
 
             while (true)
             {
@@ -336,6 +333,11 @@ namespace Litium.Samples.OrderInspection.Litium.Sales
 
         private static HashSet<string> ParseTags(string tags)
         {
+            if(string.IsNullOrWhiteSpace(tags))
+            {
+                return new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            }
+
             return tags
                 .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                 .Where(x => !string.IsNullOrWhiteSpace(x))

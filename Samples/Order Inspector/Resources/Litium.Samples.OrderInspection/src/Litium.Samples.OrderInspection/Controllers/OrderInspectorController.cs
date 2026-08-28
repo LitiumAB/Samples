@@ -119,16 +119,11 @@ public class OrderInspectorController(OrderOverviewFactory orderOverviewFactory,
 
     [HttpGet("FindOrdersByDateRangeOrderState")]
     public async Task<IActionResult> FindOrdersByDateRangeOrderState(
-        string orderState,
+        string? orderState,
         System.DateTimeOffset startDate,
         System.DateTimeOffset endDate,
         CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrWhiteSpace(orderState))
-        {
-            return BadRequest(new { error = "orderState is required." });
-        }
-
         try
         {
             var orders = await _orderFinder.FindOrdersByDateRangeOrderStateAsync(orderState, startDate, endDate, cancellationToken);
@@ -148,17 +143,12 @@ public class OrderInspectorController(OrderOverviewFactory orderOverviewFactory,
 
     [HttpGet("FindOrdersByDateRangeTags")]
     public async Task<IActionResult> FindOrdersByDateRangeTags(
-        string tags,
+        string? tags,
         System.DateTimeOffset startDate,
         System.DateTimeOffset endDate,
         bool matchAll = false,
         CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrWhiteSpace(tags))
-        {
-            return BadRequest(new { error = "tags is required." });
-        }
-
         try
         {
             var orders = await _orderFinder.FindOrdersByDateRangeTagsAsync(tags, startDate, endDate, matchAll, cancellationToken);

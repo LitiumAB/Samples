@@ -12,11 +12,6 @@ public class CustomOrderFixerController(CustomOrderFixer customOrderFixer) : Con
     [HttpPut("RetryCaptureAsync")]
     public async Task<IActionResult> RetryCaptureAsync(DateTimeOffset startDate, DateTimeOffset endDate, string orderTag, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(orderTag))
-        {
-            return BadRequest(new { error = "orderTag is required." });
-        }
-
         if (startDate > endDate)
         {
             return BadRequest(new { error = "startDate must be less than or equal to endDate." });
