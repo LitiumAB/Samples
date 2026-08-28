@@ -27,4 +27,18 @@ public class CustomOrderFixerController(CustomOrderFixer customOrderFixer) : Con
             return Problem(title: "Failed to retry capture", detail: ex.Message, statusCode: StatusCodes.Status502BadGateway);
         }
     }
+
+    [HttpPut("RetryCaptureOrdersAsync")]
+    public async Task<IActionResult> RetryCaptureOrdersAsync(string commaSeperatedOrderIds, CancellationToken cancellationToken)
+    { 
+        try
+        {
+            var result = await _customOrderFixer.RetryCaptureAsync(commaSeperatedOrderIds, cancellationToken);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return Problem(title: "Failed to retry capture", detail: ex.Message, statusCode: StatusCodes.Status502BadGateway);
+        }
+    }
 }
